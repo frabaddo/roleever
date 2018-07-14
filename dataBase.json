@@ -1,0 +1,92 @@
+
+    "Sessions": {
+        "-1001113965975": {
+            "SessionName": "Test 8",
+            "users": [
+                {
+                    "name": 172233872,
+                    "first_last": "Francesco Badiali",
+                    "role": "master"
+                }
+            ],
+            "turndata": {
+                "totalturn": "3",
+                "actualturn": "0"
+            },
+            "messages": [
+                {
+                    "usr": 172233872,
+                    "message": "ciao"
+                },
+                {
+                    "usr": 172233872,
+                    "message": "ciao"
+                },
+                {
+                    "usr": 172233872,
+                    "message": "ciao"
+                },
+                {
+                    "usr": 172233872,
+                    "message": "ciao"
+                },
+                {
+                    "usr": 172233872,
+                    "message": "ciao"
+                },
+                {
+                    "usr": 172233872,
+                    "message": "ciao"
+                },
+                {
+                    "usr": 172233872,
+                    "message": "ciao"
+                },
+                {
+                    "usr": 172233872,
+                    "message": "ciao"
+                },
+                {
+                    "usr": 172233872,
+                    "message": "ciao"
+                },
+                {
+                    "usr": 172233872,
+                    "message": "ciao"
+                },
+                {
+                    "usr": 172233872,
+                    "message": "ciao"
+                },
+                {
+                    "usr": 172233872,
+                    "message": "ciao"
+                },
+                {
+                    "usr": 172233872,
+                    "message": "ciao"
+                },
+                {
+                    "usr": 172233872,
+                    "message": "ciao"
+                },
+                {
+                    "usr": 172233872,
+                    "message": "ciao"
+                },
+                {
+                    "usr": 172233872,
+                    "message": "ciao"
+                },
+                {
+                    "usr": 172233872,
+                    "message": "ciao"
+                },
+                {
+                    "usr": 172233872,
+                    "message": "ciao"
+                }
+            ]
+        }
+    }
+}
