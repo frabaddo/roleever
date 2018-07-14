@@ -12,7 +12,7 @@ const moment = MomentRange.extendMoment(Moment);
 
 const { TELEGRAM_BOT_TOKEN } = process.env;
 const bot = new Botgram(TELEGRAM_BOT_TOKEN);
-var db = new JsonDB("https://github.com/frabaddo/roleever/blob/master/dataBase.json", true, true);
+var db = new JsonDB("./dataBase", true, true);
 var timers=[];
 Moment().format();
 
