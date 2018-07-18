@@ -1,8 +1,7 @@
 require('dotenv').config();
 var express = require('express');
 var app = express();
-
-const MongoClient = require('mongodb').MongoClient;
+const db = require("./databaseapi");
 const pauseable = require('pauseable');
 const Botgram = require('botgram');
 const Moment = require('moment');
@@ -30,16 +29,6 @@ if (!TELEGRAM_BOT_TOKEN) {
   process.exit(1);
 }
 
-const uri = "mongodb://User1:"+process.env.PASSWORD+"@cluster0-shard-00-00-okonn.mongodb.net:27017,cluster0-shard-00-01-okonn.mongodb.net:27017,cluster0-shard-00-02-okonn.mongodb.net:27017/test?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin&retryWrites=true"
-MongoClient.connect(uri, function(err, client) {
-   if(err) {
-        console.log('Error occurred while connecting to MongoDB Atlas...\n',err);
-   }
-   console.log('Connected...');
-   const collection = client.db("database").collection("Sessions");
-   // perform actions on the collection object
-   client.close();
-});
 
 
 
@@ -48,52 +37,12 @@ MongoClient.connect(uri, function(err, client) {
 
 
 
-
-
+/*
 function calctime( time ){
   var range1 = moment.range(Moment(), Moment().add(6, 'h'));
   var range2 = moment.range(Moment(), Moment());
   range1.overlaps(range2);
 }
-
-
-
-
-function replytousr(id,msg,reply, text){
-  var replyto = bot.reply(id);
-
-  return replyto.text(text);
-}
-
-
-function getelement(arraypath ,property, valuetofind ){
-  try{
-    var array=db.getData(arraypath);
-    let newArr = array.filter(function(item){
-        return item[property] === valuetofind;
-    });
-    if (newArr.length!=0){
-      return newArr;
-    }
-    else return [];
-  }
-  catch(errore){
-    return [];
-  }
-}
-
-function deletecmd(msg,reply){
-  reply.deleteMessage(msg);
-}
-
-function itsyourturn(msg){
-  var myindex=db.getData("/Sessions/"+msg.chat.id+"/users").map(function(x) {return x.name; }).indexOf(msg.from.id);
-  if(db.getData("/Sessions/"+msg.chat.id+"/turndata/actualturn")==myindex){
-    return true
-  }
-  return false
-}
-
 
 function callturn(msg , reply){
   var chatdata=db.getData("/Sessions/"+msg.chat.id+"/turndata");
@@ -130,151 +79,7 @@ function waittoturn(msg,reply,totalindex,newindex,timea,timeb,timec,timed){
   }
 }
 
-function whomustplay(msg,reply){
-  var index=parseInt(db.getData("/Sessions/"+msg.chat.id+"/turndata/actualturn"));
-  replytousr(msg.from.id,msg,reply,"è il turno di "+ db.getData("/Sessions/"+msg.chat.id+"/users")[index].first_last ).then(deletecmd(msg,reply));
-}
 
-
-function startbot(msg,reply){
-  if(msg.chat.type!="group"&&msg.chat.type!="supergroup"){
-   reply.text("Ciao Sono un bot per giocare ai gdr su dispositivi mobile, per potermi utilizzare inseriscimi prima in un supergruppo e rendimi amministratore");
-  }
-  else{
-    try {
-      if(db.getData("/Sessions/"+msg.chat.id+"/SessionName")){  //CASO 1 ESISTE LA SESSIONE?
-        reply.text("Sessione già creata, inserisci giocatori con /newusr o avvia la sessione con /startsession").then(deletecmd(msg,reply));
-      }
-    }catch(error){
-      db.push("/Sessions/"+msg.chat.id+"/SessionName",msg.chat.title);
-        reply.text("Benvenuto in RoleEver!!! Io sarò il vostro MasterBot da ora in poi.\
-                    se dovessi avere bisogno di aiuto usa pure tutti i mei comandi,\
-                    e se non li conosci digita /help. Prima di iniziare assicuratevi\
-                    che io sia un amministratore del gruppo e controllate di aver tutti\
-                    silenziato la chat. durante tutto il gioco sarò sempre io a preoccuparmi\
-                    di mandarvi le notifiche. ora oguno di voi digiti il comando /newusr seguito\
-                    dal ruolo che svolgerà (master o pg). il resto delle istruzioni vi saranno date\
-                    in privato. Buon divertimento!!! ")
-          .then(deletecmd(msg,reply))
-          .then(reply.text("Il nome di questa campagna è "+db.getData("/Sessions/"+msg.chat.id+"/SessionName")));
-    }
-
-  }
-}
-
-function newusr(msg,reply){
-  try {
-    if(db.getData("/Sessions/"+msg.chat.id+"/SessionName")){  //CASO 1 ESISTE LA SESSIONE?
-
-      if(msg.args(1)[0]=="pg"||msg.args(1)[0]=="master"){  //CASO 2 è STATO PASSATO UN PARAMETRO CORRETTO
-
-        if(getelement("/Sessions/"+msg.chat.id+"/users", "name" ,msg.from.id).length==0){  //CASO 3 ESISTE GIA QUESTO GIOCATORE NELLA SESSIONE?
-
-          if(msg.args(1)[0]=="pg"||getelement("/Sessions/"+msg.chat.id+"/users", "role" ,"master").length==0){  //CASO 4 SE IMMESSO MASTER, ESISTE GIA UN MASTER DELLA SESSIONE?
-
-            db.push("/Sessions/"+msg.chat.id+"/users[]",{name:msg.from.id, first_last:msg.from.name, role:msg.args(1)[0]});
-            reply.text(msg.from.name+" ora è un "+msg.args(1)[0]).then(deletecmd(msg,reply));
-
-          }
-          else{
-            reply.text("Esiste gia un master in questa sessione").then(deletecmd(msg,reply)); //CASO 4 RESPONSE
-          }
-        }
-        else{
-          //reply.text(getelement("/Sessions/"+msg.chat.id+"/users", "name" ,msg.from.id).length);
-          reply.text(msg.from.name+" esiste gia in questa sessione").then(deletecmd(msg,reply)); //CASO 3 RESPONSE
-        }
-      }
-      else{
-        reply.text("Dopo il comando /newusr inserisci solo pg o master per giocare nei panni di uno o dell'altro.").then(deletecmd(msg,reply)); //CASO 2 RESPONSE
-      }
-    }
-  }catch(error) {
-    reply.text("Sessione non aancora creata, usa prima il comando /startbot").then(deletecmd(msg,reply)); //CASO 1 RESPONSE
-  }
-}
-
-function startsession(msg,reply){
-   try {
-    if(db.getData("/Sessions/"+msg.chat.id+"/SessionName")){ //CASO 1 ESISTE LA SESSIONE?
-      try {
-        if(db.getData("/Sessions/"+msg.chat.id+"/turndata/totalturn")){ //CASO 2 è STATA AVVIATA LA SESSIONE?
-          reply.text("Sessione gia in corso").then(deletecmd(msg,reply));
-        }
-      }catch(error){ //CASO 2 RESPONSE
-        if(getelement("/Sessions/"+msg.chat.id+"/users", "role" ,"master").length==1){// CASO 3 ESISTE IL MASTER?
-            var masterindex=db.getData("/Sessions/"+msg.chat.id+"/users").map(function(x) {return x.role; }).indexOf("master");
-            db.push("/Sessions/"+msg.chat.id+"/turndata/totalturn","1");
-            db.push("/Sessions/"+msg.chat.id+"/turndata/actualturn",masterindex);
-            timers[msg.chat.id]="1";
-            reply.text("Sessione avviata Master è il tuo turno, inizia raccontando\
-                        ai giocatori dove si trovano e cosa sta succedendo.")
-            .then(deletecmd(msg,reply));
-        }
-        else{
-          reply.text("Inserisci prima un master con /newusr master").then(deletecmd(msg,reply)); //CASO 3 RESPONSE
-        }
-      }
-    }
-   }catch(error){ //CASO 1 RESPONSE
-     reply.text("Sessione non ancora creata, usa prima il comando /startbot e aggiungi dei giocatori con /newusr").then(deletecmd(msg,reply));
-   }
-}
-
-
-
-
-
-function newmessage(msg,reply){
- try {
-    if(db.getData("/Sessions/"+msg.chat.id+"/SessionName")){ //CASO 1 ESISTE LA SESSIONE?
-        if(getelement("/Sessions/"+msg.chat.id+"/users" ,"name", msg.from.id ).length==1){ //CASO 2 ESISTE GIA IL GIOCATORE?
-          try {
-            if(db.getData("/Sessions/"+msg.chat.id+"/turndata/totalturn")){ //CASO 3 è STATA AVVIATA LA SESSIONE?
-              if(timers[msg.chat.id] == null||timers[msg.chat.id]=="1"||timers[msg.chat.id].isPaused()!=true){ //CASO 4 SESSIONE IN PAUSA?
-                if(itsyourturn(msg)){  //  CASO 5 è IL TUO TURNO?
-                  db.push("/Sessions/"+msg.chat.id+"/messages[]" , {"usr":msg.from.id,"message":msg.args(1)[0]});
-
-                  callturn(msg , reply);   //ERRORE QUI MANCA TRY CATCH //Cedi il turno e verfica se cederlo ulteriormente nel caso in cui termini il tempo
-
-                }
-                else{  // CASO 5 RESPONSE
-                  reply.text("Non è il tuo turno").then(deletecmd(msg,reply));
-                }
-              }
-              else{ // CASO 4 RESPONSE
-                reply.text("Sessione in pausa").then(deletecmd(msg,reply));
-              }
-            }
-          }catch(error){ // CASO 3 RESPONSE
-            reply.text("Sessione non ancora avviata").then(deletecmd(msg,reply));
-          }
-        }
-        else{// CASO 2 RESPONSE
-        reply.text("giocatore non ancora registrato, usa il comando /newusr").then(deletecmd(msg,reply));
-        }
-    }
-  }catch(error){ // CASO 1 RESPONSE
-    reply.text("Sessione non ancora creata, usa prima il comando /start").then(deletecmd(msg,reply));
-  }
-}
-
-
-function start(msg,reply){
- reply.text("Ciao "+msg.from.firstname+". /n Io sono il Masterbot, per iniziare a giocare, inseriscimi in un\
-supergruppo e controlla che io sia un amministratore. fatto cio segui questi semplici passi (salvo casi esplicitati tutti i comandi sono da immetere nel supergruppo): \
-1. crea la sessione inserendo il comando /startbot. \
-2. fai in modo che ogni giocatore mi avvii in privato \
-3. fai in modo che ogni giocatore inserisca il comando /newusr seguito da pg o master. ricorda che ci può essere un solo master.\
-4. avviate la sessione con /startsession. (è sufficiente lo faccia un giocatore solo) \
-Ogniqualvolta toccherà a te giocare usa il comando /msg seguito da un testo che racconti le tue gesta. \
-se dovessi mai aver bisogno usa il comando /help (in privato) oppure contatta gli sviluppatori sull'apposito gruppo.  \
-Buon divertimento!!!");
-}
-
-function help(msg,reply){
- reply.text();
-}
 
 
 function pauseon(msg,reply){
@@ -300,6 +105,255 @@ function pauseoff(msg,reply){
 }
 
 
+*/
+
+
+
+function whomustplay(msg,reply){
+  db.readfilefromdb("Sessions", {id=msg.chat.id}).then(function(session){
+    if(session.started===true){
+      db.readfilefromdb("Users", {id=session.actualturn,sessionid=msg.chat.id}).then(function(users){
+        replytousr(msg.from.id,msg,reply,"è il turno di "+users.name).then(deletecmd(msg,reply));
+      });
+    }else{
+
+    }
+}
+
+
+function replytousr(id,msg,reply, text){
+  var replyto = bot.reply(id);
+
+  return replyto.text(text);
+}
+
+
+function deletecmd(msg,reply){
+  reply.deleteMessage(msg);
+}
+
+
+function help(msg,reply){
+ reply.text();
+}
+
+function start(msg,reply){
+ reply.text("Ciao "+msg.from.firstname+". /n Io sono il Masterbot, per iniziare a giocare, inseriscimi in un\
+supergruppo e controlla che io sia un amministratore. fatto cio segui questi semplici passi (salvo casi esplicitati tutti i comandi sono da immetere nel supergruppo): \
+1. crea la sessione inserendo il comando /startbot. \
+2. fai in modo che ogni giocatore mi avvii in privato \
+3. fai in modo che ogni giocatore inserisca il comando /newusr seguito da pg o master. ricorda che ci può essere un solo master.\
+4. avviate la sessione con /startsession. (è sufficiente lo faccia un giocatore solo) \
+Ogniqualvolta toccherà a te giocare usa il comando /msg seguito da un testo che racconti le tue gesta. \
+se dovessi mai aver bisogno usa il comando /help (in privato) oppure contatta gli sviluppatori sull'apposito gruppo.  \
+Buon divertimento!!!");
+}
+
+function startbot(msg,reply){
+  if(msg.chat.type!="group"&&msg.chat.type!="supergroup"){
+   reply.text("Ciao Sono un bot per giocare ai gdr su dispositivi mobile,\
+              per potermi utilizzare inseriscimi prima in un supergruppo e\
+              rendimi amministratore");
+  }
+  else{
+    db.existindb("Sessions",{id:msg.chat.id}).then(function(bool){  //CASO 1 ESISTE LA SESSIONE?
+      if(bool){
+        reply.text("Sessione già creata, inserisci giocatori con\
+                    /newusr o avvia la sessione con /startsession")
+        .then(deletecmd(msg,reply));
+      }else{
+        db.createobj(
+          "Sessions",
+          {
+            id:msg.chat.id,
+            sessionname:msg.chat.title,
+            users:[],
+            totalturn:1,
+            actualturn:0,
+            message: [],
+            started: false
+          },
+          {
+            id:msg.chat.id
+          }
+        )
+        .then(function(){
+          reply.text("Benvenuto in RoleEver!!! Io sarò il vostro MasterBot da ora in poi.\
+                      se dovessi avere bisogno di aiuto usa pure tutti i mei comandi,\
+                      e se non li conosci digita /help. Prima di iniziare assicuratevi\
+                      che io sia un amministratore del gruppo e controllate di aver tutti\
+                      silenziato la chat. durante tutto il gioco sarò sempre io a preoccuparmi\
+                      di mandarvi le notifiche. ora oguno di voi digiti il comando /newusr seguito\
+                      dal ruolo che svolgerà (master o pg). il resto delle istruzioni vi saranno date\
+                      in privato. Buon divertimento!!! ");})
+        .then(deletecmd(msg,reply))
+        .then(function(){
+          return db.readfilefromdb("Sessions", {id=msg.chat.id});})
+        .then(function(result){reply.text("Il nome di questa campagna è "+result.name+"/SessionName");});
+      }
+    });
+  }
+}
+
+
+
+function newusr(msg,reply){
+  db.existindb("Sessions",{id:msg.chat.id}).then(function(bool){  //CASO 1 ESISTE LA SESSIONE?
+    if(bool){
+      if(msg.args(1)[0]=="pg"||msg.args(1)[0]=="master"){  //CASO 2 è STATO PASSATO UN PARAMETRO CORRETTO
+        db.existindb("Users",{id:msg.from.id,sessionid:msg.chat.id}).then(function(exist){ //CASO 3 ESISTE GIA QUESTO GIOCATORE NELLA SESSIONE?
+          if(!exist){
+            if(msg.args(1)[0]=="master"){
+              db.countindb("Users",{sessionid:msg.chat.id,role="master"}).then(function(master){ //CASO 4 SE IMMESSO MASTER, ESISTE GIA UN MASTER DELLA SESSIONE?
+                if(master==0){
+                  //INSERT MASTER
+                  db.createobj(
+                    "Users",
+                    {
+                      id:msg.from.id,
+                      sessionid:msg.chat.id,
+                      name:msg.from.name,
+                      role:"master",
+                      gamedata:{},
+                      active:true
+                    },
+                    {
+                      id:msg.from.id
+                    }
+                  )
+                  .then(reply.text(msg.from.name+" ora è un "+msg.args(1)[0]))
+                  .then(deletecmd(msg,reply));
+                }else{
+                  reply.text("Esiste gia un master in questa sessione")
+                  .then(deletecmd(msg,reply)); //CASO 4 RESPONSE
+                }
+              });
+            }else{
+              //INSERT PLAYER
+              db.createobj(
+                "Users",
+                {
+                  id:msg.from.id,
+                  sessionid:msg.chat.id,
+                  name:msg.from.name,
+                  role:"pg",
+                  gamedata:{},
+                  active:true
+                },
+                {
+                  id:msg.from.id
+                }
+              )
+              .then(reply.text(msg.from.name+" ora è un "+msg.args(1)[0]))
+              .then(deletecmd(msg,reply));
+            }
+          }else{
+            reply.text(msg.from.name+" esiste gia in questa sessione")
+            .then(deletecmd(msg,reply)); //CASO 3 RESPONSE
+          }
+        });
+      }else{
+        reply.text("Dopo il comando /newusr inserisci solo pg o master\
+                    per giocare nei panni di uno o dell'altro.")
+        .then(deletecmd(msg,reply)); //CASO 2 RESPONSE
+      }
+    }else{
+      reply.text("Sessione non aancora creata, usa prima il comando /startbot")
+      .then(deletecmd(msg,reply)); //CASO 1 RESPONSE
+    }
+  });
+}
+
+
+
+
+
+function startsession(msg,reply){
+  db.existindb("Sessions",{id:msg.chat.id}).then(function(bool){  //CASO 1 ESISTE LA SESSIONE?
+    if(bool){
+      db.readfilefromdb("Sessions", {id=msg.chat.id}).then(function(session){
+        if(session.started===false){ //CASO 2 è STATA AVVIATA LA SESSIONE?
+          db.countindb("Users",{sessionid:msg.chat.id,role="master"}).then(function(master){
+            if(master==1){// CASO 3 ESISTE IL MASTER?
+
+              //AVVIA SESSIONE
+              db.readfilefromdb("Users",{sessionid:msg.chat.id,role="master"}).then(function(master){
+                db.modifyobj("Sessions",{actualturn:master.id},{id:msg.chat.id});
+                timers[msg.chat.id]="1";
+                reply.text("Sessione avviata Master è il tuo turno, inizia raccontando\
+                            ai giocatori dove si trovano e cosa sta succedendo.")
+                .then(deletecmd(msg,reply));*/
+              });
+
+            }else{// CASO 3 RESPONSE
+              reply.text("Inserisci prima un master con /newusr master")
+              .then(deletecmd(msg,reply));
+            }
+          });
+        }else{ //CASO 2 RESPONSE
+          reply.text("Sessione gia in corso")
+          .then(deletecmd(msg,reply));
+        }
+      });
+    }else{  //CASO 1 RESPONSE
+      reply.text("Sessione non ancora creata, usa prima il comando /startbot e aggiungi dei giocatori con /newusr")
+      .then(deletecmd(msg,reply));
+    }
+  });
+}
+
+
+
+function newmessage(msg,reply){
+
+  db.countindb("Sessions",{sessionid : msg.chat.id,actualturn : msg.from.id,started:true}).then(function(session){
+    if(session==1){// CASO 1 ESISTE LA SESSIONE, è STATA AVVIATA ED È IL TURNO DI QUESTO GIOCATORE?
+
+      //if(timers[msg.chat.id] == null||timers[msg.chat.id]=="1"||timers[msg.chat.id].isPaused()!=true){ //CASO 2 SESSIONE IN PAUSA?
+
+        db.createobj(
+          "Messages",
+          {
+            usr : msg.from.id, sessionid : msg.chat.id , message : msg.args(1)[0]
+          },
+          {
+            usr : msg.from.id, sessionid : msg.chat.id , message : msg.args(1)[0]
+          },
+        );
+        //callturn(msg , reply);
+
+      //}
+      //else{  // CASO 2 RESPONSE
+      //  reply.text("Sessione in pausa").then(deletecmd(msg,reply));
+      //}
+    }
+    else{ // CASO 1 RESPONSE
+      reply.text("Sessione non creata o non avviata oppure non è il tuo turno").then(deletecmd(msg,reply));
+    }
+  });
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 bot.command("startbot", startbot);
 bot.command("startsession", startsession);
 bot.command("newusr", newusr);
@@ -318,32 +372,32 @@ bot.command("deleteusr", deleteusr);
 
 
 function deleteusr(msg,reply,nome){
-  var myindex=db.getData("/Sessions/"+msg.chat.id+"/users").map(function(x) {return x.name; }).indexOf(nome);
-  db.delete("/Sessions/"+msg.chat.id+"/users["+myindex+"]");
+  db.deletefromdb("Users",{sessionid:msg.chat.id,id:msg.from.id});
 }
 
 
 
 function reboot(msg,reply){
-   try {
-    if(db.getData("/Sessions/"+msg.chat.id+"/SessionName")){ //CASO 1 ESISTE LA SESSIONE?
-      try {
-        if(db.getData("/Sessions/"+msg.chat.id+"/turndata/totalturn")&&msg.args(1)[0]=="password"){ //CASO 2 è STATA AVVIATA LA SESSIONE?
-          var masterindex=db.getData("/Sessions/"+msg.chat.id+"/users").map(function(x) {return x.role; }).indexOf("master");
-            db.push("/Sessions/"+msg.chat.id+"/turndata/totalturn","1");
-            db.push("/Sessions/"+msg.chat.id+"/turndata/actualturn",masterindex);
-            timers[msg.chat.id]="1";
-            reply.text("Sessione riavviata Master è il tuo turno. DEBUG")
-            .then(deletecmd(msg,reply));
+  db.existindb("Sessions",{id:msg.chat.id}).then(function(bool){  //CASO 1 ESISTE LA SESSIONE?
+    if(bool&&msg.args(2)[1]=="password"){ //CASO 1 ESISTE LA SESSIONE e la password è corretta?
+      db.modifyobj(
+        "Sessions",
+        {
+          id:msg.chat.id,
+          sessionname:msg.chat.title,
+          users:[],
+          totalturn:1,
+          actualturn:0,
+          message: [],
+          started: false
+        },
+        {
+          id:msg.chat.id
         }
-        else{
-          deletecmd(msg,reply);
-        }
-      }catch(error){ //CASO 2 RESPONSE
-
-      }
+      ).then(reply.text("Sessione riavviata Master è il tuo turno. DEBUG"))
+      .then(deletecmd(msg,reply));
+    }else{
+      deletecmd(msg,reply);
     }
-   }catch(error){ //CASO 1 RESPONSE
-
-   }
+  }
 }
