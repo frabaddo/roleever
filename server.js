@@ -1,4 +1,4 @@
-require('dotenv').config();
+//require('dotenv').config();
 var express = require('express');
 var app = express();
 const db = require("./databaseapi");
@@ -110,16 +110,16 @@ function pauseoff(msg,reply){
 
 
 function whomustplay(msg,reply){
-  db.readfilefromdb("Sessions", {id=msg.chat.id}).then(function(session){
+  db.readfilefromdb("Sessions", {id:msg.chat.id}).then(function(session){
     if(session.started===true){
-      db.readfilefromdb("Users", {id=session.actualturn,sessionid=msg.chat.id}).then(function(users){
+      db.readfilefromdb("Users", {id:session.actualturn,sessionid:msg.chat.id}).then(function(users){
         replytousr(msg.from.id,msg,reply,"è il turno di "+users.name).then(deletecmd(msg,reply));
       });
     }else{
-
+      console.log('session not started');
     }
+  })
 }
-
 
 function replytousr(id,msg,reply, text){
   var replyto = bot.reply(id);
@@ -157,7 +157,7 @@ function startbot(msg,reply){
   }
   else{
     db.existindb("Sessions",{id:msg.chat.id}).then(function(bool){  //CASO 1 ESISTE LA SESSIONE?
-      if(bool){
+      if(!bool){
         reply.text("Sessione già creata, inserisci giocatori con\
                     /newusr o avvia la sessione con /startsession")
         .then(deletecmd(msg,reply));
@@ -188,7 +188,7 @@ function startbot(msg,reply){
                       in privato. Buon divertimento!!! ");})
         .then(deletecmd(msg,reply))
         .then(function(){
-          return db.readfilefromdb("Sessions", {id=msg.chat.id});})
+          return db.readfilefromdb("Sessions", {id:msg.chat.id});})
         .then(function(result){reply.text("Il nome di questa campagna è "+result.name+"/SessionName");});
       }
     });
@@ -204,7 +204,7 @@ function newusr(msg,reply){
         db.existindb("Users",{id:msg.from.id,sessionid:msg.chat.id}).then(function(exist){ //CASO 3 ESISTE GIA QUESTO GIOCATORE NELLA SESSIONE?
           if(!exist){
             if(msg.args(1)[0]=="master"){
-              db.countindb("Users",{sessionid:msg.chat.id,role="master"}).then(function(master){ //CASO 4 SE IMMESSO MASTER, ESISTE GIA UN MASTER DELLA SESSIONE?
+              db.countindb("Users",{sessionid:msg.chat.id,role:"master"}).then(function(master){ //CASO 4 SE IMMESSO MASTER, ESISTE GIA UN MASTER DELLA SESSIONE?
                 if(master==0){
                   //INSERT MASTER
                   db.createobj(
@@ -271,28 +271,33 @@ function newusr(msg,reply){
 function startsession(msg,reply){
   db.existindb("Sessions",{id:msg.chat.id}).then(function(bool){  //CASO 1 ESISTE LA SESSIONE?
     if(bool){
-      db.readfilefromdb("Sessions", {id=msg.chat.id}).then(function(session){
-        if(session.started===false){ //CASO 2 è STATA AVVIATA LA SESSIONE?
-          db.countindb("Users",{sessionid:msg.chat.id,role="master"}).then(function(master){
+      db.readfilefromdb("Sessions", {id:msg.chat.id}).then(function(session){
+        if(session.started==false){ //CASO 2 è STATA AVVIATA LA SESSIONE?
+          db.countindb("Users",{sessionid:msg.chat.id,role:"master"}).then(function(master){
             if(master==1){// CASO 3 ESISTE IL MASTER?
 
               //AVVIA SESSIONE
-              db.readfilefromdb("Users",{sessionid:msg.chat.id,role="master"}).then(function(master){
+              db.readfilefromdb("Users",{sessionid:msg.chat.id,role:"master"}).then(function(master){
                 db.modifyobj("Sessions",{actualturn:master.id},{id:msg.chat.id});
                 timers[msg.chat.id]="1";
                 reply.text("Sessione avviata Master è il tuo turno, inizia raccontando\
                             ai giocatori dove si trovano e cosa sta succedendo.")
-                .then(deletecmd(msg,reply));*/
+                .then(deletecmd(msg,reply));
               });
 
             }else{// CASO 3 RESPONSE
-              reply.text("Inserisci prima un master con /newusr master")
-              .then(deletecmd(msg,reply));
+                reply.text("Inserisci prima un master con /newusr master")
+                .then(deletecmd(msg,reply));
             }
           });
         }else{ //CASO 2 RESPONSE
+          if(session.started==undefined){
+                reply.text("Sessione non creata")
+                .then(deletecmd(msg,reply));
+              }else{
           reply.text("Sessione gia in corso")
           .then(deletecmd(msg,reply));
+              }
         }
       });
     }else{  //CASO 1 RESPONSE
@@ -361,8 +366,8 @@ bot.command("msg", newmessage);
 bot.command("turno", whomustplay);
 bot.command("start", start);
 bot.command("help", help);
-bot.command("pauseon", pauseon);
-bot.command("pauseoff", pauseoff);
+//bot.command("pauseon", pauseon);
+//bot.command("pauseoff", pauseoff);
 bot.command("reboot", reboot);
 bot.command("deleteusr", deleteusr);
 
@@ -399,5 +404,5 @@ function reboot(msg,reply){
     }else{
       deletecmd(msg,reply);
     }
-  }
+  });
 }
