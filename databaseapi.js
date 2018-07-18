@@ -1,15 +1,15 @@
-require('dotenv').config();
+//require('dotenv').config();
 const MongoClient = require('mongodb').MongoClient;
 
 const uri ="mongodb://User1:"+process.env.PASSWORD+"@cluster0-shard-00-00-okonn.mongodb.net:27017,cluster0-shard-00-01-okonn.mongodb.net:27017,cluster0-shard-00-02-okonn.mongodb.net:27017/test?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin&retryWrites=true"
 
-const db : String = "database";
+const db = "database";
 
 
 
 
 
-var createobj=function (collectionname: String, params: Object={},unicprop:Object={}): Promise<any> {
+var createobj=function (collectionname, params,unicprop) {
     return new Promise((resolve,reject) => {
       MongoClient.connect(uri, function(err, client) {
          if(err) {
@@ -34,7 +34,7 @@ var createobj=function (collectionname: String, params: Object={},unicprop:Objec
     });
 }
 
-var modifyobj = function (collectionname: String, params: Object={},unicprop:Object={}): Promise<any> {
+var modifyobj = function (collectionname, params={},unicprop={}){
     return new Promise((resolve,reject) => {
       MongoClient.connect(uri, function(err, client) {
          if(err) {
@@ -52,14 +52,14 @@ var modifyobj = function (collectionname: String, params: Object={},unicprop:Obj
         });
 
          client.close();
-         resolve(result);
+         resolve();
       });
     });
 }
 
 
 
-var existindb=function (collection: String, params: Object={}): Promise<any> {
+var existindb=function (collectionpar, params={}) {
     return new Promise((resolve,reject) => {
       MongoClient.connect(uri, function(err, client) {
          if(err) {
@@ -67,9 +67,9 @@ var existindb=function (collection: String, params: Object={}): Promise<any> {
               reject(err);
          }
          console.log('Connected...');
-         const collection = client.db(db).collection(collection);
+         const collection = client.db(db).collection(collectionpar);
          var result=collection.find(params);
-         var bool: Boolean=false;
+         var bool=false;
          client.close();
          if(Object.keys(result).length != 0) bool=true;
          resolve(bool);
@@ -79,7 +79,7 @@ var existindb=function (collection: String, params: Object={}): Promise<any> {
 
 
 
-var readfilefromdb=function (collection: String, params: Object={}): Promise<any> {
+var readfilefromdb=function (collectionpar, params={}) {
     return new Promise((resolve,reject) => {
       MongoClient.connect(uri, function(err, client) {
          if(err) {
@@ -87,7 +87,7 @@ var readfilefromdb=function (collection: String, params: Object={}): Promise<any
               reject(err);
          }
          console.log('Connected...');
-         const collection = client.db(db).collection(collection);
+         const collection = client.db(db).collection(collectionpar);
          var result=collection.find(params);
          client.close();
          resolve(result);
@@ -95,7 +95,7 @@ var readfilefromdb=function (collection: String, params: Object={}): Promise<any
     });
 }
 
-var countindb=function (collection: String, params: Object={}): Promise<any> {
+var countindb=function (collectionpar, params={}) {
     return new Promise((resolve,reject) => {
       MongoClient.connect(uri, function(err, client) {
          if(err) {
@@ -103,7 +103,7 @@ var countindb=function (collection: String, params: Object={}): Promise<any> {
               reject(err);
          }
          console.log('Connected...');
-         const collection = client.db(db).collection(collection);
+         const collection = client.db(db).collection(collectionpar);
          var result=collection.count(params);
          client.close();
          resolve(result);
@@ -111,7 +111,7 @@ var countindb=function (collection: String, params: Object={}): Promise<any> {
     });
 }
 
-var deletefromdb=function (collection: String, params: Object={}): Promise<any> {
+var deletefromdb=function (collectionpar, params={}) {
     return new Promise((resolve,reject) => {
       MongoClient.connect(uri, function(err, client) {
          if(err) {
@@ -119,7 +119,7 @@ var deletefromdb=function (collection: String, params: Object={}): Promise<any> 
               reject(err);
          }
          console.log('Connected...');
-         const collection = client.db(db).collection(collection);
+         const collection = client.db(db).collection(collectionpar);
          var result=collection.deleteOne(params);
          client.close();
          resolve(result);
@@ -127,9 +127,18 @@ var deletefromdb=function (collection: String, params: Object={}): Promise<any> 
     });
 }
 
-export.readfilefromdb=readfilefromdb;
-export.modifyobj=modifyobj;
-export.createobj= createobj;
-export.existindb=existindb;
-export.countindb=countindb;
-export.deletefromdb=deletefromdb;
+/*module.export.readfilefromdb=readfilefromdb;
+module.export.modifyobj=modifyobj;
+module.export.createobj= createobj;
+module.export.existindb=existindb;
+module.export.countindb=countindb;
+module.export.deletefromdb=deletefromdb;
+*/
+module.exports={
+readfilefromdb,
+modifyobj,
+createobj,
+existindb,
+countindb,
+deletefromdb,
+}
