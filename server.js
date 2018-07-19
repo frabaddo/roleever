@@ -44,43 +44,6 @@ function calctime( time ){
   range1.overlaps(range2);
 }
 
-function callturn(msg , reply){
-  var chatdata=db.getData("/Sessions/"+msg.chat.id+"/turndata");
-  var actualindex=parseInt(chatdata.actualturn);
-  var totalindex=parseInt(chatdata.totalturn)+1;
-  var newindex=0;
-
-  newindex=(actualindex + 1) % db.getData("/Sessions/"+msg.chat.id+"/users").length;
-  db.push("/Sessions/"+msg.chat.id+"/turndata/totalturn",totalindex.toString());
-  db.push("/Sessions/"+msg.chat.id+"/turndata/actualturn",newindex.toString());
-
-  try{
-    waittoturn(msg,reply,totalindex,newindex,6000000,3000000,3000000,3000000);
-  }catch(error){
-
-  }
-}
-
-
-function waittoturn(msg,reply,totalindex,newindex,timea,timeb,timec,timed){
-  if(parseInt(db.getData("/Sessions/"+msg.chat.id+"/turndata/totalturn"))==totalindex){
-    var tim=(timea+timeb+timec+timed)/60000;
-
-    if(timea!=0){
-      replytousr(db.getData("/Sessions/"+msg.chat.id+"/users")[newindex].name,msg,reply,"è il tuo turno! Hai ancora "+ tim.toString() +"min per rispondere in "+db.getData("/Sessions/"+msg.chat.id+"/SessionName"));
-      timers[msg.chat.id]=pauseable.setTimeout(function(){
-      waittoturn(msg,reply,totalindex,newindex,timeb,timec,timed,0);
-      },timea);
-    }
-    else{
-      replytousr(db.getData("/Sessions/"+msg.chat.id+"/users")[newindex].name,msg,reply,"Hai perso il turno");
-      callturn(msg , reply);
-    }
-  }
-}
-
-
-
 
 function pauseon(msg,reply){
   if (timers[msg.chat.id] != null){
@@ -107,6 +70,48 @@ function pauseoff(msg,reply){
 
 */
 
+function callturn(msg , reply){
+  db.readfilefromdb("Sessions", {id:msg.chat.id}).then(function(chatdata){
+    var actualindex=chatdata.actualturn;
+    var totalindex=chatdata.totalturn+1;
+    var newindex=0;
+    db.readfilefromdb("Users", {sessionid:msg.chat.id},true).then(function(users){
+
+      newindex=users.map(function(x) {return x.id; }).indexOf(msg.from.id);
+      newindex=(newindex+1)%users.length;
+      db.modifyobj(
+        "Sessions",
+        {
+          totalturn:totalindex,
+          actualturn:users[newindex].id
+        },
+        {
+          id: msg.chat.id
+        }
+      ).then();
+      //.then(waittoturn(msg,reply,totalindex,newindex,6000000,3000000,3000000,3000000));
+    });
+  });
+}
+
+
+function waittoturn(msg,reply,totalindex,newindex,timea,timeb,timec,timed){
+  if(parseInt(db.getData("/Sessions/"+msg.chat.id+"/turndata/totalturn"))==totalindex){
+    var tim=(timea+timeb+timec+timed)/60000;
+
+    if(timea!=0){
+      replytousr(db.getData("/Sessions/"+msg.chat.id+"/users")[newindex].name,msg,reply,"è il tuo turno! Hai ancora "+ tim.toString() +"min per rispondere in "+db.getData("/Sessions/"+msg.chat.id+"/SessionName"));
+      timers[msg.chat.id]=pauseable.setTimeout(function(){
+      waittoturn(msg,reply,totalindex,newindex,timeb,timec,timed,0);
+      },timea);
+    }
+    else{
+      replytousr(db.getData("/Sessions/"+msg.chat.id+"/users")[newindex].name,msg,reply,"Hai perso il turno");
+      callturn(msg , reply);
+    }
+  }
+}
+
 
 
 function whomustplay(msg,reply){
@@ -116,6 +121,7 @@ function whomustplay(msg,reply){
         replytousr(msg.from.id,msg,reply,"è il turno di "+users.name).then(deletecmd(msg,reply));
       });
     }else{
+      reply.text('session not started').then(deletecmd(msg,reply));
       console.log('session not started');
     }
   })
@@ -158,10 +164,6 @@ function startbot(msg,reply){
   else{
     db.existindb("Sessions",{id:msg.chat.id}).then(function(bool){  //CASO 1 ESISTE LA SESSIONE?
       if(!bool){
-        reply.text("Sessione già creata, inserisci giocatori con\
-                    /newusr o avvia la sessione con /startsession")
-        .then(deletecmd(msg,reply));
-      }else{
         db.createobj(
           "Sessions",
           {
@@ -190,6 +192,10 @@ function startbot(msg,reply){
         .then(function(){
           return db.readfilefromdb("Sessions", {id:msg.chat.id});})
         .then(function(result){reply.text("Il nome di questa campagna è "+result.name+"/SessionName");});
+      }else{
+        reply.text("Sessione già creata, inserisci giocatori con\
+                    /newusr o avvia la sessione con /startsession")
+        .then(deletecmd(msg,reply));
       }
     });
   }
@@ -273,12 +279,12 @@ function startsession(msg,reply){
     if(bool){
       db.readfilefromdb("Sessions", {id:msg.chat.id}).then(function(session){
         if(session.started==false){ //CASO 2 è STATA AVVIATA LA SESSIONE?
-          db.countindb("Users",{sessionid:msg.chat.id,role:"master"}).then(function(master){
-            if(master==1){// CASO 3 ESISTE IL MASTER?
+          db.countindb("Users",{sessionid:msg.chat.id,role:"master"}).then(function(masters){
+            if(masters==1){// CASO 3 ESISTE IL MASTER?
 
               //AVVIA SESSIONE
               db.readfilefromdb("Users",{sessionid:msg.chat.id,role:"master"}).then(function(master){
-                db.modifyobj("Sessions",{actualturn:master.id},{id:msg.chat.id});
+                db.modifyobj("Sessions",{actualturn:master.id,started:true},{id:msg.chat.id});
                 timers[msg.chat.id]="1";
                 reply.text("Sessione avviata Master è il tuo turno, inizia raccontando\
                             ai giocatori dove si trovano e cosa sta succedendo.")
@@ -292,7 +298,7 @@ function startsession(msg,reply){
           });
         }else{ //CASO 2 RESPONSE
           if(session.started==undefined){
-                reply.text("Sessione non creata")
+                reply.text("Sessione non creata usa /startbot")
                 .then(deletecmd(msg,reply));
               }else{
           reply.text("Sessione gia in corso")
@@ -311,29 +317,37 @@ function startsession(msg,reply){
 
 function newmessage(msg,reply){
 
-  db.countindb("Sessions",{sessionid : msg.chat.id,actualturn : msg.from.id,started:true}).then(function(session){
-    if(session==1){// CASO 1 ESISTE LA SESSIONE, è STATA AVVIATA ED È IL TURNO DI QUESTO GIOCATORE?
-
+  db.readfilefromdb("Sessions",{id : msg.chat.id}).then(function(session){
+    if(session){// CASO 1 ESISTE LA SESSIONE?
+      if(session.started==true){
+        if(session.actualturn==msg.from.id){
       //if(timers[msg.chat.id] == null||timers[msg.chat.id]=="1"||timers[msg.chat.id].isPaused()!=true){ //CASO 2 SESSIONE IN PAUSA?
 
-        db.createobj(
-          "Messages",
-          {
-            usr : msg.from.id, sessionid : msg.chat.id , message : msg.args(1)[0]
-          },
-          {
-            usr : msg.from.id, sessionid : msg.chat.id , message : msg.args(1)[0]
-          },
-        );
-        //callturn(msg , reply);
+          db.createobj(
+            "Messages",
+            {
+              usr : msg.from.id, sessionid : msg.chat.id , message : msg.args(1)[0]
+            },
+            {
+              usr : msg.from.id, sessionid : msg.chat.id , message : msg.args(1)[0]
+            },
+          );
+          callturn(msg , reply);
 
-      //}
-      //else{  // CASO 2 RESPONSE
-      //  reply.text("Sessione in pausa").then(deletecmd(msg,reply));
-      //}
+        //}
+        //else{  // CASO 2 RESPONSE
+        //  reply.text("Sessione in pausa").then(deletecmd(msg,reply));
+        //}
+
+        }else{
+          reply.text("Non è il tuo turno").then(deletecmd(msg,reply));
+        }
+      }else{
+        reply.text("La sessione non è ancora stata avviata, usa /startsession").then(deletecmd(msg,reply));
+      }
     }
     else{ // CASO 1 RESPONSE
-      reply.text("Sessione non creata o non avviata oppure non è il tuo turno").then(deletecmd(msg,reply));
+      reply.text("Sessione non creata usa /startbot per crearla").then(deletecmd(msg,reply));
     }
   });
 }

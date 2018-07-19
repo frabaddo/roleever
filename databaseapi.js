@@ -2,7 +2,6 @@
 const MongoClient = require('mongodb').MongoClient;
 
 const uri ="mongodb://User1:"+process.env.PASSWORD+"@cluster0-shard-00-00-okonn.mongodb.net:27017,cluster0-shard-00-01-okonn.mongodb.net:27017,cluster0-shard-00-02-okonn.mongodb.net:27017/test?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin&retryWrites=true"
-
 const db = "database";
 
 
@@ -19,17 +18,23 @@ var createobj=function (collectionname, params,unicprop) {
          console.log('Connected...');
          const collection = client.db(db).collection(collectionname);
 
-         collection.findAndModify({
-          query: unicprop,
-          update: {
+         var result=collection.findAndModify(
+          unicprop,
+          [['_id','asc']],
+          {
             $setOnInsert: params
           },
-          new: true,   // return new doc if one is upserted
-          upsert: true // insert the document if it does not exist
-        });
+          {
+            new: true,   // return new doc if one is upserted
+            upsert: true // insert the document if it does not exist
+          }
 
-         client.close();
-         resolve();
+        ).then(function(){
+           client.close();
+           resolve(result);
+         });
+
+
       });
     });
 }
@@ -44,22 +49,45 @@ var modifyobj = function (collectionname, params={},unicprop={}){
          console.log('Connected...');
          const collection = client.db(db).collection(collectionname);
 
-         collection.findAndModify({
-          query: unicprop,
-          update: {
+         collection.findAndModify(
+           unicprop,
+           [['_id','asc']],
+          {
             $set: params
           }
-        });
+        ).then(function(){
+           client.close();
+           resolve();
+         });
 
-         client.close();
-         resolve();
       });
     });
 }
 
 
 
-var existindb=function (collectionpar, params={}) {
+var existindb=function (collectionpar, params) {
+    return new Promise((resolve,reject) => {
+      MongoClient.connect(uri, function(err, client) {
+         if(err) {
+              console.log('Error occurred while connecting to MongoDB Atlas...\n',err);
+              reject(err);
+         }
+         console.log('Connected...');
+         var collection = client.db(db).collection(collectionpar);
+         collection.find(params).count().then(function(count){
+           console.log(count);
+           client.close();
+           if(count == 0)resolve(false);
+           else resolve(true);
+         });
+      });
+    });
+}
+
+
+
+var readfilefromdb=function (collectionpar, params={}, all=false) {
     return new Promise((resolve,reject) => {
       MongoClient.connect(uri, function(err, client) {
          if(err) {
@@ -68,29 +96,33 @@ var existindb=function (collectionpar, params={}) {
          }
          console.log('Connected...');
          const collection = client.db(db).collection(collectionpar);
-         var result=collection.find(params);
-         var bool=false;
-         client.close();
-         if(Object.keys(result).length != 0) bool=true;
-         resolve(bool);
-      });
-    });
-}
+         collection.find(params).toArray().then(function(result){
+           console.log(result[0]);
+           if(all){
+             if (result.lenght!=0){
+               collection.find(params).sort({_id:1}).toArray()
+               .then(function(arrresult){
+                 console.log(arrresult);
+                 client.close();
+                 resolve(arrresult);
+               });
+             }
+             else{
+               resolve(false);
+               client.close();
+             }
+           }else{
+             if (result.lenght!=0){
+               client.close();
+               resolve(result[0]);
+             }
+             else{
+               client.close();
+               resolve(false);
+             }
+           }
+          });
 
-
-
-var readfilefromdb=function (collectionpar, params={}) {
-    return new Promise((resolve,reject) => {
-      MongoClient.connect(uri, function(err, client) {
-         if(err) {
-              console.log('Error occurred while connecting to MongoDB Atlas...\n',err);
-              reject(err);
-         }
-         console.log('Connected...');
-         const collection = client.db(db).collection(collectionpar);
-         var result=collection.find(params);
-         client.close();
-         resolve(result);
       });
     });
 }
@@ -104,9 +136,8 @@ var countindb=function (collectionpar, params={}) {
          }
          console.log('Connected...');
          const collection = client.db(db).collection(collectionpar);
-         var result=collection.count(params);
-         client.close();
-         resolve(result);
+         collection.find(params).count().then(function(count){client.close();resolve(count);});
+
       });
     });
 }
