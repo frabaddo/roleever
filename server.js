@@ -44,7 +44,7 @@ function calctime( time ){
   range1.overlaps(range2);
 }
 
-
+*/
 function pauseon(msg,reply){
   if (timers[msg.chat.id] != null){
     timers[msg.chat.id].pause();
@@ -56,59 +56,16 @@ function pauseon(msg,reply){
   }
 }
 
+
+
 function pauseoff(msg,reply){
   if (timers[msg.chat.id] != null){
     timers[msg.chat.id].resume();
-    var index=parseInt(db.getData("/Sessions/"+msg.chat.id+"/turndata/actualturn"));
-    reply.text("Sessione uscita dalla pausa, è ancora il turno di "+db.getData("/Sessions/"+msg.chat.id+"/users")[index].first_last).then(deletecmd(msg,reply));
+   // var index=parseInt(db.getData("/Sessions/"+msg.chat.id+"/turndata/actualturn"));
+    reply.text("Sessione uscita dalla pausa!").then(deletecmd(msg,reply));
   }
   else{
      deletecmd(msg,reply);
-  }
-}
-
-
-*/
-
-function callturn(msg , reply){
-  db.readfilefromdb("Sessions", {id:msg.chat.id}).then(function(chatdata){
-    var actualindex=chatdata.actualturn;
-    var totalindex=chatdata.totalturn+1;
-    var newindex=0;
-    db.readfilefromdb("Users", {sessionid:msg.chat.id},true).then(function(users){
-
-      newindex=users.map(function(x) {return x.id; }).indexOf(msg.from.id);
-      newindex=(newindex+1)%users.length;
-      db.modifyobj(
-        "Sessions",
-        {
-          totalturn:totalindex,
-          actualturn:users[newindex].id
-        },
-        {
-          id: msg.chat.id
-        }
-      ).then();
-      //.then(waittoturn(msg,reply,totalindex,newindex,6000000,3000000,3000000,3000000));
-    });
-  });
-}
-
-
-function waittoturn(msg,reply,totalindex,newindex,timea,timeb,timec,timed){
-  if(parseInt(db.getData("/Sessions/"+msg.chat.id+"/turndata/totalturn"))==totalindex){
-    var tim=(timea+timeb+timec+timed)/60000;
-
-    if(timea!=0){
-      replytousr(db.getData("/Sessions/"+msg.chat.id+"/users")[newindex].name,msg,reply,"è il tuo turno! Hai ancora "+ tim.toString() +"min per rispondere in "+db.getData("/Sessions/"+msg.chat.id+"/SessionName"));
-      timers[msg.chat.id]=pauseable.setTimeout(function(){
-      waittoturn(msg,reply,totalindex,newindex,timeb,timec,timed,0);
-      },timea);
-    }
-    else{
-      replytousr(db.getData("/Sessions/"+msg.chat.id+"/users")[newindex].name,msg,reply,"Hai perso il turno");
-      callturn(msg , reply);
-    }
   }
 }
 
@@ -124,8 +81,10 @@ function whomustplay(msg,reply){
       reply.text('session not started').then(deletecmd(msg,reply));
       console.log('session not started');
     }
-  })
+  });
 }
+
+
 
 function replytousr(id,msg,reply, text){
   var replyto = bot.reply(id);
@@ -134,14 +93,18 @@ function replytousr(id,msg,reply, text){
 }
 
 
+
 function deletecmd(msg,reply){
   reply.deleteMessage(msg);
 }
 
 
+
 function help(msg,reply){
  reply.text();
 }
+
+
 
 function start(msg,reply){
  reply.text("Ciao "+msg.from.firstname+". /n Io sono il Masterbot, per iniziare a giocare, inseriscimi in un\
@@ -154,6 +117,8 @@ Ogniqualvolta toccherà a te giocare usa il comando /msg seguito da un testo che
 se dovessi mai aver bisogno usa il comando /help (in privato) oppure contatta gli sviluppatori sull'apposito gruppo.  \
 Buon divertimento!!!");
 }
+
+
 
 function startbot(msg,reply){
   if(msg.chat.type!="group"&&msg.chat.type!="supergroup"){
@@ -272,8 +237,6 @@ function newusr(msg,reply){
 
 
 
-
-
 function startsession(msg,reply){
   db.existindb("Sessions",{id:msg.chat.id}).then(function(bool){  //CASO 1 ESISTE LA SESSIONE?
     if(bool){
@@ -321,7 +284,7 @@ function newmessage(msg,reply){
     if(session){// CASO 1 ESISTE LA SESSIONE?
       if(session.started==true){
         if(session.actualturn==msg.from.id){
-      //if(timers[msg.chat.id] == null||timers[msg.chat.id]=="1"||timers[msg.chat.id].isPaused()!=true){ //CASO 2 SESSIONE IN PAUSA?
+      if(timers[msg.chat.id] == null||timers[msg.chat.id]=="1"||timers[msg.chat.id].isPaused()!=true){ //CASO 2 SESSIONE IN PAUSA?
 
           db.createobj(
             "Messages",
@@ -332,12 +295,12 @@ function newmessage(msg,reply){
               usr : msg.from.id, sessionid : msg.chat.id , message : msg.args(1)[0]
             },
           );
-          callturn(msg , reply);
+          callturn(msg , reply,session);
 
-        //}
-        //else{  // CASO 2 RESPONSE
-        //  reply.text("Sessione in pausa").then(deletecmd(msg,reply));
-        //}
+        }
+        else{  // CASO 2 RESPONSE
+          reply.text("Sessione in pausa").then(deletecmd(msg,reply));
+        }
 
         }else{
           reply.text("Non è il tuo turno").then(deletecmd(msg,reply));
@@ -354,39 +317,50 @@ function newmessage(msg,reply){
 
 
 
+function callturn(msg , reply,chatdata){
+    var actualindex=chatdata.actualturn;
+    var totalindex=chatdata.totalturn+1;
+  console.log(chatdata.totalturn);
+    console.log(totalindex);
+    var newindex=0;
+    db.readfilefromdb("Users", {sessionid:msg.chat.id},true).then(function(users){
+
+      newindex=users.map(function(x) {return x.id; }).indexOf(msg.from.id);
+      newindex=(newindex+1)%users.length;
+      db.modifyobj(
+        "Sessions",
+        {
+          totalturn:totalindex,
+          actualturn:users[newindex].id
+        },
+        {
+          id: msg.chat.id
+        }
+      ).then(function(){console.log(chatdata.totalturn);
+    console.log(totalindex);  waittoturn(msg,reply,totalindex,users[newindex],15000,15000,0,0)});
+    });
+}
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-bot.command("startbot", startbot);
-bot.command("startsession", startsession);
-bot.command("newusr", newusr);
-bot.command("msg", newmessage);
-bot.command("turno", whomustplay);
-bot.command("start", start);
-bot.command("help", help);
-//bot.command("pauseon", pauseon);
-//bot.command("pauseoff", pauseoff);
-bot.command("reboot", reboot);
-bot.command("deleteusr", deleteusr);
-
-
-
+function waittoturn(msg,reply,totalindex,usr,timea,timeb,timec,timed){
+  db.readfilefromdb("Sessions", {id:msg.chat.id}).then(function(chatdata2){
+    console.log(chatdata2.totalturn);
+    console.log(totalindex);
+     if(chatdata2.totalturn==totalindex){
+      var tim=(timea+timeb+timec+timed)/60000;
+      if(timea!=0){
+        replytousr(usr.id,msg,reply,"è il tuo turno! Hai ancora "+ tim.toString() +"min per rispondere in "+usr.sessionname);
+        timers[msg.chat.id]=pauseable.setTimeout(function(){
+          waittoturn(msg,reply,totalindex,usr,timeb,timec,timed,0);
+        },timea);
+      }else{
+        replytousr(usr.id,msg,reply,"Hai perso il turno");
+        callturn(msg , reply,chatdata2);
+      }
+     }
+  });
+}
 
 
 
@@ -398,7 +372,7 @@ function deleteusr(msg,reply,nome){
 
 function reboot(msg,reply){
   db.existindb("Sessions",{id:msg.chat.id}).then(function(bool){  //CASO 1 ESISTE LA SESSIONE?
-    if(bool&&msg.args(2)[1]=="password"){ //CASO 1 ESISTE LA SESSIONE e la password è corretta?
+    if(bool&&msg.args(1)[0]=="password"){ //CASO 1 ESISTE LA SESSIONE e la password è corretta?
       db.modifyobj(
         "Sessions",
         {
@@ -420,3 +394,20 @@ function reboot(msg,reply){
     }
   });
 }
+
+
+
+
+
+
+bot.command("startbot", startbot);
+bot.command("startsession", startsession);
+bot.command("newusr", newusr);
+bot.command("msg", newmessage);
+bot.command("turno", whomustplay);
+bot.command("start", start);
+bot.command("help", help);
+bot.command("pauseon", pauseon);
+bot.command("pauseoff", pauseoff);
+bot.command("reboot", reboot);
+bot.command("deleteusr", deleteusr);

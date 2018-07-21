@@ -29,7 +29,9 @@ var createobj=function (collectionname, params,unicprop) {
             upsert: true // insert the document if it does not exist
           }
 
-        ).then(function(){
+        ).catch(function(){
+           client.close();
+         }).then(function(){
            client.close();
            resolve(result);
          });
@@ -49,17 +51,22 @@ var modifyobj = function (collectionname, params={},unicprop={}){
          console.log('Connected...');
          const collection = client.db(db).collection(collectionname);
 
-         collection.findAndModify(
+        collection.update(
            unicprop,
-           [['_id','asc']],
           {
             $set: params
-          }
-        ).then(function(){
-           client.close();
-           resolve();
-         });
-
+          },
+          {
+          },
+          function(err, object) {
+              if (err){
+                  client.close();
+                  console.warn(err.message);  // returns error if no matching object found
+              }else{
+                  client.close();
+                  resolve();
+              }
+          });
       });
     });
 }
@@ -75,7 +82,9 @@ var existindb=function (collectionpar, params) {
          }
          console.log('Connected...');
          var collection = client.db(db).collection(collectionpar);
-         collection.find(params).count().then(function(count){
+         collection.find(params).count().catch(function(){
+           client.close();
+         }).then(function(count){
            console.log(count);
            client.close();
            if(count == 0)resolve(false);
@@ -96,13 +105,13 @@ var readfilefromdb=function (collectionpar, params={}, all=false) {
          }
          console.log('Connected...');
          const collection = client.db(db).collection(collectionpar);
-         collection.find(params).toArray().then(function(result){
-           console.log(result[0]);
+         collection.find(params).toArray().catch(function(){
+           client.close();
+         }).then(function(result){
            if(all){
              if (result.lenght!=0){
                collection.find(params).sort({_id:1}).toArray()
                .then(function(arrresult){
-                 console.log(arrresult);
                  client.close();
                  resolve(arrresult);
                });
@@ -136,7 +145,9 @@ var countindb=function (collectionpar, params={}) {
          }
          console.log('Connected...');
          const collection = client.db(db).collection(collectionpar);
-         collection.find(params).count().then(function(count){client.close();resolve(count);});
+         collection.find(params).count().catch(function(){
+           client.close();
+         }).then(function(count){client.close();resolve(count);});
 
       });
     });
@@ -151,20 +162,16 @@ var deletefromdb=function (collectionpar, params={}) {
          }
          console.log('Connected...');
          const collection = client.db(db).collection(collectionpar);
-         var result=collection.deleteOne(params);
-         client.close();
-         resolve(result);
+         var result=collection.deleteOne(params).catch(function(){
+           client.close();
+         }).then(function(){
+           client.close();
+           resolve(result);
+         });
       });
     });
 }
 
-/*module.export.readfilefromdb=readfilefromdb;
-module.export.modifyobj=modifyobj;
-module.export.createobj= createobj;
-module.export.existindb=existindb;
-module.export.countindb=countindb;
-module.export.deletefromdb=deletefromdb;
-*/
 module.exports={
 readfilefromdb,
 modifyobj,
