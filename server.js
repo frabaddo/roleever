@@ -195,7 +195,8 @@ function newusr(msg,reply){
                   active:true
                 },
                 {
-                  id:msg.from.id
+                  id:msg.from.id,
+                  sessionid:msg.chat.id
                 }
               )
               .then(reply.text(msg.from.name+" ora è un "+msg.args(1)[0]))
