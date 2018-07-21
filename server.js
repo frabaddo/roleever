@@ -2,6 +2,7 @@
 var express = require('express');
 var app = express();
 const db = require("./databaseapi");
+const txt = require("./textexport");
 const pauseable = require('pauseable');
 const Botgram = require('botgram');
 const Moment = require('moment');
@@ -48,7 +49,7 @@ function calctime( time ){
 function pauseon(msg,reply){
   if (timers[msg.chat.id] != null){
     timers[msg.chat.id].pause();
-    reply.text("Sessione in pausa, usa /pauseoff per sbloccarla. tutti i messaggi ora saranno bloccati!").then(deletecmd(msg,reply));
+    reply.text(txt.pauseon).then(deletecmd(msg,reply));
     setTimeout(function(){},3600000);
   }
   else{
@@ -62,7 +63,7 @@ function pauseoff(msg,reply){
   if (timers[msg.chat.id] != null){
     timers[msg.chat.id].resume();
    // var index=parseInt(db.getData("/Sessions/"+msg.chat.id+"/turndata/actualturn"));
-    reply.text("Sessione uscita dalla pausa!").then(deletecmd(msg,reply));
+    reply.text(txt.pauseoff).then(deletecmd(msg,reply));
   }
   else{
      deletecmd(msg,reply);
@@ -78,7 +79,7 @@ function whomustplay(msg,reply){
         replytousr(msg.from.id,msg,reply,"è il turno di "+users.name).then(deletecmd(msg,reply));
       });
     }else{
-      reply.text('session not started').then(deletecmd(msg,reply));
+      reply.text(txt. sessionnotstarted).then(deletecmd(msg,reply));
       console.log('session not started');
     }
   });
@@ -107,24 +108,14 @@ function help(msg,reply){
 
 
 function start(msg,reply){
- reply.text("Ciao "+msg.from.firstname+". /n Io sono il Masterbot, per iniziare a giocare, inseriscimi in un\
-supergruppo e controlla che io sia un amministratore. fatto cio segui questi semplici passi (salvo casi esplicitati tutti i comandi sono da immetere nel supergruppo): \
-1. crea la sessione inserendo il comando /startbot. \
-2. fai in modo che ogni giocatore mi avvii in privato \
-3. fai in modo che ogni giocatore inserisca il comando /newusr seguito da pg o master. ricorda che ci può essere un solo master.\
-4. avviate la sessione con /startsession. (è sufficiente lo faccia un giocatore solo) \
-Ogniqualvolta toccherà a te giocare usa il comando /msg seguito da un testo che racconti le tue gesta. \
-se dovessi mai aver bisogno usa il comando /help (in privato) oppure contatta gli sviluppatori sull'apposito gruppo.  \
-Buon divertimento!!!");
+ reply.text("Ciao "+msg.from.firstname+txt.start);
 }
 
 
 
 function startbot(msg,reply){
   if(msg.chat.type!="group"&&msg.chat.type!="supergroup"){
-   reply.text("Ciao Sono un bot per giocare ai gdr su dispositivi mobile,\
-              per potermi utilizzare inseriscimi prima in un supergruppo e\
-              rendimi amministratore");
+   reply.text(txt.bootnogroup);
   }
   else{
     db.existindb("Sessions",{id:msg.chat.id}).then(function(bool){  //CASO 1 ESISTE LA SESSIONE?
@@ -145,21 +136,13 @@ function startbot(msg,reply){
           }
         )
         .then(function(){
-          reply.text("Benvenuto in RoleEver!!! Io sarò il vostro MasterBot da ora in poi.\
-                      se dovessi avere bisogno di aiuto usa pure tutti i mei comandi,\
-                      e se non li conosci digita /help. Prima di iniziare assicuratevi\
-                      che io sia un amministratore del gruppo e controllate di aver tutti\
-                      silenziato la chat. durante tutto il gioco sarò sempre io a preoccuparmi\
-                      di mandarvi le notifiche. ora oguno di voi digiti il comando /newusr seguito\
-                      dal ruolo che svolgerà (master o pg). il resto delle istruzioni vi saranno date\
-                      in privato. Buon divertimento!!! ");})
+          reply.text(txt.botstart);})
         .then(deletecmd(msg,reply))
         .then(function(){
           return db.readfilefromdb("Sessions", {id:msg.chat.id});})
         .then(function(result){reply.text("Il nome di questa campagna è "+result.name+"/SessionName");});
       }else{
-        reply.text("Sessione già creata, inserisci giocatori con\
-                    /newusr o avvia la sessione con /startsession")
+        reply.text(txt.justcreate)
         .then(deletecmd(msg,reply));
       }
     });
@@ -229,7 +212,7 @@ function newusr(msg,reply){
         .then(deletecmd(msg,reply)); //CASO 2 RESPONSE
       }
     }else{
-      reply.text("Sessione non aancora creata, usa prima il comando /startbot")
+      reply.text(txt.sessionnotcreated)
       .then(deletecmd(msg,reply)); //CASO 1 RESPONSE
     }
   });
@@ -261,7 +244,7 @@ function startsession(msg,reply){
           });
         }else{ //CASO 2 RESPONSE
           if(session.started==undefined){
-                reply.text("Sessione non creata usa /startbot")
+                reply.text(txt.sessionnotcreated)
                 .then(deletecmd(msg,reply));
               }else{
           reply.text("Sessione gia in corso")
@@ -270,7 +253,7 @@ function startsession(msg,reply){
         }
       });
     }else{  //CASO 1 RESPONSE
-      reply.text("Sessione non ancora creata, usa prima il comando /startbot e aggiungi dei giocatori con /newusr")
+      reply.text(txt.sessionnotcreated)
       .then(deletecmd(msg,reply));
     }
   });
@@ -306,11 +289,11 @@ function newmessage(msg,reply){
           reply.text("Non è il tuo turno").then(deletecmd(msg,reply));
         }
       }else{
-        reply.text("La sessione non è ancora stata avviata, usa /startsession").then(deletecmd(msg,reply));
+        reply.text(txt.sessionnotstarted).then(deletecmd(msg,reply));
       }
     }
     else{ // CASO 1 RESPONSE
-      reply.text("Sessione non creata usa /startbot per crearla").then(deletecmd(msg,reply));
+      reply.text(txt.sessionnotcreated).then(deletecmd(msg,reply));
     }
   });
 }
