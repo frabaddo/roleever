@@ -320,7 +320,7 @@ function callturn(msg , reply,chatdata){
           id: msg.chat.id
         }
       ).then(function(){console.log(chatdata.totalturn);
-    console.log(totalindex);  waittoturn(msg,reply,totalindex,users[newindex],15000,15000,0,0)});
+    console.log(totalindex);  waittoturn(msg,reply,totalindex,users[newindex],1500000,1500000,1500000,1500000)});
     });
 }
 
