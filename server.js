@@ -335,7 +335,7 @@ function waittoturn(msg,reply,totalindex,usr,timea,timeb,timec,timed){
      if(chatdata2.totalturn==totalindex){
       var tim=(timea+timeb+timec+timed)/60000;
       if(timea!=0){
-        replytousr(usr.id,msg,reply,"è il tuo turno! Hai ancora "+ tim.toString() +"min per rispondere in "+usr.sessionname);
+        replytousr(usr.id,msg,reply,"è il tuo turno! Hai ancora "+ tim.toString() +"min per rispondere in "+chatdata2.sessionname);
         timers[msg.chat.id]=pauseable.setTimeout(function(){
           waittoturn(msg,reply,totalindex,usr,timeb,timec,timed,0);
         },timea);
