@@ -311,7 +311,9 @@ function callturn(msg , reply,chatdata){
     db.readfilefromdb("Users", {sessionid:msg.chat.id},true).then(function(users){
 
       newindex=users.map(function(x) {return x.id; }).indexOf(msg.from.id);
+      console.log("il vecchio index è: "newindex);
       newindex=(newindex+1)%users.length;
+      console.log("il nuovo index è: "newindex);
       db.modifyobj(
         "Sessions",
         {
