@@ -1,7 +1,7 @@
 //require('dotenv').config();
 var express = require('express');
 var app = express();
-const db = require("./databaseapi");
+const db = require("./databaseapi/mongoapi");
 const txt = require("./textexport");
 const pauseable = require('pauseable');
 const Botgram = require('botgram');
