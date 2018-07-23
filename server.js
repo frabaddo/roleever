@@ -280,7 +280,7 @@ function newmessage(msg,reply){
               usr : msg.from.id, sessionid : msg.chat.id , message : msg.args(1)[0]
             },
           );
-          callturn(msg , reply,session);
+          callturn(msg , reply);
 
         }
         else{  // CASO 2 RESPONSE
@@ -302,30 +302,32 @@ function newmessage(msg,reply){
 
 
 
-function callturn(msg , reply,chatdata){
-    var actualindex=chatdata.actualturn;
-    var totalindex=chatdata.totalturn+1;
-  console.log(chatdata.totalturn);
-    console.log(totalindex);
-    var newindex=0;
-    db.readfilefromdb("Users", {sessionid:msg.chat.id},true).then(function(users){
+function callturn(msg , reply){
+    db.readfilefromdb("Sessions",{id : msg.chat.id}).then(function(chatdata){
+      var actualindex=chatdata.actualturn;
+      var totalindex=chatdata.totalturn+1;
+      console.log(chatdata.totalturn);
+      console.log(totalindex);
+      var newindex=0;
+      db.readfilefromdb("Users", {sessionid:msg.chat.id},true).then(function(users){
 
-      newindex=users.map(function(x) {return x.id; }).indexOf(msg.from.id);
-      console.log("il vecchio index è: "+newindex);
-      newindex=(newindex+1)%users.length;
-      console.log("il nuovo index è: "+newindex);
-      db.modifyobj(
-        "Sessions",
-        {
-          totalturn:totalindex,
-          actualturn:users[newindex].id
-        },
-        {
-          id: msg.chat.id
-        }
-      ).then(function(){console.log(chatdata.totalturn);
-    console.log(totalindex);  waittoturn(msg,reply,totalindex,users[newindex],15000,15000,0,0)});
-    });
+        newindex=users.map(function(x) {return x.id; }).indexOf(msg.from.id);
+        console.log("il vecchio index è: "+newindex);
+        newindex=(newindex+1)%users.length;
+        console.log("il nuovo index è: "+newindex);
+        db.modifyobj(
+          "Sessions",
+          {
+            totalturn:totalindex,
+            actualturn:users[newindex].id
+          },
+          {
+            id: msg.chat.id
+          }
+        ).then(function(){console.log(chatdata.totalturn);
+      console.log(totalindex);  waittoturn(msg,reply,totalindex,users[newindex],15000,15000,0,0)});
+      });
+    }
 }
 
 
@@ -343,7 +345,7 @@ function waittoturn(msg,reply,totalindex,usr,timea,timeb,timec,timed){
         },timea);
       }else{
         replytousr(usr.id,msg,reply,"Hai perso il turno");
-        callturn(msg , reply,chatdata2);
+        callturn(msg , reply);
       }
      }
   });
