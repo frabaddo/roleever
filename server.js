@@ -327,7 +327,7 @@ function callturn(msg , reply){
         ).then(function(){console.log(chatdata.totalturn);
       console.log(totalindex);  waittoturn(msg,reply,totalindex,users[newindex],15000,15000,0,0)});
       });
-    }
+    });
 }
 
 
