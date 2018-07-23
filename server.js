@@ -280,7 +280,7 @@ function newmessage(msg,reply){
               usr : msg.from.id, sessionid : msg.chat.id , message : msg.args(1)[0]
             },
           );
-          callturn(msg , reply);
+          callturn(msg , reply, msg.from.id);
 
         }
         else{  // CASO 2 RESPONSE
@@ -302,7 +302,7 @@ function newmessage(msg,reply){
 
 
 
-function callturn(msg , reply){
+function callturn(msg , reply, currentid){
     db.readfilefromdb("Sessions",{id : msg.chat.id}).then(function(chatdata){
       var actualindex=chatdata.actualturn;
       var totalindex=chatdata.totalturn+1;
@@ -311,7 +311,7 @@ function callturn(msg , reply){
       var newindex=0;
       db.readfilefromdb("Users", {sessionid:msg.chat.id},true).then(function(users){
 
-        newindex=users.map(function(x) {return x.id; }).indexOf(msg.from.id);
+        newindex=users.map(function(x) {return x.id; }).indexOf(currentid); //figlio di puttana
         console.log("il vecchio index è: "+newindex);
         newindex=(newindex+1)%users.length;
         console.log("il nuovo index è: "+newindex);
@@ -345,7 +345,7 @@ function waittoturn(msg,reply,totalindex,usr,timea,timeb,timec,timed){
         },timea);
       }else{
         replytousr(usr.id,msg,reply,"Hai perso il turno");
-        callturn(msg , reply);
+        callturn(msg , reply,usr.id);
       }
      }
   });
