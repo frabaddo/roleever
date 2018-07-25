@@ -237,14 +237,14 @@ function newmessage(msg,reply){
       if(session.started==true){
         if(session.actualturn==msg.from.id){
       if(timers[msg.chat.id] == null||timers[msg.chat.id]=="1"||timers[msg.chat.id].isPaused()!=true){ //CASO 2 SESSIONE IN PAUSA?
-
+          var timetoset=moment().format().toDate();
           db.createobj(
             "Messages",
             {
-              usr : msg.from.id, sessionid : msg.chat.id , message : msg.args(1)[0]
+              usr : msg.from.id, sessionid : msg.chat.id , time: timetoset , message : msg.args(1)[0]
             },
             {
-              usr : msg.from.id, sessionid : msg.chat.id , message : msg.args(1)[0]
+              usr : msg.from.id, sessionid : msg.chat.id , time : timetoset
             },
           );
           turn.callturn(msg , reply, msg.from.id);
