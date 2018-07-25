@@ -12,7 +12,7 @@ const Moment = require('moment');
 const MomentRange = require('moment-range');
 const moment = MomentRange.extendMoment(Moment);
 const { TELEGRAM_BOT_TOKEN } = process.env;
-const bot = new Botgram(TELEGRAM_BOT_TOKEN);
+global.bot = new Botgram(TELEGRAM_BOT_TOKEN);
 var timers=[];
 Moment().format();
 
