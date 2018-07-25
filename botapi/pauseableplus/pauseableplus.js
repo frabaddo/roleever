@@ -7,7 +7,8 @@ var setTimeout=function(id,callback,time){
     timestart:Date.now(),
     pausestart:0,
     timeinpause:0,
-    timer:Pauseable.setTimeout(callback,time)
+    timetodo:time,
+    timer:Pauseable.setTimeout(callback,time[0])
   }
 }
 

@@ -42,7 +42,7 @@ var waittoturn=function (msg,reply,totalindex,usr,timea,timeb,timec,timed){
         support.replytousr(usr.id,msg,reply,txt.yourturn+ tim.toString() +txt.mintoresp+chatdata2.sessionname);
         pauseable.setTimeout(msg.chat.id,function(){
           waittoturn(msg,reply,totalindex,usr,timeb,timec,timed,0);
-        },timea);
+        },[timea,timeb,timec,timed]);
         //db.createobj("Timers",{sessionid:msg.chat.id,timestamp:0,remainig:tim})
       }else{
         support.replytousr(usr.id,msg,reply,txt.loseturn);
