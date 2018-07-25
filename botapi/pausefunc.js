@@ -18,7 +18,7 @@ var pauseon=function (msg,reply){
 var pauseoff=function (msg,reply){
   if (timers[msg.chat.id] != null){
     timers[msg.chat.id].timer.resume();
-    timers[msg.chat.id].timeinpause= timers[msg.chat.id].timeinpause+timers[msg.chat.id].pausestart-Date.now();
+    timers[msg.chat.id].timeinpause= timers[msg.chat.id].timeinpause+Date.now()-timers[msg.chat.id].pausestart;
     timers[msg.chat.id].pausestart=0;
     console.log(timers[msg.chat.id].timeinpause);
    // var index=parseInt(db.getData("/Sessions/"+msg.chat.id+"/turndata/actualturn"));
