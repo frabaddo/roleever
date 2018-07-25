@@ -56,7 +56,6 @@ var waittoturn=function (chatid,totalindex,usr,timea,timeb,timec,timed){
 
 var savetimer=function(signal){
   console.log("Restart in questo istante");
-  console.log(timers);
   var timerstopass=[];
   var timersprop=mapValues(timers,function(element, key, obj){
       return {
@@ -70,7 +69,6 @@ var savetimer=function(signal){
   Object.keys(timersprop).forEach(function(key) {
     timerstopass.push(timersprop[key]);
   });
-  console.log(timerstopass);
   db.addmodobjs("Timers",timerstopass,"id").then(console.log("done"));
 }
 
