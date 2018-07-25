@@ -237,7 +237,7 @@ function newmessage(msg,reply){
     if(session){// CASO 1 ESISTE LA SESSIONE?
       if(session.started==true){
         if(session.actualturn==msg.from.id){
-      if(timers[msg.chat.id] == null||timers[msg.chat.id]=="1"||timers[msg.chat.id].isPaused()!=true){ //CASO 2 SESSIONE IN PAUSA?
+      if(timers[msg.chat.id] == null||timers[msg.chat.id]=="1"||timers[msg.chat.id].timer.isPaused()!=true){ //CASO 2 SESSIONE IN PAUSA?
           var timetoset=Date.now();
           db.createobj(
             "Messages",
