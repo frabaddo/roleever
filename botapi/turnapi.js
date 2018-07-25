@@ -1,7 +1,8 @@
 const db = require("../databaseapi/mongoapi");
 const support= require("./supportfunc");
 const txt = require("../text/textexport_ita");
-const pauseable = require('pauseable');
+//const pauseable = require('pauseable');
+const pauseable = require('./pauseableplus/pauseableplus');
 
 var callturn=function (msg , reply, currentid){
     db.readfilefromdb("Sessions",{id : msg.chat.id}).then(function(chatdata){

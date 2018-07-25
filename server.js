@@ -6,7 +6,8 @@ const txt = require("./text/textexport_ita");
 const pause = require("./botapi/pausefunc");
 const support= require("./botapi/supportfunc");
 const turn= require("./botapi/turnapi");
-const pauseable = require('pauseable');
+//const pauseable = require('pauseable');
+//const pauseable = require('./botapi/pauseableplus/pauseableplus');
 const Botgram = require('botgram');
 const moment = require('moment');
 const MomentRange = require('moment-range');
@@ -237,7 +238,7 @@ function newmessage(msg,reply){
       if(session.started==true){
         if(session.actualturn==msg.from.id){
       if(timers[msg.chat.id] == null||timers[msg.chat.id]=="1"||timers[msg.chat.id].isPaused()!=true){ //CASO 2 SESSIONE IN PAUSA?
-          var timetoset=moment().toObject();
+          var timetoset=Date.now();
           db.createobj(
             "Messages",
             {
