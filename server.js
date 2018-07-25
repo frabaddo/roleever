@@ -60,7 +60,7 @@ function whomustplay(msg,reply){
   db.readfilefromdb("Sessions", {id:msg.chat.id}).then(function(session){
     if(session.started===true){
       db.readfilefromdb("Users", {id:session.actualturn,sessionid:msg.chat.id}).then(function(users){
-        support.replytousr(msg.from.id,msg,reply,txt.turnof+users.name).then(support.deletecmd(msg,reply));
+        support.replytousr(msg.from.id,txt.turnof+users.name).then(support.deletecmd(msg,reply));
       });
     }else{
       reply.text(txt. sessionnotstarted).then(support.deletecmd(msg,reply));
@@ -248,7 +248,7 @@ function newmessage(msg,reply){
               usr : msg.from.id, sessionid : msg.chat.id , time : timetoset
             },
           );
-          turn.callturn(msg , reply, msg.from.id);
+          turn.callturn(msg.chat.id , msg.from.id);
 
         }
         else{  // CASO 2 RESPONSE

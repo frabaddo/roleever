@@ -1,4 +1,4 @@
-var replytousr=function (id,msg,reply, text){
+var replytousr=function (id , text){
   var replyto = bot.reply(id);
 
   return replyto.text(text);
