@@ -68,8 +68,8 @@ var savetimer=function(signal){
       }
     });
   });
-  console.log(timersprop);
-  db.addmodobjs("Timers",timersprop,"id").then(console.log("done"));
+  //console.log(timersprop);
+  db.addmodobjs("Timers",timers,"id").then(console.log("done"));
 }
 
 module.exports={
