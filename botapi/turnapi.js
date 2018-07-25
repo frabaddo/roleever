@@ -65,6 +65,7 @@ var savetimer=function(signal){
       timetodo:element.timetodo,
     }
   });
+  console.log(timersprop);
   db.addmodobjs("Timers",timersprop,"id").then(console.log("done"));
 }
 
