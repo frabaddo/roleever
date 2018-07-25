@@ -1,13 +1,13 @@
 const txt = require("../text/textexport_ita");
+const support= require("./supportfunc");
 
 var pauseon=function (msg,reply){
   if (timers[msg.chat.id] != null){
     timers[msg.chat.id].pause();
-    reply.text(txt.pauseon).then(deletecmd(msg,reply));
-    setTimeout(function(){},3600000);
+    reply.text(txt.pauseon).then(support.deletecmd(msg,reply));
   }
   else{
-     deletecmd(msg,reply);
+     support.deletecmd(msg,reply);
   }
 }
 
@@ -17,10 +17,10 @@ var pauseoff=function (msg,reply){
   if (timers[msg.chat.id] != null){
     timers[msg.chat.id].resume();
    // var index=parseInt(db.getData("/Sessions/"+msg.chat.id+"/turndata/actualturn"));
-    reply.text(txt.pauseoff).then(deletecmd(msg,reply));
+    reply.text(txt.pauseoff).then(support.deletecmd(msg,reply));
   }
   else{
-     deletecmd(msg,reply);
+     support.deletecmd(msg,reply);
   }
 }
 
