@@ -1,8 +1,8 @@
 const db = require("../databaseapi/mongoapi");
 const support= require("./supportfunc");
 const txt = require("../text/textexport_ita");
-//const pauseable = require('pauseable');
 const pauseable = require('./pauseableplus/pauseableplus');
+var mapValues = require('object.map');
 
 var callturn=function (chatid , currentid){
     db.readfilefromdb("Sessions",{id : chatid}).then(function(chatdata){
@@ -56,14 +56,16 @@ var waittoturn=function (chatid,totalindex,usr,timea,timeb,timec,timed){
 
 var savetimer=function(signal){
   console.log("Restart in questo istante");
-  var timersprop=timers.map(function(element){
-    return {
-      id:element.id,
-      timestart:element.timestart,
-      pausestart:element.pausestart,
-      timeinpause:element.timeinpause,
-      timetodo:element.timetodo,
-    }
+  var timersprop=mapValues(timers,function(timer, key, obj){
+    return mapValues(timer,function(element, key, obj){
+      return {
+        id:element.id,
+        timestart:element.timestart,
+        pausestart:element.pausestart,
+        timeinpause:element.timeinpause,
+        timetodo:element.timetodo,
+      }
+    });
   });
   console.log(timersprop);
   db.addmodobjs("Timers",timersprop,"id").then(console.log("done"));
