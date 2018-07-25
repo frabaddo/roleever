@@ -51,6 +51,11 @@ var waittoturn=function (msg,reply,totalindex,usr,timea,timeb,timec,timed){
   });
 }
 
+var savetimer=function(signal){
+  console.log("Restart in questo istante");
+}
+
 module.exports={
-  callturn
+  callturn,
+  savetimer
 }

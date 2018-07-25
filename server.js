@@ -39,7 +39,7 @@ app.get('/reboottimer', function(req, res) {
 });
 
 
-
+process.on('SIGTERM', turn.savetimer);
 
 
 
