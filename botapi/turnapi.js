@@ -56,7 +56,7 @@ var waittoturn=function (chatid,totalindex,usr,timea,timeb,timec,timed){
 
 var savetimer=function(signal){
   console.log("Restart in questo istante");
-  timersprop=timers.map(function(element){
+  var timersprop=timers.map(function(element){
     return {
       id:element.id,
       timestart:element.timestart,
