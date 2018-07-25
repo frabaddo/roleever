@@ -55,7 +55,9 @@ var addmodobjs=function (collectionname, paramsarr,unicprop) {
    //{unicprop:element[unicprop]},
            {id:element.id},
            [['_id','asc']],
-           element,
+           {
+             $set: element
+           },
            {
              new: true,   // return new doc if one is upserted
              upsert: true // insert the document if it does not exist
