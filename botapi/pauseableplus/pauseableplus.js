@@ -11,7 +11,7 @@ var setTimeout=function(chatid,callback,time){
     timetodo:time,
     timer:Pauseable.setTimeout(callback,time[0])
   };
-  db.modifyobj(
+  db.createobj(
     "Timers",
     {
       id:chatid,
@@ -20,8 +20,7 @@ var setTimeout=function(chatid,callback,time){
       timeinpause:0,
       timetodo:time
     },
-    {id:chatid},
-    true
+    {id:chatid}
   ).then();
 }
 

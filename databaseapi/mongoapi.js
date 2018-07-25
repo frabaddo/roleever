@@ -76,7 +76,7 @@ var createobj=function (collectionname, params,unicprop) {
     });
 }
 */
-var modifyobj = function (collectionname, params={},unicprop={},push=false){
+var modifyobj = function (collectionname, params={},unicprop={}){
     return new Promise((resolve,reject) => {
       MongoClient.connect(uri, function(err, client) {
          if(err) {
@@ -92,7 +92,6 @@ var modifyobj = function (collectionname, params={},unicprop={},push=false){
             $set: params
           },
           {
-            upsert:push
           },
           function(err, object) {
               if (err){
