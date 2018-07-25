@@ -59,7 +59,7 @@ var savetimer=function(signal){
   timersprop=timers.map(function(element){
     return element;
   });
-  addmodobjs("Timers",timersprop,"id").then(console.log("done"));
+  db.addmodobjs("Timers",timersprop,"id").then(console.log("done"));
 }
 
 module.exports={
