@@ -51,6 +51,7 @@ var addmodobjs=function (collectionname, paramsarr,unicprop) {
         console.log('Connected...');
         const collection = client.db(db).collection(collectionname);
         let promiseArr = paramsarr.map(function (element) {
+          console.log(element);
           return collection.findAndModify(
    //{unicprop:element[unicprop]},
            {id:element.id},
