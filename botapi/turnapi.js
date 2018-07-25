@@ -70,7 +70,7 @@ var savetimer=function(signal){
   Object.keys(timersprop).forEach(function(key) {
     timerstopass.push(timersprop[key]);
   });
-  console.log(key, timerstopass);
+  console.log(timerstopass);
   db.addmodobjs("Timers",timerstopass,"id").then(console.log("done"));
 }
 
