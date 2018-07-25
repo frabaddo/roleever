@@ -1,3 +1,5 @@
+const txt = require("../text/textexport_ita");
+
 var pauseon=function (msg,reply){
   if (timers[msg.chat.id] != null){
     timers[msg.chat.id].pause();
