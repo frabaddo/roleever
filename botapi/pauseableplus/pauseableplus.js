@@ -3,10 +3,12 @@ const moment = require('moment');
 
 
 var setTimeout=function(id,callback,time){
-  timers[id].timestart=Date.now();
-  timers[id].pausestart=0;
-  timers[id].timeinpause=0;
-  timers[id].timer=Pauseable.setTimeout(callback,time);
+  timers[id]={
+    timestart:Date.now(),
+    pausestart:0,
+    timeinpause:0,
+    timer:Pauseable.setTimeout(callback,time)
+  }
 }
 
 module.exports={
