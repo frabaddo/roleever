@@ -67,6 +67,7 @@ var savetimer=function(signal){
       }
   });
   console.log(timersprop);
+  console.log(timers[0]);
   db.addmodobjs("Timers",timersprop,"id").then(console.log("done"));
 }
 
