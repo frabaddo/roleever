@@ -9,10 +9,6 @@ var setTimeout=function(id,callback,time){
   timers[id].timer=Pauseable.setTimeout(callback,time);
 }
 
-
-
-var initpauseable
-
 module.export={
   setTimeout
 }
