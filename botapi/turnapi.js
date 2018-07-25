@@ -57,7 +57,14 @@ var waittoturn=function (chatid,totalindex,usr,timea,timeb,timec,timed){
 var savetimer=function(signal){
   console.log("Restart in questo istante");
   timersprop=timers.map(function(element){
-    return element;
+    return {
+      id:element.id,
+      timestart:element.timestart,
+      pausestart:element.pausestart,
+      timeinpause:element.timeinpause,
+      timetodo:element.timetodo,
+    }
+  };
   });
   db.addmodobjs("Timers",timersprop,"id").then(console.log("done"));
 }
