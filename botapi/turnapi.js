@@ -40,7 +40,7 @@ var waittoturn=function (msg,reply,totalindex,usr,timea,timeb,timec,timed){
       var tim=(timea+timeb+timec+timed)/60000;
       if(timea!=0){
         support.replytousr(usr.id,msg,reply,txt.yourturn+ tim.toString() +txt.mintoresp+chatdata2.sessionname);
-        timers[msg.chat.id]=pauseable.setTimeout(function(){
+        pauseable.setTimeout(msg.chat.id,function(){
           waittoturn(msg,reply,totalindex,usr,timeb,timec,timed,0);
         },timea);
         //db.createobj("Timers",{sessionid:msg.chat.id,timestamp:0,remainig:tim})
