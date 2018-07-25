@@ -8,13 +8,13 @@ const support= require("./botapi/supportfunc");
 const turn= require("./botapi/turnapi");
 const pauseable = require('pauseable');
 const Botgram = require('botgram');
-const Moment = require('moment');
+const moment = require('moment');
 const MomentRange = require('moment-range');
-const moment = MomentRange.extendMoment(Moment);
+const Moment = MomentRange.extendMoment(Moment);
 const { TELEGRAM_BOT_TOKEN } = process.env;
 global.bot = new Botgram(TELEGRAM_BOT_TOKEN);
 global.timers=[];
-Moment().format();
+moment().format();
 
 
 
@@ -45,8 +45,8 @@ app.get('/reboottimer', function(req, res) {
 
 /*
 function calctime( time ){
-  var range1 = moment.range(Moment(), Moment().add(6, 'h'));
-  var range2 = moment.range(Moment(), Moment());
+  var range1 = Moment.range(Moment(), Moment().add(6, 'h'));
+  var range2 = Moment.range(Moment(), Moment());
   range1.overlaps(range2);
 }
 
@@ -237,7 +237,7 @@ function newmessage(msg,reply){
       if(session.started==true){
         if(session.actualturn==msg.from.id){
       if(timers[msg.chat.id] == null||timers[msg.chat.id]=="1"||timers[msg.chat.id].isPaused()!=true){ //CASO 2 SESSIONE IN PAUSA?
-          var timetoset=Moment().format().toDate();
+          var timetoset=moment().toObject();
           db.createobj(
             "Messages",
             {
