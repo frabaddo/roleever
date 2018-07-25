@@ -41,7 +41,7 @@ var createobj=function (collectionname, params,unicprop) {
     });
 }
 
-var addmodobjs=function (collectionname, paramsarr,unicprop) {
+/*var addmodobjs=function (collectionname, paramsarr,unicprop) {
     return new Promise((resolve,reject) => {
       MongoClient.connect(uri, function(err, client) {
          if(err) {
@@ -75,8 +75,8 @@ var addmodobjs=function (collectionname, paramsarr,unicprop) {
       });
     });
 }
-
-var modifyobj = function (collectionname, params={},unicprop={}){
+*/
+var modifyobj = function (collectionname, params={},unicprop={},push=false){
     return new Promise((resolve,reject) => {
       MongoClient.connect(uri, function(err, client) {
          if(err) {
@@ -92,6 +92,7 @@ var modifyobj = function (collectionname, params={},unicprop={}){
             $set: params
           },
           {
+            upsert:push
           },
           function(err, object) {
               if (err){
@@ -215,5 +216,4 @@ createobj,
 existindb,
 countindb,
 deletefromdb,
-addmodobjs,
 }

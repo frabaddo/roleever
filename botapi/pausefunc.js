@@ -6,6 +6,18 @@ var pauseon=function (msg,reply){
   if (timers[msg.chat.id] != null){
     timers[msg.chat.id].timer.pause();
     timers[msg.chat.id].pausestart=Date.now();
+    db.modifyobj(
+      "Timers",
+      {
+        id:msg.chat.id,
+        timestart:timers[msg.chat.id].timestart,
+        pausestart:timers[msg.chat.id].pausestart,
+        timeinpause:timers[msg.chat.id].timeinpause,
+        timetodo:[msg.chat.id].timetodo
+      },
+      {id:chatid},
+      true
+    );
     reply.text(txt.pauseon).then(support.deletecmd(msg,reply));
   }
   else{
@@ -21,7 +33,18 @@ var pauseoff=function (msg,reply){
     timers[msg.chat.id].timeinpause= timers[msg.chat.id].timeinpause+Date.now()-timers[msg.chat.id].pausestart;
     timers[msg.chat.id].pausestart=0;
     console.log(timers[msg.chat.id].timeinpause);
-   // var index=parseInt(db.getData("/Sessions/"+msg.chat.id+"/turndata/actualturn"));
+    db.modifyobj(
+      "Timers",
+      {
+        id:msg.chat.id,
+        timestart:timers[msg.chat.id].timestart,
+        pausestart:timers[msg.chat.id].pausestart,
+        timeinpause:timers[msg.chat.id].timeinpause,
+        timetodo:[msg.chat.id].timetodo
+      },
+      {id:chatid},
+      true
+    );
     reply.text(txt.pauseoff).then(support.deletecmd(msg,reply));
   }
   else{

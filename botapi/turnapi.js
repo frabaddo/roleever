@@ -43,7 +43,6 @@ var waittoturn=function (chatid,totalindex,usr,timea,timeb,timec,timed){
         pauseable.setTimeout(chatid,function(){
           waittoturn(chatid,totalindex,usr,timeb,timec,timed,0);
         },[timea,timeb,timec,timed]);
-        //db.createobj("Timers",{sessionid:msg.chat.id,timestamp:0,remainig:tim})
       }else{
         support.replytousr(usr.id,txt.loseturn);
         callturn(chatid ,usr.id);
@@ -54,7 +53,7 @@ var waittoturn=function (chatid,totalindex,usr,timea,timeb,timec,timed){
 
 
 
-var savetimer=function(signal){
+/*var savetimer=function(signal){
   console.log("Restart in questo istante");
   var timerstopass=[];
   var timersprop=mapValues(timers,function(element, key, obj){
@@ -71,8 +70,7 @@ var savetimer=function(signal){
   });
   db.addmodobjs("Timers",timerstopass,"id").then(console.log("done"));
 }
-
+*/
 module.exports={
-  callturn,
-  savetimer
+  callturn
 }
