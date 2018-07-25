@@ -26,6 +26,33 @@ var botstart="Benvenuto in RoleEver!!! Io sarò il vostro MasterBot da ora in po
 var justcreate="Sessione già creata, inserisci giocatori con\
                     /newusr o avvia la sessione con /startsession";
 
+var juststarted="Sessione gia in corso";
+
+var masterexist="Esiste gia un master in questa sessione";
+
+var orae=" ora è un ";
+
+var alreadyexist=" esiste gia in questa sessione";
+
+var afternewusr="Dopo il comando /newusr inserisci solo pg o master\
+            per giocare nei panni di uno o dell'altro.";
+
+var masterturn="Sessione avviata Master è il tuo turno, inizia raccontando\
+            ai giocatori dove si trovano e cosa sta succedendo.";
+
+var turnof="è il turno di ";
+
+var nameis="Il nome di questa campagna è ";
+
+var insertmaster="Inserisci prima un master con /newusr master";
+
+var isnotturn="Non è il tuo turno";
+
+var yourturn="è il tuo turno! Hai ancora ";
+
+var mintoresp="min per rispondere in ";
+
+var loseturn="Hai perso il turno"
 
 
 module.exports={
@@ -35,5 +62,18 @@ module.exports={
   start,
   bootnogroup,
   botstart,
-  justcreate
+  justcreate,
+  masterexist,
+  orae,
+  alreadyexist,
+  afternewusr,
+  masterturn,
+  turnof,
+  nameis,
+  insertmaster,
+  juststarted,
+  isnotturn,
+  yourturn,
+  mintoresp,
+  loseturn
 }

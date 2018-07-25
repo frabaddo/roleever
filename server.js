@@ -2,7 +2,10 @@
 var express = require('express');
 var app = express();
 const db = require("./databaseapi/mongoapi");
-const txt = require("./textexport");
+const txt = require("./text/textexport_ita");
+const pause = require("./botapi/pausefunc");
+const support= require("./botapi/supportfunc");
+const turn= require("./botapi/turnapi");
 const pauseable = require('pauseable');
 const Botgram = require('botgram');
 const Moment = require('moment');
@@ -31,7 +34,9 @@ if (!TELEGRAM_BOT_TOKEN) {
 }
 
 
-
+app.get('/reboottimer', function(req, res) {
+  res.send('done');
+});
 
 
 
@@ -46,29 +51,7 @@ function calctime( time ){
 }
 
 */
-function pauseon(msg,reply){
-  if (timers[msg.chat.id] != null){
-    timers[msg.chat.id].pause();
-    reply.text(txt.pauseon).then(deletecmd(msg,reply));
-    setTimeout(function(){},3600000);
-  }
-  else{
-     deletecmd(msg,reply);
-  }
-}
 
-
-
-function pauseoff(msg,reply){
-  if (timers[msg.chat.id] != null){
-    timers[msg.chat.id].resume();
-   // var index=parseInt(db.getData("/Sessions/"+msg.chat.id+"/turndata/actualturn"));
-    reply.text(txt.pauseoff).then(deletecmd(msg,reply));
-  }
-  else{
-     deletecmd(msg,reply);
-  }
-}
 
 
 
@@ -76,28 +59,14 @@ function whomustplay(msg,reply){
   db.readfilefromdb("Sessions", {id:msg.chat.id}).then(function(session){
     if(session.started===true){
       db.readfilefromdb("Users", {id:session.actualturn,sessionid:msg.chat.id}).then(function(users){
-        replytousr(msg.from.id,msg,reply,"è il turno di "+users.name).then(deletecmd(msg,reply));
+        support.replytousr(msg.from.id,msg,reply,txt.turnof+users.name).then(support.deletecmd(msg,reply));
       });
     }else{
-      reply.text(txt. sessionnotstarted).then(deletecmd(msg,reply));
+      reply.text(txt. sessionnotstarted).then(support.deletecmd(msg,reply));
       console.log('session not started');
     }
   });
-}
-
-
-
-function replytousr(id,msg,reply, text){
-  var replyto = bot.reply(id);
-
-  return replyto.text(text);
-}
-
-
-
-function deletecmd(msg,reply){
-  reply.deleteMessage(msg);
-}
+}9
 
 
 
@@ -137,13 +106,13 @@ function startbot(msg,reply){
         )
         .then(function(){
           reply.text(txt.botstart);})
-        .then(deletecmd(msg,reply))
+        .then(support.deletecmd(msg,reply))
         .then(function(){
           return db.readfilefromdb("Sessions", {id:msg.chat.id});})
-        .then(function(result){reply.text("Il nome di questa campagna è "+result.name+"/SessionName");});
+        .then(function(result){reply.text(txt.nameis+result.name+"/SessionName");});
       }else{
         reply.text(txt.justcreate)
-        .then(deletecmd(msg,reply));
+        .then(support.deletecmd(msg,reply));
       }
     });
   }
@@ -176,11 +145,11 @@ function newusr(msg,reply){
                       sessionid:msg.chat.id
                     }
                   )
-                  .then(reply.text(msg.from.name+" ora è un "+msg.args(1)[0]))
-                  .then(deletecmd(msg,reply));
+                  .then(reply.text(msg.from.name+txt.orae+msg.args(1)[0]))
+                  .then(support.deletecmd(msg,reply));
                 }else{
-                  reply.text("Esiste gia un master in questa sessione")
-                  .then(deletecmd(msg,reply)); //CASO 4 RESPONSE
+                  reply.text(txt.masterexist)
+                  .then(support.deletecmd(msg,reply)); //CASO 4 RESPONSE
                 }
               });
             }else{
@@ -200,22 +169,21 @@ function newusr(msg,reply){
                   sessionid:msg.chat.id,
                 }
               )
-              .then(reply.text(msg.from.name+" ora è un "+msg.args(1)[0]))
-              .then(deletecmd(msg,reply));
+              .then(reply.text(msg.from.name+txt.orae+msg.args(1)[0]))
+              .then(support.deletecmd(msg,reply));
             }
           }else{
-            reply.text(msg.from.name+" esiste gia in questa sessione")
-            .then(deletecmd(msg,reply)); //CASO 3 RESPONSE
+            reply.text(msg.from.name+txt.alreadyexist)
+            .then(support.deletecmd(msg,reply)); //CASO 3 RESPONSE
           }
         });
       }else{
-        reply.text("Dopo il comando /newusr inserisci solo pg o master\
-                    per giocare nei panni di uno o dell'altro.")
-        .then(deletecmd(msg,reply)); //CASO 2 RESPONSE
+        reply.text(txt.afternewusr)
+        .then(support.deletecmd(msg,reply)); //CASO 2 RESPONSE
       }
     }else{
       reply.text(txt.sessionnotcreated)
-      .then(deletecmd(msg,reply)); //CASO 1 RESPONSE
+      .then(support.deletecmd(msg,reply)); //CASO 1 RESPONSE
     }
   });
 }
@@ -234,29 +202,28 @@ function startsession(msg,reply){
               db.readfilefromdb("Users",{sessionid:msg.chat.id,role:"master"}).then(function(master){
                 db.modifyobj("Sessions",{actualturn:master.id,started:true},{id:msg.chat.id});
                 timers[msg.chat.id]="1";
-                reply.text("Sessione avviata Master è il tuo turno, inizia raccontando\
-                            ai giocatori dove si trovano e cosa sta succedendo.")
-                .then(deletecmd(msg,reply));
+                reply.text(txt.masterturn)
+                .then(support.deletecmd(msg,reply));
               });
 
             }else{// CASO 3 RESPONSE
-                reply.text("Inserisci prima un master con /newusr master")
-                .then(deletecmd(msg,reply));
+                reply.text(txt.insertmaster)
+                .then(support.deletecmd(msg,reply));
             }
           });
         }else{ //CASO 2 RESPONSE
           if(session.started==undefined){
                 reply.text(txt.sessionnotcreated)
-                .then(deletecmd(msg,reply));
+                .then(support.deletecmd(msg,reply));
               }else{
-          reply.text("Sessione gia in corso")
-          .then(deletecmd(msg,reply));
+          reply.text(txt.juststarted)
+          .then(support.deletecmd(msg,reply));
               }
         }
       });
     }else{  //CASO 1 RESPONSE
       reply.text(txt.sessionnotcreated)
-      .then(deletecmd(msg,reply));
+      .then(support.deletecmd(msg,reply));
     }
   });
 }
@@ -280,74 +247,23 @@ function newmessage(msg,reply){
               usr : msg.from.id, sessionid : msg.chat.id , message : msg.args(1)[0]
             },
           );
-          callturn(msg , reply, msg.from.id);
+          turn.callturn(msg , reply, msg.from.id);
 
         }
         else{  // CASO 2 RESPONSE
-          reply.text("Sessione in pausa").then(deletecmd(msg,reply));
+          reply.text(txt.pauseon).then(support.deletecmd(msg,reply));
         }
 
         }else{
-          reply.text("Non è il tuo turno").then(deletecmd(msg,reply));
+          reply.text(txt.isnotturn).then(support.deletecmd(msg,reply));
         }
       }else{
-        reply.text(txt.sessionnotstarted).then(deletecmd(msg,reply));
+        reply.text(txt.sessionnotstarted).then(support.deletecmd(msg,reply));
       }
     }
     else{ // CASO 1 RESPONSE
-      reply.text(txt.sessionnotcreated).then(deletecmd(msg,reply));
+      reply.text(txt.sessionnotcreated).then(support.deletecmd(msg,reply));
     }
-  });
-}
-
-
-
-function callturn(msg , reply, currentid){
-    db.readfilefromdb("Sessions",{id : msg.chat.id}).then(function(chatdata){
-      var actualindex=chatdata.actualturn;
-      var totalindex=chatdata.totalturn+1;
-      console.log(chatdata.totalturn);
-      console.log(totalindex);
-      var newindex=0;
-      db.readfilefromdb("Users", {sessionid:msg.chat.id},true).then(function(users){
-
-        newindex=users.map(function(x) {return x.id; }).indexOf(currentid); //figlio di puttana
-        console.log("il vecchio index è: "+newindex);
-        newindex=(newindex+1)%users.length;
-        console.log("il nuovo index è: "+newindex);
-        db.modifyobj(
-          "Sessions",
-          {
-            totalturn:totalindex,
-            actualturn:users[newindex].id
-          },
-          {
-            id: msg.chat.id
-          }
-        ).then(function(){console.log(chatdata.totalturn);
-      console.log(totalindex);  waittoturn(msg,reply,totalindex,users[newindex],15000,15000,0,0)});
-      });
-    });
-}
-
-
-
-function waittoturn(msg,reply,totalindex,usr,timea,timeb,timec,timed){
-  db.readfilefromdb("Sessions", {id:msg.chat.id}).then(function(chatdata2){
-    console.log(chatdata2.totalturn);
-    console.log(totalindex);
-     if(chatdata2.totalturn==totalindex){
-      var tim=(timea+timeb+timec+timed)/60000;
-      if(timea!=0){
-        replytousr(usr.id,msg,reply,"è il tuo turno! Hai ancora "+ tim.toString() +"min per rispondere in "+chatdata2.sessionname);
-        timers[msg.chat.id]=pauseable.setTimeout(function(){
-          waittoturn(msg,reply,totalindex,usr,timeb,timec,timed,0);
-        },timea);
-      }else{
-        replytousr(usr.id,msg,reply,"Hai perso il turno");
-        callturn(msg , reply,usr.id);
-      }
-     }
   });
 }
 
@@ -377,9 +293,9 @@ function reboot(msg,reply){
           id:msg.chat.id
         }
       ).then(reply.text("Sessione riavviata Master è il tuo turno. DEBUG"))
-      .then(deletecmd(msg,reply));
+      .then(support.deletecmd(msg,reply));
     }else{
-      deletecmd(msg,reply);
+      support.deletecmd(msg,reply);
     }
   });
 }
@@ -396,7 +312,7 @@ bot.command("msg", newmessage);
 bot.command("turno", whomustplay);
 bot.command("start", start);
 bot.command("help", help);
-bot.command("pauseon", pauseon);
-bot.command("pauseoff", pauseoff);
+bot.command("pauseon", pause.pauseon);
+bot.command("pauseoff", pause.pauseoff);
 bot.command("reboot", reboot);
 bot.command("deleteusr", deleteusr);
