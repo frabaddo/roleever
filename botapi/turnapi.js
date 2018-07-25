@@ -1,3 +1,6 @@
+const db = require("./databaseapi/mongoapi");
+const support= require("./botapi/supportfunc");
+
 var callturn=function (msg , reply, currentid){
     db.readfilefromdb("Sessions",{id : msg.chat.id}).then(function(chatdata){
       var actualindex=chatdata.actualturn;
