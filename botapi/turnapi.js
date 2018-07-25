@@ -64,7 +64,6 @@ var savetimer=function(signal){
       timeinpause:element.timeinpause,
       timetodo:element.timetodo,
     }
-  };
   });
   db.addmodobjs("Timers",timersprop,"id").then(console.log("done"));
 }
