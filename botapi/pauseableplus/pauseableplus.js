@@ -22,7 +22,7 @@ var setTimeout=function(chatid,callback,time){
     },
     {id:chatid},
     true
-  );
+  ).then();
 }
 
 module.exports={

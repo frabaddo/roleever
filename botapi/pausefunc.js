@@ -17,7 +17,7 @@ var pauseon=function (msg,reply){
       },
       {id:chatid},
       true
-    );
+    ).then();
     reply.text(txt.pauseon).then(support.deletecmd(msg,reply));
   }
   else{
@@ -44,7 +44,7 @@ var pauseoff=function (msg,reply){
       },
       {id:chatid},
       true
-    );
+    ).then();
     reply.text(txt.pauseoff).then(support.deletecmd(msg,reply));
   }
   else{
