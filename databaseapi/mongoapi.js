@@ -41,6 +41,36 @@ var createobj=function (collectionname, params,unicprop) {
     });
 }
 
+var addmodobjs=function (collectionname, paramsarr,unicprop) {
+    return new Promise((resolve,reject) => {
+      MongoClient.connect(uri, function(err, client) {
+         if(err) {
+              console.log('Error occurred while connecting to MongoDB Atlas...\n',err);
+              reject(err);
+         }
+        console.log('Connected...');
+        const collection = client.db(db).collection(collectionname);
+        let promiseArr = paramsarr.map(function (element) {
+          return collection.findAndModify(
+           {unicprop:element[unicprop]},
+           [['_id','asc']],
+           element,
+           {
+             new: true,   // return new doc if one is upserted
+             upsert: true // insert the document if it does not exist
+           }
+         );
+        });
+        Promise.all(promiseArr).then(function(resultsArray){
+          client.close();
+          resolve();
+        }).catch(function(err){
+          client.close();
+        });
+      });
+    });
+}
+
 var modifyobj = function (collectionname, params={},unicprop={}){
     return new Promise((resolve,reject) => {
       MongoClient.connect(uri, function(err, client) {
@@ -70,6 +100,7 @@ var modifyobj = function (collectionname, params={},unicprop={}){
       });
     });
 }
+
 
 
 
@@ -179,4 +210,5 @@ createobj,
 existindb,
 countindb,
 deletefromdb,
+addmodobjs,
 }

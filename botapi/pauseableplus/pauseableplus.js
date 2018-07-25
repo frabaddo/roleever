@@ -2,8 +2,9 @@ const Pauseable = require('pauseable');
 const moment = require('moment');
 
 
-var setTimeout=function(id,callback,time){
-  timers[id]={
+var setTimeout=function(chatid,callback,time){
+  timers[chatid]={
+    id:chatid,
     timestart:Date.now(),
     pausestart:0,
     timeinpause:0,
