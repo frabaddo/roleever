@@ -57,6 +57,7 @@ var waittoturn=function (chatid,totalindex,usr,timea,timeb,timec,timed){
 var savetimer=function(signal){
   console.log("Restart in questo istante");
   console.log(timers);
+  var timerstopass=[];
   var timersprop=mapValues(timers,function(element, key, obj){
       return {
         id:element.id,
@@ -66,13 +67,11 @@ var savetimer=function(signal){
         timetodo:element.timetodo,
       }
   });
-  console.log(timersprop);
-
   Object.keys(timersprop).forEach(function(key) {
-    console.log(key, timersprop[key]);
+    timerstopass.push(timersprop[key]);
   });
-
-  db.addmodobjs("Timers",timersprop,"id").then(console.log("done"));
+  console.log(key, timerstopass);
+  db.addmodobjs("Timers",timerstopass,"id").then(console.log("done"));
 }
 
 module.exports={
