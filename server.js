@@ -11,7 +11,7 @@ const moment = require('moment');
 const MomentRange = require('moment-range');
 const Moment = MomentRange.extendMoment(moment);
 const { TELEGRAM_BOT_TOKEN } = process.env;
-global.bot = new Botgram(TELEGRAM_BOT_TOKEN);
+const bot = new Botgram(TELEGRAM_BOT_TOKEN);
 global.timers=[];
 //turn.inittimers();
 moment().format();
@@ -309,7 +309,7 @@ function reboot(msg,reply){
 bot.command("startbot", startbot);
 bot.command("startsession", startsession);
 bot.command("newusr", newusr);
-bot.command("msg", (msg, reply) =>newmessage(msg, reply));
+bot.command("msg", newmessage);
 bot.command("turno", whomustplay);
 bot.command("start", start);
 bot.command("help", help);
