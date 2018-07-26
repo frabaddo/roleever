@@ -51,7 +51,7 @@ var waittoturn=function (chatid,totalindex,usrid,timea,timeb,timec,timed){
   });
 }
 
-async function reinitturn(chatid,totalindex,usrid,timea,timeb,timec,timed){
+async function reinitwait(chatid,totalindex,usrid,timea,timeb,timec,timed){
   db.readfilefromdb("Sessions", {id:chatid}).then(function(chatdata2){
     console.log(chatdata2.totalturn);
     console.log(totalindex);
@@ -76,7 +76,7 @@ var inittimers=function(){
         var timea=Date.now()-timer.timestart;
         timea-=timer.timeinpause;
         timea=timer.timetodo[0]-timea;
-        waittoturn(timer.id,totalturn,chatdata.actualturn,Math.max(timea,0),timer.timetodo[1],timer.timetodo[2],timer.timetodo[3]);
+        reinitwait(timer.id,totalturn,chatdata.actualturn,Math.max(timea,0),timer.timetodo[1],timer.timetodo[2],timer.timetodo[3]);
       });
     });
   });
