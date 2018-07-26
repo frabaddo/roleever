@@ -73,6 +73,10 @@ var inittimers=function(){
   db.readfilefromdb("Timers",{},true).then(function(arr){
     arr.forEach(function(timer){
       db.readfilefromdb("Sessions", {id:timer.id}).then(function(chatdata){
+        var localtimeinpause=0;
+        if(timer.pausestart!=0){
+          localtimeinpause=timer.timeinpause+Date.now()-timer.pausestart;
+        }
         var totalturn=chatdata.totalturn;
         var timea=Date.now()-timer.timestart;
         var timeb=timea-timer.timeinpause;
