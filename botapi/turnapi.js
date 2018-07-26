@@ -77,7 +77,7 @@ var inittimers=function(){
         var timea=Date.now()-timer.timestart;
         timea=timea-timer.timeinpause;
         timea=timer.timetodo[0]-timea;
-        console.log("timer a: "timea);
+        console.log("timer a: "+timea);
         reinitwait(timer.id,totalturn,chatdata.actualturn,Math.max(timea,0),timer.timetodo[1],timer.timetodo[2],timer.timetodo[3],timer.pausestart!=0);
       });
     });
