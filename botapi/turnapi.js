@@ -27,32 +27,59 @@ var callturn=function (chatid , currentid){
             id: chatid
           }
         ).then(function(){console.log(chatdata.totalturn);
-      console.log(totalindex);  waittoturn(chatid,totalindex,users[newindex],15000,15000,0,0)});
+      console.log(totalindex);  waittoturn(chatid,totalindex,users[newindex].id,15000,15000,0,0)});
       });
     });
 }
 
-var waittoturn=function (chatid,totalindex,usr,timea,timeb,timec,timed){
+var waittoturn=function (chatid,totalindex,usrid,timea,timeb,timec,timed){
   db.readfilefromdb("Sessions", {id:chatid}).then(function(chatdata2){
     console.log(chatdata2.totalturn);
     console.log(totalindex);
      if(chatdata2.totalturn==totalindex){
       var tim=(timea+timeb+timec+timed)/60000;
       if(timea!=0){
-        support.replytousr(usr.id,txt.yourturn+ tim.toString() +txt.mintoresp+chatdata2.sessionname);
+        support.replytousr(usrid,txt.yourturn+ tim.toString() +txt.mintoresp+chatdata2.sessionname);
         pauseable.setTimeout(chatid,function(){
           waittoturn(chatid,totalindex,usr,timeb,timec,timed,0);
         },[timea,timeb,timec,timed]);
       }else{
-        support.replytousr(usr.id,txt.loseturn);
-        callturn(chatid ,usr.id);
+        support.replytousr(usrid,txt.loseturn);
+        callturn(chatid ,usrid);
+      }
+     }
+  });
+}
+
+async function reinitturn(chatid,totalindex,usrid,timea,timeb,timec,timed){
+  db.readfilefromdb("Sessions", {id:chatid}).then(function(chatdata2){
+    console.log(chatdata2.totalturn);
+    console.log(totalindex);
+     if(chatdata2.totalturn==totalindex){
+      var tim=(timea+timeb+timec+timed)/60000;
+      if(timea!=0){
+        pauseable.setTimeout(chatid,function(){
+          waittoturn(chatid,totalindex,usrid,timeb,timec,timed,0);
+        },[timea,timeb,timec,timed]);
+      }else{
+        callturn(chatid ,usrid);
       }
      }
   });
 }
 
 var inittimers=function(){
-  
+  var provvisiontimers.readfilefromdb("Timers",{},true).then(
+      provvisiontimers.forEach(function(timer){
+        var timea=Date.now()-timer.timestart;
+        timea-=timer.timeinpause;
+        timea=timer.timetodo[0]-timea;
+        waittoturn(timer.id,totalturn,usr,Math.max(timea,0),timer.timetodo[1],timer.timetodo[2],timer.timetodo[3]);
+      });
+      var localtimers=[];
+      return localtimers;
+  );
+
 }
 
 /*var savetimer=function(signal){
