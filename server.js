@@ -353,7 +353,7 @@ bot.callback(function (query, next) {
     if (err)
       query.answer({ text: "Couldn't delete message", alert: true });
     else
-      query.answer({ text: "Deleted!" });
+      query.answer({ text: "Deleted!" , alert: true});
   }
 });
 
