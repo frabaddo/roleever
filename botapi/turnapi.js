@@ -68,7 +68,7 @@ async function reinitwait(chatid,totalindex,usrid,timea,timeb,timec,timed){
   });
 }
 
-var inittimers=function(){
+var inittimers2=function(){
   db.readfilefromdb("Timers",{},true).then(function(arr){
     arr.forEach(function(timer){
       db.readfilefromdb("Sessions", {id:timer.id}).then(function(chatdata){
@@ -87,6 +87,7 @@ var inittimers=function(){
   });
 }
 
+var inittimers=function(){}
 /*var savetimer=function(signal){
   console.log("Restart in questo istante");
   var timerstopass=[];
