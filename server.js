@@ -328,7 +328,7 @@ function reboot(msg,reply){
 
 
 function test(msg,reply){
-  reply.inlineKeyboard([[{text:"🔪test", callback_data: prova(msg,reply)}],[{text: "test", callback_data: prova(msg,reply)}]]).message("prova");
+  reply.inlineKeyboard([[{text:"🔪test", callback_data: prova(msg,reply)}],[{text: "test", callback_data: prova(msg,reply)}]]).message(msg);
 }
 
 function prova(msg,reply){
