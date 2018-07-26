@@ -31,7 +31,7 @@ var setTimeout=function(chatid,callback,time){
       timeinpause:0,
       timetodo:time
     },
-    {id:msg.chat.id}
+    {id:chatid}
   ).then();
 }
 
