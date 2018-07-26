@@ -328,7 +328,7 @@ function reboot(msg,reply){
 
 
 function test(msg,reply){
-  reply.inlineKeyboard([[{text:"🔪test", callback_data: prova(msg,reply)}],[{text: "test", callback_data: prova(msg,reply)}]]).message(msg);
+  reply.inlineKeyboard([[{text:"🔪test", callback_data: "1"}],[{text: "test", callback_data: "2"]]).message(msg);
 }
 
 function prova(msg,reply){
@@ -336,7 +336,26 @@ function prova(msg,reply){
 }
 bot.command("test", test);
 
+bot.callback(function (query, next) {
+  // Verify this query is, indeed, for us
+  if (query.data !== "1"||query.data !== "2") return next();
 
+  // Try to delete the message where the button was pressed
+  try {
+    // first, get the reply queue
+    var reply = bot.reply(query.message.chat);
+    // delete the message
+    reply.deleteMessage(query.message).then(whenDeleted);
+  } catch (err) { whenDeleted(err); }
+
+  // Always answer the query when done
+  function whenDeleted(err) {
+    if (err)
+      query.answer({ text: "Couldn't delete message", alert: true });
+    else
+      query.answer({ text: "Deleted!" });
+  }
+});
 
 
 bot.command("startbot", startbot);
