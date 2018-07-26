@@ -61,7 +61,6 @@ async function reinitwait(chatid,totalindex,usrid,timea,timeb,timec,timed){
         pauseable.setTimeout(chatid,function(){
           waittoturn(chatid,totalindex,usrid,timeb,timec,timed,0);
         },[timea,timeb,timec,timed]);
-
       }else{
         callturn(chatid ,usrid);
       }

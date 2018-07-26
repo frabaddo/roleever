@@ -22,21 +22,18 @@ var setTimeout=function(chatid,callback,time){
     },
     {id:chatid}
   )
-  .then(
-    function(){
-      db.modifyobj(
-        "Timers",
-        {
-          id:chatid,
-          timestart:Date.now(),
-          pausestart:0,
-          timeinpause:0,
-          timetodo:time
-        },
-        {id:chatid}
-      ).then();
-    }
-  );
+  .then();
+  db.modifyobj(
+    "Timers",
+    {
+      id:chatid,
+      timestart:Date.now(),
+      pausestart:0,
+      timeinpause:0,
+      timetodo:time
+    },
+    {id:chatid}
+  ).then();
 }
 
 module.exports={
