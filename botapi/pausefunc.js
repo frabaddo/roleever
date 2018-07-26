@@ -1,6 +1,7 @@
 const txt = require("../text/textexport_ita");
 const support= require("./supportfunc");
 const pauseable = require('./pauseableplus/pauseableplus');
+const db = require("../databaseapi/mongoapi");
 
 var pauseon=function (msg,reply){
   if (timers[msg.chat.id] != null){
