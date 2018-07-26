@@ -16,7 +16,7 @@ var pauseon=function (msg,reply){
         timeinpause:timers[msg.chat.id].timeinpause,
         timetodo:[msg.chat.id].timetodo
       },
-      {id:chatid}
+      {id:msg.chat.id}
     ).then();
     reply.text(txt.pauseon).then(support.deletecmd(msg,reply));
   }
@@ -42,7 +42,7 @@ var pauseoff=function (msg,reply){
         timeinpause:timers[msg.chat.id].timeinpause,
         timetodo:[msg.chat.id].timetodo
       },
-      {id:chatid}
+      {id:msg.chat.id}
     ).then();
     reply.text(txt.pauseoff).then(support.deletecmd(msg,reply));
   }
