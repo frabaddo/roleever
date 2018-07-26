@@ -51,7 +51,9 @@ var waittoturn=function (chatid,totalindex,usr,timea,timeb,timec,timed){
   });
 }
 
-
+var inittimers=function(){
+  
+}
 
 /*var savetimer=function(signal){
   console.log("Restart in questo istante");
@@ -72,5 +74,6 @@ var waittoturn=function (chatid,totalindex,usr,timea,timeb,timec,timed){
 }
 */
 module.exports={
-  callturn
+  callturn,
+  inittimers
 }
