@@ -309,7 +309,7 @@ function reboot(msg,reply){
 bot.command("startbot", startbot);
 bot.command("startsession", startsession);
 bot.command("newusr", newusr);
-bot.command("msg", newmessage);
+bot.command("msg", (msg, reply) =>newmessage(msg, reply));
 bot.command("turno", whomustplay);
 bot.command("start", start);
 bot.command("help", help);
