@@ -2,7 +2,7 @@ const Pauseable = require('pauseable');
 const moment = require('moment');
 const db = require("../../databaseapi/mongoapi");
 
-var setTimeout=function(chatid,callback,time){
+var setTimeout=function(chatid,callback,time,pause=false){
   timers[chatid]={
     id:chatid,
     timestart:Date.now(),
@@ -11,13 +11,17 @@ var setTimeout=function(chatid,callback,time){
     timetodo:time,
     timer:Pauseable.setTimeout(callback,time[0])
   };
+  if(pause){
+    timers[chatid].timer.pause();
+    timers[chatid].pausestart=Date.now();
+  }
   db.createobj(
     "Timers",
     {
       id:chatid,
-      timestart:Date.now(),
-      pausestart:0,
-      timeinpause:0,
+      timestart:timers[chatid].timestart,
+      pausestart:timers[chatid].pausestart,
+      timeinpause:timers[chatid].timeinpause,
       timetodo:time
     },
     {id:chatid}
@@ -27,9 +31,9 @@ var setTimeout=function(chatid,callback,time){
     "Timers",
     {
       id:chatid,
-      timestart:Date.now(),
-      pausestart:0,
-      timeinpause:0,
+      timestart:timers[chatid].timestart,
+      pausestart:timers[chatid].pausestart,
+      timeinpause:timers[chatid].timeinpause,
       timetodo:time
     },
     {id:chatid}
