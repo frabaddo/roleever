@@ -81,7 +81,7 @@ var inittimers=function(){
         var timeb=timea-timer.timeinpause;
         var timec=timer.timetodo[0]-timeb;
         console.log("timer a: "+timea+"; timer b: "+timeb+"; timer c: "+timec);
-        reinitwait(timer.id,totalturn,chatdata.actualturn,Math.max(timea,0),timer.timetodo[1],timer.timetodo[2],timer.timetodo[3],timer.pausestart!=0);
+        reinitwait(timer.id,totalturn,chatdata.actualturn,Math.max(timec,0),timer.timetodo[1],timer.timetodo[2],timer.timetodo[3],timer.pausestart!=0);
       });
     });
   });
