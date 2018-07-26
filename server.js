@@ -13,7 +13,7 @@ const Moment = MomentRange.extendMoment(moment);
 const { TELEGRAM_BOT_TOKEN } = process.env;
 global.bot = new Botgram(TELEGRAM_BOT_TOKEN);
 global.timers=[];
-//turn.inittimers();
+turn.inittimers();
 moment().format();
 
 
@@ -57,17 +57,21 @@ function calctime( time ){
 
 
 function whomustplay(msg,reply){
-  db.readfilefromdb("Sessions", {id:msg.chat.id}).then(function(session){
-    if(session.started===true){
-      db.readfilefromdb("Users", {id:session.actualturn,sessionid:msg.chat.id}).then(function(users){
-        support.replytousr(msg.from.id,txt.turnof+users.name).then(support.deletecmd(msg,reply));
-      });
-    }else{
-      reply.text(txt. sessionnotstarted).then(support.deletecmd(msg,reply));
-      console.log('session not started');
-    }
-  });
-}9
+  if(msg.chat.type!="group"&&msg.chat.type!="supergroup"){
+   reply.text(txt.bootnogroup);
+ }else{
+   db.readfilefromdb("Sessions", {id:msg.chat.id}).then(function(session){
+     if(session.started===true){
+       db.readfilefromdb("Users", {id:session.actualturn,sessionid:msg.chat.id}).then(function(users){
+         support.replytousr(msg.from.id,txt.turnof+users.name).then(support.deletecmd(msg,reply));
+       });
+     }else{
+       reply.text(txt. sessionnotstarted).then(support.deletecmd(msg,reply));
+       console.log('session not started');
+     }
+   });
+ }
+}
 
 
 
@@ -122,6 +126,9 @@ function startbot(msg,reply){
 
 
 function newusr(msg,reply){
+  if(msg.chat.type!="group"&&msg.chat.type!="supergroup"){
+   reply.text(txt.bootnogroup);
+ }else{
   db.existindb("Sessions",{id:msg.chat.id}).then(function(bool){  //CASO 1 ESISTE LA SESSIONE?
     if(bool){
       if(msg.args(1)[0]=="pg"||msg.args(1)[0]=="master"){  //CASO 2 è STATO PASSATO UN PARAMETRO CORRETTO
@@ -187,11 +194,15 @@ function newusr(msg,reply){
       .then(support.deletecmd(msg,reply)); //CASO 1 RESPONSE
     }
   });
+ }
 }
 
 
 
 function startsession(msg,reply){
+  if(msg.chat.type!="group"&&msg.chat.type!="supergroup"){
+   reply.text(txt.bootnogroup);
+ }else{
   db.existindb("Sessions",{id:msg.chat.id}).then(function(bool){  //CASO 1 ESISTE LA SESSIONE?
     if(bool){
       db.readfilefromdb("Sessions", {id:msg.chat.id}).then(function(session){
@@ -227,6 +238,7 @@ function startsession(msg,reply){
       .then(support.deletecmd(msg,reply));
     }
   });
+ }
 }
 
 
@@ -275,12 +287,19 @@ function newmessage(msg,reply){
 
 
 function deleteusr(msg,reply,nome){
+  if(msg.chat.type!="group"&&msg.chat.type!="supergroup"){
+   reply.text(txt.bootnogroup);
+ }else{
   db.deletefromdb("Users",{sessionid:msg.chat.id,id:msg.from.id});
+ }
 }
 
 
 
 function reboot(msg,reply){
+  if(msg.chat.type!="group"&&msg.chat.type!="supergroup"){
+   reply.text(txt.bootnogroup);
+ }else{
   db.existindb("Sessions",{id:msg.chat.id}).then(function(bool){  //CASO 1 ESISTE LA SESSIONE?
     if(bool&&msg.args(1)[0]=="password"){ //CASO 1 ESISTE LA SESSIONE e la password è corretta?
       db.modifyobj(
@@ -303,6 +322,7 @@ function reboot(msg,reply){
       support.deletecmd(msg,reply);
     }
   });
+ }
 }
 
 
