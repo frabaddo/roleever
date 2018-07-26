@@ -14,7 +14,7 @@ var pauseon=function (msg,reply){
         timestart:timers[msg.chat.id].timestart,
         pausestart:timers[msg.chat.id].pausestart,
         timeinpause:timers[msg.chat.id].timeinpause,
-        timetodo:[msg.chat.id].timetodo
+        timetodo:timers[msg.chat.id].timetodo
       },
       {id:msg.chat.id}
     ).then();
@@ -29,8 +29,9 @@ var pauseon=function (msg,reply){
 
 var pauseoff=function (msg,reply){
   if (timers[msg.chat.id] != null){
+    var tim=Date.now()-timers[msg.chat.id].pausestart;
     timers[msg.chat.id].timer.resume();
-    timers[msg.chat.id].timeinpause= timers[msg.chat.id].timeinpause+Date.now()-timers[msg.chat.id].pausestart;
+    timers[msg.chat.id].timeinpause= timers[msg.chat.id].timeinpause+tim;
     timers[msg.chat.id].pausestart=0;
     console.log(timers[msg.chat.id].timeinpause);
     db.modifyobj(
@@ -40,7 +41,7 @@ var pauseoff=function (msg,reply){
         timestart:timers[msg.chat.id].timestart,
         pausestart:timers[msg.chat.id].pausestart,
         timeinpause:timers[msg.chat.id].timeinpause,
-        timetodo:[msg.chat.id].timetodo
+        timetodo:timers[msg.chat.id].timetodo
       },
       {id:msg.chat.id}
     ).then();
