@@ -338,7 +338,7 @@ bot.command("test", test);
 
 bot.callback(function (query, next) {
   // Verify this query is, indeed, for us
-  if (query.data !== "1"||query.data !== "2") return next();
+  if (query.data !== "1"&&query.data !== "2") return next();
 
   // Try to delete the message where the button was pressed
   try {
