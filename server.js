@@ -15,7 +15,7 @@ const Moment = MomentRange.extendMoment(moment);
 const { TELEGRAM_BOT_TOKEN } = process.env;
 global.bot = new Botgram(TELEGRAM_BOT_TOKEN);
 global.timers=[];
-turn.inittimers();
+//turn.inittimers();
 moment().format();
 
 
