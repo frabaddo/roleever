@@ -11,7 +11,7 @@ const moment = require('moment');
 const MomentRange = require('moment-range');
 const Moment = MomentRange.extendMoment(moment);
 const { TELEGRAM_BOT_TOKEN } = process.env;
-const bot = new Botgram(TELEGRAM_BOT_TOKEN);
+global.bot = new Botgram(TELEGRAM_BOT_TOKEN);
 global.timers=[];
 //turn.inittimers();
 moment().format();
@@ -232,40 +232,44 @@ function startsession(msg,reply){
 
 
 function newmessage(msg,reply){
- console.log( msg.chat.id);
-  db.readfilefromdb("Sessions",{id : msg.chat.id}).then(function(session){
-    if(session){// CASO 1 ESISTE LA SESSIONE?
-      if(session.started==true){
-        if(session.actualturn==msg.from.id){
-      if(timers[msg.chat.id] == null||timers[msg.chat.id]=="1"||timers[msg.chat.id].timer.isPaused()!=true){ //CASO 2 SESSIONE IN PAUSA?
-          var timetoset=Date.now();
-          db.createobj(
-            "Messages",
-            {
-              usr : msg.from.id, sessionid : msg.chat.id , time: timetoset , message : msg.args(1)[0]
-            },
-            {
-              usr : msg.from.id, sessionid : msg.chat.id , time : timetoset
-            },
-          );
-          turn.callturn(msg.chat.id , msg.from.id);
+  if(msg.chat.type!="group"&&msg.chat.type!="supergroup"){
+   reply.text(txt.bootnogroup);
+  }
+  else{
+    db.readfilefromdb("Sessions",{id : msg.chat.id}).then(function(session){
+      if(session){// CASO 1 ESISTE LA SESSIONE?
+        if(session.started==true){
+          if(session.actualturn==msg.from.id){
+        if(timers[msg.chat.id] == null||timers[msg.chat.id]=="1"||timers[msg.chat.id].timer.isPaused()!=true){ //CASO 2 SESSIONE IN PAUSA?
+            var timetoset=Date.now();
+            db.createobj(
+              "Messages",
+              {
+                usr : msg.from.id, sessionid : msg.chat.id , time: timetoset , message : msg.args(1)[0]
+              },
+              {
+                usr : msg.from.id, sessionid : msg.chat.id , time : timetoset
+              },
+            );
+            turn.callturn(msg.chat.id , msg.from.id);
 
-        }
-        else{  // CASO 2 RESPONSE
-          reply.text(txt.pauseon).then(support.deletecmd(msg,reply));
-        }
+          }
+          else{  // CASO 2 RESPONSE
+            reply.text(txt.pauseon).then(support.deletecmd(msg,reply));
+          }
 
+          }else{
+            reply.text(txt.isnotturn).then(support.deletecmd(msg,reply));
+          }
         }else{
-          reply.text(txt.isnotturn).then(support.deletecmd(msg,reply));
+          reply.text(txt.sessionnotstarted).then(support.deletecmd(msg,reply));
         }
-      }else{
-        reply.text(txt.sessionnotstarted).then(support.deletecmd(msg,reply));
       }
-    }
-    else{ // CASO 1 RESPONSE
-      reply.text(txt.sessionnotcreated).then(support.deletecmd(msg,reply));
-    }
-  });
+      else{ // CASO 1 RESPONSE
+        reply.text(txt.sessionnotcreated).then(support.deletecmd(msg,reply));
+      }
+    });
+  }
 }
 
 
