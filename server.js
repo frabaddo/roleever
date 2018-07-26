@@ -327,6 +327,16 @@ function reboot(msg,reply){
 
 
 
+function test(msg,reply){
+  reply.command("provaciao","prova",["1","2"]);
+}
+
+function prova(msg,reply){
+  reply.text("provaciaociao");
+}
+bot.command("test", test);
+bot.command("prova", prova);
+
 
 
 
