@@ -75,8 +75,9 @@ var inittimers=function(){
       db.readfilefromdb("Sessions", {id:timer.id}).then(function(chatdata){
         var totalturn=chatdata.totalturn;
         var timea=Date.now()-timer.timestart;
-        timea-=timer.timeinpause;
+        timea=timea-timer.timeinpause;
         timea=timer.timetodo[0]-timea;
+        console.log(timea);
         reinitwait(timer.id,totalturn,chatdata.actualturn,Math.max(timea,0),timer.timetodo[1],timer.timetodo[2],timer.timetodo[3],timer.pausestart!=0);
       });
     });
