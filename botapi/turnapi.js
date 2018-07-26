@@ -69,7 +69,7 @@ async function reinitturn(chatid,totalindex,usrid,timea,timeb,timec,timed){
 }
 
 var inittimers=function(){
-  readfilefromdb("Timers",{},true).then(function(arr){
+  db.readfilefromdb("Timers",{},true).then(function(arr){
     arr.forEach(function(timer){
       var timea=Date.now()-timer.timestart;
       timea-=timer.timeinpause;
