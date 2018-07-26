@@ -41,7 +41,7 @@ var waittoturn=function (chatid,totalindex,usrid,timea,timeb,timec,timed){
       if(timea!=0){
         support.replytousr(usrid,txt.yourturn+ tim.toString() +txt.mintoresp+chatdata2.sessionname);
         pauseable.setTimeout(chatid,function(){
-          waittoturn(chatid,totalindex,usr,timeb,timec,timed,0);
+          waittoturn(chatid,totalindex,usrid,timeb,timec,timed,0);
         },[timea,timeb,timec,timed]);
       }else{
         support.replytousr(usrid,txt.loseturn);
