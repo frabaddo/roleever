@@ -71,10 +71,13 @@ async function reinitturn(chatid,totalindex,usrid,timea,timeb,timec,timed){
 var inittimers=function(){
   db.readfilefromdb("Timers",{},true).then(function(arr){
     arr.forEach(function(timer){
-      var timea=Date.now()-timer.timestart;
-      timea-=timer.timeinpause;
-      timea=timer.timetodo[0]-timea;
-      waittoturn(timer.id,totalturn,usr,Math.max(timea,0),timer.timetodo[1],timer.timetodo[2],timer.timetodo[3]);
+      db.readfilefromdb("Sessions", {id:timer.id}).then(function(chatdata){
+        var totalturn=chatdata.totalturn;
+        var timea=Date.now()-timer.timestart;
+        timea-=timer.timeinpause;
+        timea=timer.timetodo[0]-timea;
+        waittoturn(timer.id,totalturn,usr,Math.max(timea,0),timer.timetodo[1],timer.timetodo[2],timer.timetodo[3]);
+      });
     });
   });
 }
