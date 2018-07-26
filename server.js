@@ -232,7 +232,7 @@ function startsession(msg,reply){
 
 
 function newmessage(msg,reply){
-
+ console.log( msg.chat.id);
   db.readfilefromdb("Sessions",{id : msg.chat.id}).then(function(session){
     if(session){// CASO 1 ESISTE LA SESSIONE?
       if(session.started==true){
