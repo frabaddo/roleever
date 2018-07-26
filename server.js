@@ -328,14 +328,13 @@ function reboot(msg,reply){
 
 
 function test(msg,reply){
-  reply.command("prova","provaciao",["1","2"]);
+  reply.inlineKeyboard([[text:"ciao",text:"ciao"],[callback_data:"test"]]).text("prova");
 }
 
 function prova(msg,reply){
   reply.text("provaciaociao");
 }
 bot.command("test", test);
-bot.command("prova", prova);
 
 
 
