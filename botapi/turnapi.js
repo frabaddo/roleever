@@ -51,7 +51,7 @@ var waittoturn=function (chatid,totalindex,usrid,timea,timeb,timec,timed){
   });
 }
 
-async function reinitwait(chatid,totalindex,usrid,timea,timeb,timec,timed,pause){
+async function reinitwait(chatid,totalindex,usrid,timea,timeb,timec,timed){
   db.readfilefromdb("Sessions", {id:chatid}).then(function(chatdata2){
     console.log(chatdata2.totalturn);
     console.log(totalindex);
@@ -60,7 +60,7 @@ async function reinitwait(chatid,totalindex,usrid,timea,timeb,timec,timed,pause)
       if(timea!=0){
         pauseable.setTimeout(chatid,function(){
           waittoturn(chatid,totalindex,usrid,timeb,timec,timed,0);
-        },[timea,timeb,timec,timed],pause);
+        },[timea,timeb,timec,timed]);
 
       }else{
         callturn(chatid ,usrid);
@@ -82,7 +82,7 @@ var inittimers=function(){
         var timeb=timea-timer.timeinpause;
         var timec=timer.timetodo[0]-timeb;
         console.log("timer a: "+timea+"; timer b: "+timeb+"; timer c: "+timec);
-        reinitwait(timer.id,totalturn,chatdata.actualturn,Math.max(timea,0),timer.timetodo[1],timer.timetodo[2],timer.timetodo[3],timer.pausestart!=0);
+        reinitwait(timer.id,totalturn,chatdata.actualturn,Math.max(timea,0),timer.timetodo[1],timer.timetodo[2],timer.timetodo[3]);
       });
     });
   });
