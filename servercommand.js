@@ -109,14 +109,12 @@ function startbot(msg,reply){
             id:msg.chat.id
           }
         )
+        .then(function(){
+          reply.text(txt.botstart);})
         .then(support.deletecmd(msg,reply))
-        .then(function(result){
-          reply.inlineKeyboard([
-            [{text:"Avvia la sessione", callback_data: "STARTSESSION"}],
-            [{text:"Nuovo giocatore", callback_data: JSON.stringify({ action: "newusr", role: "pg" })},{text:"Nuovo master", callback_data: JSON.stringify({ action: "newusr", role: "master" })}]
-          ]);
-          reply.markdown("Il master potrà avviare la sessione quando lui e i giocatori si saranno registrati");
-        });
+        .then(function(){
+          return db.readfilefromdb("Sessions", {id:msg.chat.id});})
+        .then(function(result){reply.text(txt.nameis+result.name+"/SessionName");});
       }else{
         reply.text(txt.justcreate)
         .then(support.deletecmd(msg,reply));
@@ -126,36 +124,40 @@ function startbot(msg,reply){
 }
 
 
-function newusr(query,role){
-  var reply = bot.reply(query.message.chat);
-  var msg=query.message;
+
+function newusr(msg,reply){
+  if(msg.chat.type!="group"&&msg.chat.type!="supergroup"){
+   reply.text(txt.bootnogroup);
+ }else{
   db.existindb("Sessions",{id:msg.chat.id}).then(function(bool){  //CASO 1 ESISTE LA SESSIONE?
     if(bool){
-      if(role=="pg"||role=="master"){  //CASO 2 è STATO PASSATO UN PARAMETRO CORRETTO
-        db.existindb("Users",{id:query.from.id,sessionid:msg.chat.id}).then(function(exist){ //CASO 3 ESISTE GIA QUESTO GIOCATORE NELLA SESSIONE?
+      if(msg.args(1)[0]=="pg"||msg.args(1)[0]=="master"){  //CASO 2 è STATO PASSATO UN PARAMETRO CORRETTO
+        db.existindb("Users",{id:msg.from.id,sessionid:msg.chat.id}).then(function(exist){ //CASO 3 ESISTE GIA QUESTO GIOCATORE NELLA SESSIONE?
           if(!exist){
-            if(role=="master"){
+            if(msg.args(1)[0]=="master"){
               db.countindb("Users",{sessionid:msg.chat.id,role:"master"}).then(function(master){ //CASO 4 SE IMMESSO MASTER, ESISTE GIA UN MASTER DELLA SESSIONE?
                 if(master==0){
                   //INSERT MASTER
                   db.createobj(
                     "Users",
                     {
-                      id:query.from.id,
+                      id:msg.from.id,
                       sessionid:msg.chat.id,
-                      name:query.from.name,
+                      name:msg.from.name,
                       role:"master",
                       gamedata:{},
                       active:true
                     },
                     {
-                      id:query.from.id,
-                      sessionid:query.chat.id
+                      id:msg.from.id,
+                      sessionid:msg.chat.id
                     }
                   )
-                  .then(reply.text(query.from.name+txt.orae+role));
+                  .then(reply.text(msg.from.name+txt.orae+msg.args(1)[0]))
+                  .then(support.deletecmd(msg,reply));
                 }else{
-                  query.answer({ text: txt.masterexist, alert: true });
+                  reply.text(txt.masterexist)
+                  .then(support.deletecmd(msg,reply)); //CASO 4 RESPONSE
                 }
               });
             }else{
@@ -163,38 +165,44 @@ function newusr(query,role){
               db.createobj(
                 "Users",
                 {
-                  id:query.from.id,
+                  id:msg.from.id,
                   sessionid:msg.chat.id,
-                  name:query.from.name,
+                  name:msg.from.name,
                   role:"pg",
                   gamedata:{},
                   active:true
                 },
                 {
-                  id:query.from.id,
+                  id:msg.from.id,
                   sessionid:msg.chat.id,
                 }
               )
-              .then(reply.text(query.from.name+txt.orae+role));
+              .then(reply.text(msg.from.name+txt.orae+msg.args(1)[0]))
+              .then(support.deletecmd(msg,reply));
             }
           }else{
-            query.answer({ text: query.from.name+txt.alreadyexist, alert: true });
+            reply.text(msg.from.name+txt.alreadyexist)
+            .then(support.deletecmd(msg,reply)); //CASO 3 RESPONSE
           }
         });
       }else{
-        return false;
+        reply.text(txt.afternewusr)
+        .then(support.deletecmd(msg,reply)); //CASO 2 RESPONSE
       }
     }else{
-      return false;
+      reply.text(txt.sessionnotcreated)
+      .then(support.deletecmd(msg,reply)); //CASO 1 RESPONSE
     }
   });
+ }
 }
 
 
 
-function startsession(query){
-  var reply = bot.reply(query.message.chat);
-  var msg=query.message;
+function startsession(msg,reply){
+  if(msg.chat.type!="group"&&msg.chat.type!="supergroup"){
+   reply.text(txt.bootnogroup);
+ }else{
   db.existindb("Sessions",{id:msg.chat.id}).then(function(bool){  //CASO 1 ESISTE LA SESSIONE?
     if(bool){
       db.readfilefromdb("Sessions", {id:msg.chat.id}).then(function(session){
@@ -206,21 +214,31 @@ function startsession(query){
               db.readfilefromdb("Users",{sessionid:msg.chat.id,role:"master"}).then(function(master){
                 db.modifyobj("Sessions",{actualturn:master.id,started:true},{id:msg.chat.id});
                 timers[msg.chat.id]="1";
-                reply.text(txt.masterturn);
+                reply.text(txt.masterturn)
+                .then(support.deletecmd(msg,reply));
               });
 
             }else{// CASO 3 RESPONSE
-              query.answer({ text: txt.insertmaster, alert: true });
+                reply.text(txt.insertmaster)
+                .then(support.deletecmd(msg,reply));
             }
           });
         }else{ //CASO 2 RESPONSE
-          query.answer({ text: txt.juststarted, alert: true });
+          if(session.started==undefined){
+                reply.text(txt.sessionnotcreated)
+                .then(support.deletecmd(msg,reply));
+              }else{
+          reply.text(txt.juststarted)
+          .then(support.deletecmd(msg,reply));
+              }
         }
       });
     }else{  //CASO 1 RESPONSE
-      query.answer({ text: txt.sessionnotcreated, alert: true });
+      reply.text(txt.sessionnotcreated)
+      .then(support.deletecmd(msg,reply));
     }
   });
+ }
 }
 
 
@@ -312,36 +330,44 @@ function reboot(msg,reply){
 
 
 
+function test(msg,reply){
+  reply.inlineKeyboard([[{text:"🔪test", callback_data: "1"}],[{text: "test", callback_data: "2"}]]).message(msg);
+}
+
+function prova(msg,reply){
+  reply.text("provaciaociao");
+}
+bot.command("test", test);
+
 bot.callback(function (query, next) {
-  if (query.data!="STARTSESSION") {
-    return next();
-  }
-  db.readfilefromdb("Users",{sessionid:query.message.from.id,role:"master"}).then(function(masters){
-    if(masters){
-      startsession(query);
-    }
-    else return next();
+  // Verify this query is, indeed, for us
+  if (query.data !== "1"&&query.data !== "2") return next();
+
+  // Try to delete the message where the button was pressed
+  try {
+    // first, get the reply queue
+    var reply = bot.reply(query.message.chat);
+    // delete the message
+    reply.deleteMessage(query.message).then(whenDeleted);
+  } catch (err) { whenDeleted(err); }
+
+  // Always answer the query when done
+  function whenDeleted(err) {
+    if (err)
+      query.answer({ text: "Couldn't delete message", alert: true });
+    else
+      query.answer({ text: "Deleted!" , alert: true});
   }
 });
 
-bot.callback(function (query, next) {
-  var data;
-  try {
-    data = JSON.parse(query.data);
-  } catch (e) {
-    return next();
-  }
-  if (data.action !== "newusr")
-    return next();
-  newusr(query,data.role);
-});
+
 
 
 
 
 
 bot.command("startbot", startbot);
-//bot.command("startsession", startsession);
+bot.command("startsession", startsession);
 bot.command("newusr", newusr);
 bot.command("msg", newmessage);
 bot.command("turno", whomustplay);
