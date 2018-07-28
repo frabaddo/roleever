@@ -316,7 +316,7 @@ bot.callback(function (query, next) {
   if (query.data!="STARTSESSION") {
     return next();
   }
-  db.readfilefromdb("Users",{sessionid:query.message.from.id,role:"master"}).then(function(masters){
+  db.readfilefromdb("Users",{sessionid:query.from.id,role:"master"}).then(function(masters){
     if(masters){
       startsession(query);
     }
