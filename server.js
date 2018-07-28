@@ -327,6 +327,9 @@ function reboot(msg,reply){
 
 
 
+
+
+
 function test(msg,reply){
   reply.inlineKeyboard([[{text:"🔪test", callback_data: "1"}],[{text: "test", callback_data: "2"}]]).message(msg);
 }
@@ -356,6 +359,11 @@ bot.callback(function (query, next) {
       query.answer({ text: "Deleted!" , alert: true});
   }
 });
+
+
+
+
+
 
 
 bot.command("startbot", startbot);
