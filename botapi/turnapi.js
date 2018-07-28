@@ -87,7 +87,6 @@ var inittimers=function(){
   });
 }
 
-var inittimers2=function(){}
 /*var savetimer=function(signal){
   console.log("Restart in questo istante");
   var timerstopass=[];
