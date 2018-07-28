@@ -18,10 +18,10 @@ var pauseon=function (msg,reply){
       },
       {id:msg.chat.id}
     ).then();
-    reply.text(txt.pauseon).then(support.deletecmd(msg,reply));
+    reply.text(txt.pauseon);
   }
   else{
-     support.deletecmd(msg,reply);
+
   }
 }
 
@@ -45,10 +45,9 @@ var pauseoff=function (msg,reply){
       },
       {id:msg.chat.id}
     ).then();
-    reply.text(txt.pauseoff).then(support.deletecmd(msg,reply));
+    reply.text(txt.pauseoff);
   }
   else{
-     support.deletecmd(msg,reply);
   }
 }
 

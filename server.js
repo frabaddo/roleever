@@ -53,40 +53,6 @@ function calctime( time ){
 
 */
 
-
-
-
-function whomustplay(msg,reply){
-  if(msg.chat.type!="group"&&msg.chat.type!="supergroup"){
-   reply.text(txt.bootnogroup);
- }else{
-   db.readfilefromdb("Sessions", {id:msg.chat.id}).then(function(session){
-     if(session.started===true){
-       db.readfilefromdb("Users", {id:session.actualturn,sessionid:msg.chat.id}).then(function(users){
-         support.replytousr(msg.from.id,txt.turnof+users.name).then(support.deletecmd(msg,reply));
-       });
-     }else{
-       reply.text(txt. sessionnotstarted).then(support.deletecmd(msg,reply));
-       console.log('session not started');
-     }
-   });
- }
-}
-
-
-
-function help(msg,reply){
- reply.text();
-}
-
-
-
-function start(msg,reply){
- reply.text("Ciao "+msg.from.firstname+txt.start);
-}
-
-
-
 function startbot(msg,reply){
   if(msg.chat.type!="group"&&msg.chat.type!="supergroup"){
    reply.text(txt.bootnogroup);
@@ -192,6 +158,43 @@ function newusr(query,role){
 
 
 
+
+
+
+
+function whomustplay(msg,reply){
+  if(msg.chat.type!="group"&&msg.chat.type!="supergroup"){
+   reply.text(txt.bootnogroup);
+ }else{
+   db.readfilefromdb("Sessions", {id:msg.chat.id}).then(function(session){
+     if(session.started===true){
+       db.readfilefromdb("Users", {id:session.actualturn,sessionid:msg.chat.id}).then(function(users){
+         support.replytousr(msg.from.id,txt.turnof+users.name).then(support.deletecmd(msg,reply));
+       });
+     }else{
+       reply.text(txt. sessionnotstarted).then(support.deletecmd(msg,reply));
+       console.log('session not started');
+     }
+   });
+ }
+}
+
+
+
+function help(msg,reply){
+ reply.text();
+}
+
+
+
+function start(msg,reply){
+ reply.text("Ciao "+msg.from.firstname+txt.start);
+}
+
+
+
+
+
 function startsession(query){
   var reply = bot.reply(query.message.chat);
   var msg=query.message;
@@ -206,6 +209,11 @@ function startsession(query){
               db.readfilefromdb("Users",{sessionid:msg.chat.id,role:"master"}).then(function(master){
                 db.modifyobj("Sessions",{actualturn:master.id,started:true},{id:msg.chat.id});
                 timers[msg.chat.id]="1";
+                reply.inlineKeyboard([
+                  [{text:"Nuovo giocatore", callback_data: JSON.stringify({ action: "newusr", role: "pg" })},{text:"Scheda Pg", callback_data: JSON.stringify({ action: "sheet"})}],
+                  [{text:"Pausa", callback_data: JSON.stringify({ action: "pause", argument: "on" })},{text:"Turno", callback_data: JSON.stringify({ action: "turn"})}],
+                ]);
+                reply.markdown("MENU SESSIONE");
                 reply.text(txt.masterturn);
               });
 
@@ -331,12 +339,23 @@ bot.callback(function (query, next) {
   } catch (e) {
     return next();
   }
-  if (data.action !== "newusr")
-    return next();
-  newusr(query,data.role);
+  if (data.action == "newusr") newusr(query,data.role);
+  if (data.action == "pause") switchpause(query);
+  if (data.action == "turn") newusr(query);
 });
 
-
+var switchpause=function(query){
+  if (timers[msg.chat.id] != null){
+    var reply = bot.reply(query.message.chat);
+    if(timers[query.message.chat.id].timer.isPaused()==true){
+      pauseoff(query.message,reply);
+    }else{
+      pauseon(query.message,reply);
+    }
+  }else{
+    console.log("errore timer");
+  }
+}
 
 
 
