@@ -150,7 +150,7 @@ function newusr(query,role){
                     },
                     {
                       id:query.from.id,
-                      sessionid:query.chat.id
+                      sessionid:msg.chat.id
                     }
                   )
                   .then(reply.text(query.from.name+txt.orae+role));
