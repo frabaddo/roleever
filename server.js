@@ -321,7 +321,7 @@ bot.callback(function (query, next) {
       startsession(query);
     }
     else return next();
-  }
+  });
 });
 
 bot.callback(function (query, next) {
