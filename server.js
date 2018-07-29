@@ -292,7 +292,7 @@ function newmessage(msg,reply){
         }
       }
       else{ // CASO 1 RESPONSE
-        reply.text(txt.sessionnotcreated).then(support.deletecmd(msg,reply));
+        reply.text("ciao").then(support.deletecmd(msg,reply)); //txt.sessionnotcreated
       }
     });
   }
