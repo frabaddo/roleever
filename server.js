@@ -224,7 +224,7 @@ var openmenu = function(msg,reply){
             [{text:"Pausa", callback_data: JSON.stringify({ action: "pause", argument: "on" })},{text:"Turno", callback_data: JSON.stringify({ action: "turn"})}],
           ]);
           reply.markdown("MENU SESSIONE").then((err, result) => {
-            reply.pinChatMessage(msg.chat.id,result);
+            bot.pinChatMessage(msg.chat.id,result);
           });
         }
       }
