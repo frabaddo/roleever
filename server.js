@@ -271,7 +271,7 @@ function newmessage(msg,reply){
             db.createobj(
               "Messages",
               {
-                usr : msg.from.id, sessionid : msg.chat.id , time: timetoset , message : msg.args(1)[0]
+                usr : msg.from.id, sessionid : msg.chat.id , time: timetoset , message : msg.text
               },
               {
                 usr : msg.from.id, sessionid : msg.chat.id , time : timetoset
