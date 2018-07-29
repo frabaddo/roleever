@@ -162,17 +162,19 @@ function newusr(query,role){
 
 
 
-function whomustplay(msg,reply){
+function whomustplay(query){
+  var reply = bot.reply(query.message.chat);
+  var msg=query.message;
   if(msg.chat.type!="group"&&msg.chat.type!="supergroup"){
    reply.text(txt.bootnogroup);
  }else{
    db.readfilefromdb("Sessions", {id:msg.chat.id}).then(function(session){
      if(session.started===true){
        db.readfilefromdb("Users", {id:session.actualturn,sessionid:msg.chat.id}).then(function(users){
-         support.replytousr(msg.from.id,txt.turnof+users.name).then(support.deletecmd(msg,reply));
+        query.answer({ text:txt.turnof+users.name, alert: true });
        });
      }else{
-       reply.text(txt. sessionnotstarted).then(support.deletecmd(msg,reply));
+       query.answer({ text:txt. sessionnotstarted, alert: true });
        console.log('session not started');
      }
    });
@@ -316,7 +318,29 @@ function reboot(msg,reply){
 }
 
 
-
+var openmenu = function(msg,reply){
+  if(msg.chat.type!="group"&&msg.chat.type!="supergroup"){
+   reply.text(txt.bootnogroup);
+  }
+  else{
+    db.readfilefromdb("Sessions",{id : msg.chat.id}).then(function(session){
+      if(session){// CASO 1 ESISTE LA SESSIONE?
+        if(session.started==true){
+          reply.inlineKeyboard([
+            [{text:"Nuovo giocatore", callback_data: JSON.stringify({ action: "newusr", role: "pg" })},{text:"Scheda Pg", callback_data: JSON.stringify({ action: "sheet"})}],
+            [{text:"Pausa", callback_data: JSON.stringify({ action: "pause", argument: "on" })},{text:"Turno", callback_data: JSON.stringify({ action: "turn"})}],
+          ]);
+          reply.markdown("MENU SESSIONE");
+          support.deletecmd(msg,reply);
+        }
+        support.deletecmd(msg,reply);
+      }
+      support.deletecmd(msg,reply);
+    }
+    support.deletecmd(msg,reply);
+  }
+  support.deletecmd(msg,reply);
+}
 
 
 
@@ -340,33 +364,17 @@ bot.callback(function (query, next) {
     return next();
   }
   if (data.action == "newusr") newusr(query,data.role);
-  if (data.action == "pause") switchpause(query);
-  if (data.action == "turn") newusr(query);
+  if (data.action == "pause") pause.switchpause(query);
+  if (data.action == "turn") whomustplay(query);
 });
 
-var switchpause=function(query){
-  if (timers[msg.chat.id] != null){
-    var reply = bot.reply(query.message.chat);
-    if(timers[query.message.chat.id].timer.isPaused()==true){
-      pauseoff(query.message,reply);
-    }else{
-      pauseon(query.message,reply);
-    }
-  }else{
-    console.log("errore timer");
-  }
-}
 
 
 
 bot.command("startbot", startbot);
-//bot.command("startsession", startsession);
-bot.command("newusr", newusr);
 bot.command("msg", newmessage);
-bot.command("turno", whomustplay);
+bot.command("menu", openmenu);
 bot.command("start", start);
 bot.command("help", help);
-bot.command("pauseon", pause.pauseon);
-bot.command("pauseoff", pause.pauseoff);
 bot.command("reboot", reboot);
 bot.command("deleteusr", deleteusr);

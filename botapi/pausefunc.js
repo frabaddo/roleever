@@ -52,7 +52,22 @@ var pauseoff=function (msg,reply){
 }
 
 
+var switchpause=function(query){
+  if (timers[msg.chat.id] != null){
+    var reply = bot.reply(query.message.chat);
+    if(timers[query.message.chat.id].timer.isPaused()==true){
+      pauseoff(query.message,reply);
+    }else{
+      pauseon(query.message,reply);
+    }
+  }else{
+    console.log("errore timer");
+  }
+}
+
+
 module.exports={
   pauseoff,
-  pauseon
+  pauseon,
+  switchpause
 }
