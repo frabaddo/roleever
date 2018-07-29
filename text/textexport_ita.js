@@ -59,6 +59,7 @@ module.exports={
   pauseon,
   pauseoff,
   sessionnotstarted,
+  sessionnotcreated,
   start,
   bootnogroup,
   botstart,
