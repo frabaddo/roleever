@@ -53,7 +53,7 @@ var pauseoff=function (msg,reply){
 
 
 var switchpause=function(query){
-  if (timers[query.message.chat.id] != null){
+  if (timers[query.message.chat.id] != null&&timers[query.message.chat.id] != "1"){
     var reply = bot.reply(query.message.chat);
     if(timers[query.message.chat.id].timer.isPaused()==true){
       pauseoff(query.message,reply);
