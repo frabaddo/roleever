@@ -40,10 +40,6 @@ app.get('/reboottimer', function(req, res) {
 });
 
 
-//process.on('SIGTERM', function(){});
-
-
-
 /*
 function calctime( time ){
   var range1 = Moment.range(Moment(), Moment().add(6, 'h'));
@@ -157,46 +153,6 @@ function newusr(query,role){
 }
 
 
-
-
-
-
-
-function whomustplay(query){
-  var reply = bot.reply(query.message.chat);
-  var msg=query.message;
-  if(msg.chat.type!="group"&&msg.chat.type!="supergroup"){
-   reply.text(txt.bootnogroup);
- }else{
-   db.readfilefromdb("Sessions", {id:msg.chat.id}).then(function(session){
-     if(session.started===true){
-       db.readfilefromdb("Users", {id:session.actualturn,sessionid:msg.chat.id}).then(function(users){
-        query.answer({ text:txt.turnof+users.name, alert: true });
-       });
-     }else{
-       query.answer({ text:txt. sessionnotstarted, alert: true });
-       console.log('session not started');
-     }
-   });
- }
-}
-
-
-
-function help(msg,reply){
- reply.text();
-}
-
-
-
-function start(msg,reply){
- reply.text("Ciao "+msg.from.firstname+txt.start);
-}
-
-
-
-
-
 function startsession(query){
   var reply = bot.reply(query.message.chat);
   var msg=query.message;
@@ -232,6 +188,68 @@ function startsession(query){
     }
   });
 }
+
+
+function whomustplay(query){
+  var reply = bot.reply(query.message.chat);
+  var msg=query.message;
+  if(msg.chat.type!="group"&&msg.chat.type!="supergroup"){
+   reply.text(txt.bootnogroup);
+ }else{
+   db.readfilefromdb("Sessions", {id:msg.chat.id}).then(function(session){
+     if(session.started===true){
+       db.readfilefromdb("Users", {id:session.actualturn,sessionid:msg.chat.id}).then(function(users){
+        query.answer({ text:txt.turnof+users.name, alert: true });
+       });
+     }else{
+       query.answer({ text:txt. sessionnotstarted, alert: true });
+       console.log('session not started');
+     }
+   });
+ }
+}
+
+
+var openmenu = function(msg,reply){
+  if(msg.chat.type!="group"&&msg.chat.type!="supergroup"){
+   reply.text(txt.bootnogroup);
+   support.deletecmd(msg,reply);
+  }
+  else{
+    db.readfilefromdb("Sessions",{id : msg.chat.id}).then(function(session){
+      if(session){// CASO 1 ESISTE LA SESSIONE?
+        if(session.started==true){
+          reply.inlineKeyboard([
+            [{text:"Nuovo giocatore", callback_data: JSON.stringify({ action: "newusr", role: "pg" })},{text:"Scheda Pg", callback_data: JSON.stringify({ action: "sheet"})}],
+            [{text:"Pausa", callback_data: JSON.stringify({ action: "pause", argument: "on" })},{text:"Turno", callback_data: JSON.stringify({ action: "turn"})}],
+          ]);
+          reply.markdown("MENU SESSIONE");
+        }
+      }
+    });
+    support.deletecmd(msg,reply);
+  }
+}
+
+
+
+
+
+function help(msg,reply){
+ reply.text();
+}
+
+
+
+function start(msg,reply){
+ reply.text("Ciao "+msg.from.firstname+txt.start);
+}
+
+
+
+
+
+
 
 
 
@@ -318,26 +336,7 @@ function reboot(msg,reply){
 }
 
 
-var openmenu = function(msg,reply){
-  if(msg.chat.type!="group"&&msg.chat.type!="supergroup"){
-   reply.text(txt.bootnogroup);
-   support.deletecmd(msg,reply);
-  }
-  else{
-    db.readfilefromdb("Sessions",{id : msg.chat.id}).then(function(session){
-      if(session){// CASO 1 ESISTE LA SESSIONE?
-        if(session.started==true){
-          reply.inlineKeyboard([
-            [{text:"Nuovo giocatore", callback_data: JSON.stringify({ action: "newusr", role: "pg" })},{text:"Scheda Pg", callback_data: JSON.stringify({ action: "sheet"})}],
-            [{text:"Pausa", callback_data: JSON.stringify({ action: "pause", argument: "on" })},{text:"Turno", callback_data: JSON.stringify({ action: "turn"})}],
-          ]);
-          reply.markdown("MENU SESSIONE");
-        }
-      }
-    });
-    support.deletecmd(msg,reply);
-  }
-}
+
 
 
 
@@ -367,11 +366,10 @@ bot.callback(function (query, next) {
 
 
 
-
+bot.command("start", start);
 bot.command("startbot", startbot);
 bot.command("msg", newmessage);
 bot.command("menu", openmenu);
-bot.command("start", start);
 bot.command("help", help);
 bot.command("reboot", reboot);
 bot.command("deleteusr", deleteusr);

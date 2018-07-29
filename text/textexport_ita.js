@@ -1,4 +1,4 @@
-var pauseon="Sessione in pausa, usa /pauseoff per sbloccarla. tutti i messaggi ora saranno bloccati!";
+var pauseon="Sessione in pausa. tutti i messaggi ora saranno bloccati!";
 var pauseoff="Sessione uscita dalla pausa!";
 var sessionnotstarted= "Questa sessione non è ancora stata avviata, usa il comando /startsession e segui le istruzioni";
 var sessionnotcreated= "Questa sessione non è ancora stata creata, usa il comando /startbot e segui le istruzioni";
