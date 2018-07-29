@@ -372,8 +372,9 @@ bot.callback(function (query, next) {
 
 bot.command("start", start);
 bot.command("startbot", startbot);
-bot.command("msg", newmessage);
 bot.command("menu", openmenu);
 bot.command("help", help);
 bot.command("reboot", reboot);
 bot.command("deleteusr", deleteusr);
+bot.command(true, function (msg, reply, next) {});
+bot.text(newmessage);
