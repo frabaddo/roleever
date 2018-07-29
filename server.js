@@ -321,6 +321,7 @@ function reboot(msg,reply){
 var openmenu = function(msg,reply){
   if(msg.chat.type!="group"&&msg.chat.type!="supergroup"){
    reply.text(txt.bootnogroup);
+   support.deletecmd(msg,reply);
   }
   else{
     db.readfilefromdb("Sessions",{id : msg.chat.id}).then(function(session){
@@ -331,15 +332,11 @@ var openmenu = function(msg,reply){
             [{text:"Pausa", callback_data: JSON.stringify({ action: "pause", argument: "on" })},{text:"Turno", callback_data: JSON.stringify({ action: "turn"})}],
           ]);
           reply.markdown("MENU SESSIONE");
-          support.deletecmd(msg,reply);
         }
-        support.deletecmd(msg,reply);
       }
-      support.deletecmd(msg,reply);
-    }
+    });
     support.deletecmd(msg,reply);
   }
-  support.deletecmd(msg,reply);
 }
 
 
