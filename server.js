@@ -277,6 +277,7 @@ function newmessage(msg,reply){
                 usr : msg.from.id, sessionid : msg.chat.id , time : timetoset
               },
             );
+            support.deleteandretrieve(msg,reply);
             turn.callturn(msg.chat.id , msg.from.id);
 
           }

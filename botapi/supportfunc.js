@@ -10,8 +10,16 @@ var deletecmd=function (msg,reply){
   reply.deleteMessage(msg);
 }
 
+var deleteandretrieve=function(msg,reply){
+  var keys=[
+    [{text: "last message not send"}]
+  ]
+  reply.reply(msg).selective(true).keyboard(keys).deleteMessage(msg);
+}
+
 
 module.exports={
   deletecmd,
-  replytousr
+  replytousr,
+  deleteandretrieve
 }
