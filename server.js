@@ -166,6 +166,7 @@ function startsession(query){
       db.readfilefromdb("Sessions", {id:msg.chat.id}).then(function(session){
         if(session.started==false){ //CASO 2 è STATA AVVIATA LA SESSIONE?
           db.countindb("Users",{sessionid:msg.chat.id,role:"master"}).then(function(masters){
+            console.log("master found in this session: "+masters);
             if(masters==1){// CASO 3 ESISTE IL MASTER?
 
               //AVVIA SESSIONE
@@ -354,12 +355,12 @@ bot.callback(function (query, next) {
   if (query.data!="STARTSESSION") {
     return next();
   }
-  db.readfilefromdb("Users",{id:query.from.id,role:"master"}).then(function(masters){
-    if(masters){
+//  db.readfilefromdb("Users",{id:query.from.id,role:"master"}).then(function(masters){
+//    if(masters){
       startsession(query);
-    }
-    else return next();
-  });
+//    }
+//    else return next();
+//  });
 });
 
 bot.callback(function (query, next) {
