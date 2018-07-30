@@ -355,12 +355,7 @@ bot.callback(function (query, next) {
   if (query.data!="STARTSESSION") {
     return next();
   }
-//  db.readfilefromdb("Users",{id:query.from.id,role:"master"}).then(function(masters){
-//    if(masters){
-      startsession(query);
-//    }
-//    else return next();
-//  });
+  startsession(query);
 });
 
 bot.callback(function (query, next) {
@@ -383,5 +378,5 @@ bot.command("menu", openmenu);
 bot.command("help", help);
 bot.command("reboot", reboot);
 bot.command("deleteusr", deleteusr);
-bot.command(true, function (msg, reply, next) {support.deletecmd(msg,reply);});
 bot.text(newmessage);
+bot.all(function (msg, reply, next) {support.deletecmd(msg,reply);});
