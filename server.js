@@ -80,7 +80,7 @@ function startbot(msg,reply){
           reply.markdown("Il master potrà avviare la sessione quando lui e i giocatori si saranno registrati");
         });
       }else{
-        reply.text(txt.justcreate)
+        reply.keyboard().text(txt.justcreate)
         .then(function(err,result){
           support.deletecmd(msg,reply);
           setTimeout(function(){
