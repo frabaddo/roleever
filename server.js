@@ -277,7 +277,6 @@ function newmessage(msg,reply){
                 usr : msg.from.id, sessionid : msg.chat.id , time : timetoset
               },
             );
-            support.deleteandretrieve(msg,reply);
             turn.callturn(msg.chat.id , msg.from.id);
 
           }
@@ -371,7 +370,7 @@ bot.callback(function (query, next) {
 });
 
 
-
+bot.command("try",support.deleteandretrieve)
 bot.command("start", start);
 bot.command("startbot", startbot);
 bot.command("menu", openmenu);
