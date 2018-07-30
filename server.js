@@ -281,7 +281,8 @@ function newmessage(msg,reply){
 
           }
           else{  // CASO 2 RESPONSE
-            reply.text(txt.pauseon).then(support.deletecmd(msg,reply));
+            //reply.text(txt.pauseon).then(support.deletecmd(msg,reply));
+            support.deletecmd(msg,reply);
           }
 
           }else{
