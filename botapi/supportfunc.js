@@ -12,9 +12,9 @@ var deletecmd=function (msg,reply){
 
 var deleteandretrieve=function(msg,reply){
   var keys=[
-    [{text: "last message not send"}]
+    [{text: msg.text}]
   ]
-  reply.keyboard(keys).text("ciao");
+  reply.keyboard(keys).text("you can't send message, i save it in your keyboard");
   reply.deleteMessage(msg);
 }
 

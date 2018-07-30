@@ -81,7 +81,12 @@ function startbot(msg,reply){
         });
       }else{
         reply.text(txt.justcreate)
-        .then(support.deletecmd(msg,reply));
+        .then(function(err,result){
+          support.deletecmd(msg,reply);
+          setTimeout(function(){
+            support.deletecmd(result,reply);
+          },5000)}
+        );
       }
     });
   }
@@ -174,6 +179,7 @@ function startsession(query){
                 reply.markdown("MENU SESSIONE").then((err, result) => {
                   bot.pinChatMessage(msg.chat.id,result,{disableNotification:false},function(){});
                 });
+                deletecmd(msg,reply);
                 reply.text(txt.masterturn);
               });
 
@@ -369,7 +375,7 @@ bot.callback(function (query, next) {
 });
 
 
-bot.command("try",support.deleteandretrieve)
+
 bot.command("start", start);
 bot.command("startbot", startbot);
 bot.command("menu", openmenu);
