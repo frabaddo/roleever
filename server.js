@@ -278,7 +278,6 @@ function newmessage(msg,reply){
               },
             );
             turn.callturn(msg.chat.id , msg.from.id);
-
           }
           else{  // CASO 2 RESPONSE
             //reply.text(txt.pauseon).then(support.deletecmd(msg,reply));
