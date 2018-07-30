@@ -180,7 +180,7 @@ function startsession(query){
                 reply.markdown("MENU SESSIONE").then((err, result) => {
                   bot.pinChatMessage(msg.chat.id,result,{disableNotification:false},function(){});
                 });
-                deletecmd(msg,reply);
+                support.deletecmd(msg,reply);
                 reply.text(txt.masterturn);
               });
 
