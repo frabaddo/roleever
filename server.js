@@ -377,5 +377,5 @@ bot.command("menu", openmenu);
 bot.command("help", help);
 bot.command("reboot", reboot);
 bot.command("deleteusr", deleteusr);
-bot.command(true, function (msg, reply, next) {});
+bot.command(true, function (msg, reply, next) {support.deletecmd(msg,reply);});
 bot.text(newmessage);
