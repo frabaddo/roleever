@@ -14,7 +14,7 @@ var deleteandretrieve=function(msg,reply){
   var keys=[
     [{text: "last message not send"}]
   ]
-  reply.reply(msg).selective(true).keyboard(keys).deleteMessage(msg);
+  reply.reply(msg).selective(true).keyboard(keys).deleteMessage(msg).text("ciao").then(function(err,result){deletecmd(result,reply);});
 }
 
 
