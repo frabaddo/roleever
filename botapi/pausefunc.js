@@ -89,5 +89,6 @@ var switchpauseoff=function(query){
 module.exports={
   pauseoff,
   pauseon,
-  switchpause
+  switchpauseon,
+  switchpauseoff
 }

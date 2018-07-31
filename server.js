@@ -375,6 +375,7 @@ bot.callback(function (query, next) {
 
 
 bot.command("start", start);
+bot.command("pauseoff", pause.switchpauseoff(query={ message : msg}));
 bot.command("startbot", startbot);
 bot.command("menu", openmenu);
 bot.command("help", help);
