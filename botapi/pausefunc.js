@@ -59,7 +59,7 @@ var switchpauseon=function(query){
     if(timers[msg.chat.id].timer.isPaused()!=true){
       pauseon(msg);
       var reply = bot.reply(query.message.chat);
-      reply.keyboard([
+      reply.inlinekeyboard([
         [{text:"Termina pausa", callback_data: JSON.stringify({ action: "pauseoff"})}],
       ]).text(txt.pauseon);
     }else{
