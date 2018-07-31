@@ -175,7 +175,7 @@ function startsession(query){
                 timers[msg.chat.id]="1";
                 reply.inlineKeyboard([
                   [{text:"Nuovo giocatore", callback_data: JSON.stringify({ action: "newusr", role: "pg" })},{text:"Scheda Pg", callback_data: JSON.stringify({ action: "sheet"})}],
-                  [{text:"Pausa", callback_data: JSON.stringify({ action: "pause", argument: "on" })},{text:"Turno", callback_data: JSON.stringify({ action: "turn"})}],
+                  [{text:"Pausa", callback_data: JSON.stringify({ action: "pauseon"})},{text:"Turno", callback_data: JSON.stringify({ action: "turn"})}],
                 ]);
                 reply.markdown("MENU SESSIONE").then((err, result) => {
                   bot.pinChatMessage(msg.chat.id,result,{disableNotification:false},function(){});
