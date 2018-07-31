@@ -78,7 +78,7 @@ var switchpauseoff=function(query){
       pauseoff(msg);
       support.deletecmd(msg,reply);
     }else{
-
+      support.deletecmd(msg,reply);
     }
   }else{
     console.log("errore timer");

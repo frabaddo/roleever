@@ -230,7 +230,7 @@ var openmenu = function(msg,reply){
         if(session.started==true){
           reply.inlineKeyboard([
             [{text:"Nuovo giocatore", callback_data: JSON.stringify({ action: "newusr", role: "pg" })},{text:"Scheda Pg", callback_data: JSON.stringify({ action: "sheet"})}],
-            [{text:"Pausa", callback_data: JSON.stringify({ action: "pauseon"})},{text:"Pausaoff", callback_data: JSON.stringify({ action: "pauseoff"})},{text:"Turno", callback_data: JSON.stringify({ action: "turn"})}],
+            [{text:"Pausa", callback_data: JSON.stringify({ action: "pauseon"})},{text:"Turno", callback_data: JSON.stringify({ action: "turn"})}],
           ]);
           reply.markdown("MENU SESSIONE").then((err, result) => {
             bot.pinChatMessage(msg.chat.id,result,{disableNotification:false},function(){});
@@ -366,7 +366,6 @@ bot.callback(function (query, next) {
     return next();
   }
   if (data.action == "newusr") newusr(query,data.role);
-  //if (data.action == "pause") pause.switchpause(query);
   if (data.action == "turn") whomustplay(query);
   if (data.action == "pauseon") pause.switchpauseon(query);
   if (data.action == "pauseoff") pause.switchpauseoff(query)
