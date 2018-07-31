@@ -3,7 +3,7 @@ const support= require("./supportfunc");
 const pauseable = require('./pauseableplus/pauseableplus');
 const db = require("../databaseapi/mongoapi");
 
-var pauseon=function (msg,reply){
+var pauseon=function (msg){
   if (timers[msg.chat.id] != null){
     timers[msg.chat.id].timer.pause();
     timers[msg.chat.id].pausestart=Date.now();
@@ -18,7 +18,7 @@ var pauseon=function (msg,reply){
       },
       {id:msg.chat.id}
     ).then();
-    reply.text(txt.pauseon);
+    //reply.text(txt.pauseon);
   }
   else{
 
@@ -27,7 +27,7 @@ var pauseon=function (msg,reply){
 
 
 
-var pauseoff=function (msg,reply){
+var pauseoff=function (msg){
   if (timers[msg.chat.id] != null){
     var tim=Date.now()-timers[msg.chat.id].pausestart;
     timers[msg.chat.id].timer.resume();
@@ -45,20 +45,40 @@ var pauseoff=function (msg,reply){
       },
       {id:msg.chat.id}
     ).then();
-    reply.text(txt.pauseoff);
+    //reply.text(txt.pauseoff);
   }
   else{
   }
 }
 
 
-var switchpause=function(query){
-  if (timers[query.message.chat.id] != null&&timers[query.message.chat.id] != "1"){
-    var reply = bot.reply(query.message.chat);
-    if(timers[query.message.chat.id].timer.isPaused()==true){
-      pauseoff(query.message,reply);
+var switchpauseon=function(query){
+  var msg=query.message;
+  if (timers[msg.chat.id] != null&&timers[msg.chat.id] != "1"){
+    var reply = bot.reply(msg.chat);
+    if(timers[msg.chat.id].timer.isPaused()!=true){
+      pauseon(msg);
+      var reply = bot.reply(query.message.chat);
+      reply.keyboard([
+        [{text:"Termina pausa", callback_data: JSON.stringify({ action: "pauseoff"})}],
+      ]).text(txt.pauseon);
     }else{
-      pauseon(query.message,reply);
+
+    }
+  }else{
+    console.log("errore timer");
+  }
+}
+
+var switchpauseoff=function(query){
+  var msg=query.message;
+  if (timers[msg.chat.id] != null&&timers[msg.chat.id] != "1"){
+    var reply = bot.reply(msg.chat);
+    if(timers[msg.chat.id].timer.isPaused()==true){
+      pauseoff(msg);
+      support.deletecmd(msg,reply);
+    }else{
+
     }
   }else{
     console.log("errore timer");
