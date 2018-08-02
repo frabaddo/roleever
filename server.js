@@ -288,11 +288,11 @@ function newmessage(msg,reply){
               turn.callturn(msg.chat.id , msg.from.id);
             }
             else{  // CASO 2 RESPONSE
-              support.replytousr(usrid,txt.isnotturn).then(support.deletecmd(msg,reply));
+              support.replytousr(msg.from.id,txt.isnotturn).then(support.deletecmd(msg,reply));
             }
 
           }else{
-            support.replytousr(usrid,txt.isnotturn).then(support.deletecmd(msg,reply));
+            support.replytousr(msg.from.id,txt.isnotturn).then(support.deletecmd(msg,reply));
           }
         }else{
           reply.text(txt.sessionnotstarted).then(support.deletecmd(msg,reply));
