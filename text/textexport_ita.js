@@ -54,6 +54,8 @@ var mintoresp="min per rispondere in ";
 
 var loseturn="Hai perso il turno"
 
+var onlymaster="Solo il master può avviare la sessione!"
+
 
 module.exports={
   pauseon,
@@ -76,5 +78,6 @@ module.exports={
   isnotturn,
   yourturn,
   mintoresp,
-  loseturn
+  loseturn,
+  onlymaster
 }
