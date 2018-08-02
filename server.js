@@ -370,7 +370,6 @@ bot.callback(function (query, next) {
   if (data.action == "pauseoff") pause.switchpauseoff(query)
 });
 
-reinitpausemsg
 
 bot.command("start", start);
 bot.command("startbot", startbot);
