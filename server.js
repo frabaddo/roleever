@@ -167,11 +167,9 @@ function startsession(query){
         if(session.started==false){ //CASO 2 è STATA AVVIATA LA SESSIONE?
 
           db.readfilefromdb("Users",{sessionid:msg.chat.id,role:"master"}).then(function(master){
-            console.log("master found in this session: "+masters);
+            console.log("master found in this session: "+master);
             if(master&&master.id==query.from.id){// CASO 3 ESISTE IL MASTER?
-
               //AVVIA SESSIONE
-              db.readfilefromdb("Users",{sessionid:msg.chat.id,role:"master"}).then(function(master){
                 db.modifyobj("Sessions",{actualturn:master.id,started:true},{id:msg.chat.id});
                 timers[msg.chat.id]="1";
                 reply.inlineKeyboard([
@@ -183,7 +181,6 @@ function startsession(query){
                 });
                 support.deletecmd(msg,reply);
                 reply.text(txt.masterturn);
-              });
 
             }else{// CASO 3 RESPONSE
               query.answer({ text: txt.onlymaster, alert: true });
