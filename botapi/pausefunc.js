@@ -85,10 +85,21 @@ var switchpauseoff=function(query){
   }
 }
 
+var reinitpausemsg=function(msg,reply){
+  if(timers[msg.chat.id].timer.isPaused()!=true){
+    support.deletecmd(msg,reply);
+    reply.inlineKeyboard([
+      [{text:"Termina pausa", callback_data: JSON.stringify({ action: "pauseoff"})}],
+    ]).text(txt.pauseon);
+  }else{
+    support.deletecmd(msg,reply);
+  }
+}
 
 module.exports={
   pauseoff,
   pauseon,
   switchpauseon,
-  switchpauseoff
+  switchpauseoff,
+  reinitpausemsg
 }

@@ -370,7 +370,7 @@ bot.callback(function (query, next) {
   if (data.action == "pauseoff") pause.switchpauseoff(query)
 });
 
-
+reinitpausemsg
 
 bot.command("start", start);
 bot.command("startbot", startbot);
@@ -378,5 +378,6 @@ bot.command("menu", openmenu);
 bot.command("help", help);
 bot.command("reboot", reboot);
 bot.command("deleteusr", deleteusr);
+bot.command("pauseoff", pause.reinitpausemsg);
 bot.text(newmessage);
 bot.all(function (msg, reply, next) {support.deletecmd(msg,reply);});
