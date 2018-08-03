@@ -276,10 +276,10 @@ function newmessage(msg,reply){
 
               console.log(msg.chat.id+"________"+msg.text);
               var replytousr = bot.reply(msg.from.id);
-              var obj={ action: "sendmessage", chatid: msg.chat.id , msgtxt: msg.text };
+              var objc=JSON.stringify({ action: "sendmessage", chatid: msg.chat.id , msgtxt: msg.text });
               replytousr.inlineKeyboard([
                 [
-                  {text:"Invia", callback_data: JSON.stringify(eval(obj))},
+                  {text:"Invia", callback_data: objc},
                   {text:"Annulla", callback_data: JSON.stringify({ action: "deletemessage" })},
                 ]
               ]);
