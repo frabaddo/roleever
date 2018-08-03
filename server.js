@@ -276,12 +276,12 @@ function newmessage(msg,reply){
 
 
               var replytousr = bot.reply(msg.from.id);
-              reply.inlineKeyboard([
+              /*reply.inlineKeyboard([
                 [
                   {text:"Invia", callback_data: JSON.stringify({ action: "sendmessage", chatid: msg.chat.id, msgtxt: msg.text })},
                   {text:"Annulla", callback_data: JSON.stringify({ action: "deletemessage", chatid: msg.chat.id, msgtxt: msg.text })},
                 ]
-              ]);
+              ]);*/
               reply.text(msg.text);
               support.deletecmd(msg,reply);
               /*
