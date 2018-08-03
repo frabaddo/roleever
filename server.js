@@ -275,12 +275,10 @@ function newmessage(msg,reply){
             if(session.actualturn==msg.from.id){
 
 
-              var replytousr = bot.reply(msg.from.id);//, chatid: msg.chat.id
-              var objc=JSON.stringify({ action: "sendmessage", msgtxt: msg.text , chatid: msg.chat.id});
-              console.log(objc);
+              var replytousr = bot.reply(msg.from.id);
               replytousr.inlineKeyboard([
                 [
-                  {text:"Invia", callback_data: objc},
+                  {text:"Invia", callback_data: JSON.stringify({ action: "sendmessage", chatid: msg.chat.id})},
                   {text:"Annulla", callback_data: JSON.stringify({ action: "deletemessage" })},
                 ]
               ]);
@@ -373,7 +371,7 @@ function  sendmessage(query,chatid,txt){
   db.createobj(
     "Messages",
     {
-      usr : query.from.id, sessionid : chatid , time: timetoset , message : txt
+      usr : query.from.id, sessionid : chatid , time: timetoset , message : query.message.txt
     },
     {
       usr : query.from.id, sessionid : chatid , time : timetoset
