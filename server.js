@@ -324,7 +324,7 @@ function  sendmessage(query,chatid){
           if(session.actualturn==query.from.id){
             var txttosend=query.message.text.replace(txt.wanttosend,query.from.name);
             support.deletecmd(query.message.id,reply);
-            replytochat.text(query.message.text);
+            replytochat.text(txttosend);
             var timetoset=Date.now();
             db.createobj(
               "Messages",
