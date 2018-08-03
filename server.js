@@ -274,6 +274,13 @@ function newmessage(msg,reply){
           if(timers[msg.chat.id] == null||timers[msg.chat.id]=="1"||timers[msg.chat.id].timer.isPaused()!=true){ //CASO 2 SESSIONE IN PAUSA?
             if(session.actualturn==msg.from.id){
 
+
+              var replytousr = bot.reply(msg.from.id);
+              replytousr.inlineKeyboard([
+                [{text:"Invia", callback_data: JSON.stringify({ action: "sendmessage",chatid: msg.chat.id, msgtxt: msg.text })},{text:"Annulla", callback_data: JSON.stringify({ action: "deletemessage",chatid: msg.chat.id, msgtxt: msg.text })}]
+              ]).text(msg.from.id,"vuoi inviare questo messaggio? /n "+msg.text);
+              support.deletecmd(msg,reply);
+              /*
               var timetoset=Date.now();
               db.createobj(
                 "Messages",
@@ -284,7 +291,7 @@ function newmessage(msg,reply){
                   usr : msg.from.id, sessionid : msg.chat.id , time : timetoset
                 },
               );
-              turn.callturn(msg.chat.id , msg.from.id);
+              turn.callturn(msg.chat.id , msg.from.id);*/
             }
             else{  // CASO 2 RESPONSE
               support.replytousr(msg.from.id,txt.isnotturn).then(support.deletecmd(msg,reply));
@@ -345,9 +352,28 @@ function reboot(msg,reply){
  }
 }
 
+function deletesentmessage(query){
+  var reply = bot.reply(query.message.chat);
+  suppord.deletecmd(query.message.id,reply);
+}
 
-
-
+function  sendmessage(query,chatid,txt){
+  var reply = bot.reply(query.message.chat);
+  suppord.deletecmd(query.message.id,reply);
+  var replytochat = bot.reply(chatid);
+  replytochat.text(txt);
+  var timetoset=Date.now();
+  db.createobj(
+    "Messages",
+    {
+      usr : query.from.id, sessionid : chatid , time: timetoset , message : txt
+    },
+    {
+      usr : query.from.id, sessionid : chatid , time : timetoset
+    },
+  );
+  turn.callturn(chatid , query.from.id);
+}
 
 
 bot.callback(function (query, next) {
@@ -367,8 +393,11 @@ bot.callback(function (query, next) {
   if (data.action == "newusr") newusr(query,data.role);
   if (data.action == "turn") whomustplay(query);
   if (data.action == "pauseon") pause.switchpauseon(query);
-  if (data.action == "pauseoff") pause.switchpauseoff(query)
+  if (data.action == "pauseoff") pause.switchpauseoff(query);
+  if (data.action == "sendmessage") sendmessage(query,data.chatid,data.msgtxt);
+  if (data.action == "deletemessage") deletesentmessage(query);
 });
+
 
 
 bot.command("start", start);
