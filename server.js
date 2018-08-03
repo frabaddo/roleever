@@ -362,11 +362,11 @@ function deletesentmessage(query){
   support.deletecmd(query.message.id,reply);
 }
 
-function  sendmessage(query,chatid,txt){
+function  sendmessage(query,chatid){
   var reply = bot.reply(query.message.chat);
   support.deletecmd(query.message.id,reply);
   var replytochat = bot.reply(chatid);
-  replytochat.text(txt);
+  replytochat.text(query.message.txt);
   var timetoset=Date.now();
   db.createobj(
     "Messages",
@@ -399,7 +399,7 @@ bot.callback(function (query, next) {
   if (data.action == "turn") whomustplay(query);
   if (data.action == "pauseon") pause.switchpauseon(query);
   if (data.action == "pauseoff") pause.switchpauseoff(query);
-  if (data.action == "sendmessage") sendmessage(query,data.chatid,data.msgtxt);
+  if (data.action == "sendmessage") sendmessage(query,data.chatid);
   if (data.action == "deletemessage") deletesentmessage(query);
 });
 
