@@ -284,7 +284,7 @@ function newmessage(msg,reply){
               ]);
 
               var txttosend= txt.wanttosend+"\
-              \
+               \
               "+msg.text;
 
               replytousr.text(txttosend).then(support.deletecmd(msg,reply));
@@ -322,7 +322,7 @@ function  sendmessage(query,chatid){
       if(session.started==true){
         if(timers[chatid] == null||timers[chatid]=="1"||timers[chatid].timer.isPaused()!=true){ //CASO 2 SESSIONE IN PAUSA?
           if(session.actualturn==query.from.id){
-            var txttosend=query.message.text.replace(txt.wanttosend,query.from.name);
+            var txttosend=query.message.text.replace(txt.wanttosend,query.from.name+":");
             support.deletecmd(query.message.id,reply);
             replytochat.text(txttosend);
             var timetoset=Date.now();
