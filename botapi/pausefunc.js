@@ -33,7 +33,7 @@ var pauseoff=function (msg){
     timers[msg.chat.id].timer.resume();
     timers[msg.chat.id].timeinpause= timers[msg.chat.id].timeinpause+tim;
     timers[msg.chat.id].pausestart=0;
-    console.log(timers[msg.chat.id].timeinpause);
+    //console.log(timers[msg.chat.id].timeinpause);
     db.modifyobj(
       "Timers",
       {

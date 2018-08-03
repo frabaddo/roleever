@@ -167,7 +167,7 @@ function startsession(query){
         if(session.started==false){ //CASO 2 è STATA AVVIATA LA SESSIONE?
 
           db.readfilefromdb("Users",{sessionid:msg.chat.id,role:"master"}).then(function(master){
-            console.log("master found in this session: "+master);
+            //console.log("master found in this session: "+master);
             if(master&&master.id==query.from.id){// CASO 3 ESISTE IL MASTER?
               //AVVIA SESSIONE
                 db.modifyobj("Sessions",{actualturn:master.id,started:true},{id:msg.chat.id});
@@ -211,7 +211,7 @@ function whomustplay(query){
        });
      }else{
        query.answer({ text:txt. sessionnotstarted, alert: true });
-       console.log('session not started');
+       //console.log('session not started');
      }
    });
  }
