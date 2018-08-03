@@ -283,11 +283,9 @@ function newmessage(msg,reply){
                 ]
               ]);
 
-              var txttosend= txt.wanttosend+"\
-               \
-              "+msg.text;
+              var txttosend= "<strong>"+txt.wanttosend+"</strong>"+"\n \n"+msg.text;
 
-              replytousr.text(txttosend).then(support.deletecmd(msg,reply));
+              replytousr.html(txttosend).then(support.deletecmd(msg,reply));
 
             }
             else{  // CASO 2 RESPONSE
