@@ -279,7 +279,7 @@ function newmessage(msg,reply){
 
               replytousr.inlineKeyboard([
                 [
-                  //{text:"Invia", callback_data: JSON.stringify({ action: "sendmessage", chatid: msg.chat.id, msgtxt: msg.text })},
+                  {text:"Invia", callback_data: JSON.stringify({ action: "sendmessage", chatid: msg.chat.id, msgtxt: msg.text })},
                   {text:"Annulla", callback_data: JSON.stringify({ action: "deletemessage" })},
                 ]
               ]);
@@ -360,7 +360,7 @@ function reboot(msg,reply){
 
 function deletesentmessage(query){
   var reply = bot.reply(query.message.chat);
-  suppord.deletecmd(query.message.id,reply);
+  support.deletecmd(query.message.id,reply);
 }
 
 function  sendmessage(query,chatid,txt){
