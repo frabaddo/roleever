@@ -274,9 +274,10 @@ function newmessage(msg,reply){
           if(timers[msg.chat.id] == null||timers[msg.chat.id]=="1"||timers[msg.chat.id].timer.isPaused()!=true){ //CASO 2 SESSIONE IN PAUSA?
             if(session.actualturn==msg.from.id){
 
-              console.log(msg.chat.id+"________"+msg.text);
+
               var replytousr = bot.reply(msg.from.id);
               var objc=JSON.stringify({ action: "sendmessage", chatid: msg.chat.id , msgtxt: msg.text });
+              console.log(objc);
               replytousr.inlineKeyboard([
                 [
                   {text:"Invia", callback_data: objc},
