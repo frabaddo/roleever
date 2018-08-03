@@ -297,7 +297,7 @@ function newmessage(msg,reply){
                   usr : msg.from.id, sessionid : msg.chat.id , time : timetoset
                 },
               );
-              turn.callturn(msg.chat.id , msg.from.id); 
+              turn.callturn(msg.chat.id , msg.from.id);
             }
             else{  // CASO 2 RESPONSE
               support.replytousr(msg.from.id,txt.isnotturn).then(support.deletecmd(msg,reply));
@@ -414,4 +414,4 @@ bot.command("reboot", reboot);
 bot.command("deleteusr", deleteusr);
 bot.command("pauseoff", pause.reinitpausemsg);
 bot.text(newmessage);
-bot.all(function (msg, reply, next) {support.deletecmd(msg,reply);});
+//bot.all(function (msg, reply) {support.deletecmd(msg,reply);});
