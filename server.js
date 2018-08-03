@@ -364,20 +364,42 @@ function deletesentmessage(query){
 
 function  sendmessage(query,chatid){
   var reply = bot.reply(query.message.chat);
-  support.deletecmd(query.message.id,reply);
   var replytochat = bot.reply(chatid);
-  replytochat.text(query.message.text);
-  var timetoset=Date.now();
-  db.createobj(
-    "Messages",
-    {
-      usr : query.from.id, sessionid : chatid , time: timetoset , message : query.message.text
-    },
-    {
-      usr : query.from.id, sessionid : chatid , time : timetoset
-    },
-  );
-  turn.callturn(chatid , query.from.id);
+
+  db.readfilefromdb("Sessions",{id : chatid}).then(function(session){
+    if(session){// CASO 1 ESISTE LA SESSIONE?
+      if(session.started==true){
+        if(timers[chatid] == null||timers[chatid]=="1"||timers[chatid].timer.isPaused()!=true){ //CASO 2 SESSIONE IN PAUSA?
+          if(session.actualturn==query.from.id){
+
+            support.deletecmd(query.message.id,reply);
+            replytochat.text(query.message.text);
+            var timetoset=Date.now();
+            db.createobj(
+              "Messages",
+              {
+                usr : query.from.id, sessionid : chatid , time: timetoset , message : query.message.text
+              },
+              {
+                usr : query.from.id, sessionid : chatid , time : timetoset
+              },
+            );
+            turn.callturn(chatid , query.from.id);
+          else{  // CASO 2 RESPONSE
+            support.replytousr(query.from.id,txt.isnotturn);
+          }
+
+        }else{
+          support.replytousr(query.from.id,txt.pauseon);
+        }
+      }else{
+        support.replytousr(query.from.id.sessionnotstarted);
+      }
+    }
+    else{ // CASO 1 RESPONSE
+      support.replytousr(query.from.id.sessionnotcreated);
+    }
+  });
 }
 
 
