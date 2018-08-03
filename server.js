@@ -275,8 +275,8 @@ function newmessage(msg,reply){
             if(session.actualturn==msg.from.id){
 
 
-              var replytousr = bot.reply(msg.from.id);//msg.chat.id msg.text
-              var obj={ action: "sendmessage", chatid: "" , msgtxt:"" };
+              var replytousr = bot.reply(msg.from.id);
+              var obj={ action: "sendmessage", chatid: msg.chat.id.toString() , msgtxt:msg.text.toString() };
               replytousr.inlineKeyboard([
                 [
                   {text:"Invia", callback_data: JSON.stringify(obj)},
