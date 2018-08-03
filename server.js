@@ -276,10 +276,10 @@ function newmessage(msg,reply){
 
 
               var replytousr = bot.reply(msg.from.id);
-
-              replytousr.inlineKeyboard([//msg.chat.id msg.text
+              var obj={ action: "sendmessage", chatid:msg.chat.id , msgtxt:msg.text };
+              replytousr.inlineKeyboard([
                 [
-                  {text:"Invia", callback_data: JSON.stringify({ action: "sendmessage", chatid:"" , msgtxt:"" })},
+                  {text:"Invia", callback_data: JSON.stringify(obj)},
                   {text:"Annulla", callback_data: JSON.stringify({ action: "deletemessage" })},
                 ]
               ]);
@@ -365,7 +365,7 @@ function deletesentmessage(query){
 
 function  sendmessage(query,chatid,txt){
   var reply = bot.reply(query.message.chat);
-  suppord.deletecmd(query.message.id,reply);
+  support.deletecmd(query.message.id,reply);
   var replytochat = bot.reply(chatid);
   replytochat.text(txt);
   var timetoset=Date.now();
