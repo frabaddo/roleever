@@ -80,7 +80,7 @@ var inittimers=function(){
         var timea=Date.now()-timer.timestart;
         var timeb=timea-localtimeinpause;
         var timec=timer.timetodo[0]-timeb;
-        console.log("timer a: "+timea+"; timer b: "+timeb+"; timer c: "+timec);
+        //console.log("timer a: "+timea+"; timer b: "+timeb+"; timer c: "+timec);
         reinitwait(timer.id,totalturn,chatdata.actualturn,Math.max(timec,0),timer.timetodo[1],timer.timetodo[2],timer.timetodo[3],timer.pausestart!=0);
       });
     });
