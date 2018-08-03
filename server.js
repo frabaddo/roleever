@@ -385,6 +385,7 @@ function  sendmessage(query,chatid){
               },
             );
             turn.callturn(chatid , query.from.id);
+          }
           else{  // CASO 2 RESPONSE
             support.replytousr(query.from.id,txt.isnotturn);
           }
