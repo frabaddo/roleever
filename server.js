@@ -284,8 +284,8 @@ function newmessage(msg,reply){
                 ]
               ]);
 
-              replytousr.text(msg.text);
-              support.deletecmd(msg,reply);
+              replytousr.text(msg.text).then(support.deletecmd(msg,reply));
+
               /*
               var timetoset=Date.now();
               db.createobj(
