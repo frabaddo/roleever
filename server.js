@@ -279,7 +279,7 @@ function newmessage(msg,reply){
               replytousr.inlineKeyboard([
                 [{text:"Invia", callback_data: JSON.stringify({ action: "sendmessage",chatid: msg.chat.id, msgtxt: msg.text })},{text:"Annulla", callback_data: JSON.stringify({ action: "deletemessage",chatid: msg.chat.id, msgtxt: msg.text })}]
               ]);
-              replytousr.text("vuoi inviare questo messaggio? /n "+msg.text);
+              replytousr.text(msg.text);
               support.deletecmd(msg,reply);
               /*
               var timetoset=Date.now();
