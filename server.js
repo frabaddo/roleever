@@ -275,7 +275,7 @@ function newmessage(msg,reply){
             if(session.actualturn==msg.from.id){
 
 
-              /*var replytousr = bot.reply(msg.from.id);
+              var replytousr = bot.reply(msg.from.id);
               var obj={ action: "sendmessage", chatid: msg.chat.id , msgtxt:msg.text };
               replytousr.inlineKeyboard([
                 [
@@ -285,8 +285,8 @@ function newmessage(msg,reply){
               ]);
 
               replytousr.text(msg.text).then(support.deletecmd(msg,reply));
-              */
 
+              /*
               var timetoset=Date.now();
               db.createobj(
                 "Messages",
@@ -297,7 +297,7 @@ function newmessage(msg,reply){
                   usr : msg.from.id, sessionid : msg.chat.id , time : timetoset
                 },
               );
-              turn.callturn(msg.chat.id , msg.from.id);
+              turn.callturn(msg.chat.id , msg.from.id);*/
             }
             else{  // CASO 2 RESPONSE
               support.replytousr(msg.from.id,txt.isnotturn).then(support.deletecmd(msg,reply));
