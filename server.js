@@ -276,7 +276,7 @@ function newmessage(msg,reply){
 
 
               var replytousr = bot.reply(msg.from.id);
-              var obj={ action: "sendmessage", chatid: eval(msg.chat.id) , msgtxt:eval(msg.text) };
+              var obj={ action: "sendmessage", chatid: String(eval(msg.chat.id)) , msgtxt: String(eval(msg.text)) };
               replytousr.inlineKeyboard([
                 [
                   {text:"Invia", callback_data: JSON.stringify(obj)},
