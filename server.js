@@ -320,9 +320,9 @@ function  sendmessage(query,chatid){
       if(session.started==true){
         if(timers[chatid] == null||timers[chatid]=="1"||timers[chatid].timer.isPaused()!=true){ //CASO 2 SESSIONE IN PAUSA?
           if(session.actualturn==query.from.id){
-            var txttosend=query.message.text.replace(txt.wanttosend,query.from.name+":");
+            var txttosend=query.message.text.replace(txt.wanttosend,"<strong>"+query.from.name+":"+"</strong>");
             support.deletecmd(query.message.id,reply);
-            replytochat.text(txttosend);
+            replytochat.html(txttosend);
             var timetoset=Date.now();
             db.createobj(
               "Messages",
