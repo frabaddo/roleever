@@ -27,7 +27,7 @@ var callturn=function (chatid , currentid){
             id: chatid
           }
         ).then(function(){console.log(chatdata.totalturn);
-      console.log(totalindex);  waittoturn(chatid,totalindex,users[newindex].id,15000,15000,0,0)});
+      console.log(totalindex);  waittoturn(chatid,totalindex,users[newindex].id,45000,45000,0,0)});
       });
     });
 }
