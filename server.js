@@ -283,20 +283,12 @@ function newmessage(msg,reply){
                 ]
               ]);
 
-              replytousr.text(msg.text).then(support.deletecmd(msg,reply));
+              var txttosend= txt.wanttosend+"\
+              \
+              "+msg.text;
 
-              /*
-              var timetoset=Date.now();
-              db.createobj(
-                "Messages",
-                {
-                  usr : msg.from.id, sessionid : msg.chat.id , time: timetoset , message : msg.text
-                },
-                {
-                  usr : msg.from.id, sessionid : msg.chat.id , time : timetoset
-                },
-              );
-              turn.callturn(msg.chat.id , msg.from.id);*/
+              replytousr.text(txttosend).then(support.deletecmd(msg,reply));
+
             }
             else{  // CASO 2 RESPONSE
               support.replytousr(msg.from.id,txt.isnotturn).then(support.deletecmd(msg,reply));
@@ -316,6 +308,51 @@ function newmessage(msg,reply){
   }
 }
 
+function deletesentmessage(query){
+  var reply = bot.reply(query.message.chat);
+  support.deletecmd(query.message.id,reply);
+}
+
+function  sendmessage(query,chatid){
+  var reply = bot.reply(query.message.chat);
+  var replytochat = bot.reply(chatid);
+
+  db.readfilefromdb("Sessions",{id : chatid}).then(function(session){
+    if(session){// CASO 1 ESISTE LA SESSIONE?
+      if(session.started==true){
+        if(timers[chatid] == null||timers[chatid]=="1"||timers[chatid].timer.isPaused()!=true){ //CASO 2 SESSIONE IN PAUSA?
+          if(session.actualturn==query.from.id){
+            var txttosend=query.message.text.replace(txt.wanttosend,query.from.name);
+            support.deletecmd(query.message.id,reply);
+            replytochat.text(query.message.text);
+            var timetoset=Date.now();
+            db.createobj(
+              "Messages",
+              {
+                usr : query.from.id, sessionid : chatid , time: timetoset , message : query.message.text
+              },
+              {
+                usr : query.from.id, sessionid : chatid , time : timetoset
+              },
+            );
+            turn.callturn(chatid , query.from.id);
+          }
+          else{  // CASO 2 RESPONSE
+            support.replytousr(query.from.id,txt.isnotturn);
+          }
+
+        }else{
+          support.replytousr(query.from.id,txt.pauseon);
+        }
+      }else{
+        support.replytousr(query.from.id.sessionnotstarted);
+      }
+    }
+    else{ // CASO 1 RESPONSE
+      support.replytousr(query.from.id.sessionnotcreated);
+    }
+  });
+}
 
 
 function deleteusr(msg,reply,nome){
@@ -357,51 +394,6 @@ function reboot(msg,reply){
  }
 }
 
-function deletesentmessage(query){
-  var reply = bot.reply(query.message.chat);
-  support.deletecmd(query.message.id,reply);
-}
-
-function  sendmessage(query,chatid){
-  var reply = bot.reply(query.message.chat);
-  var replytochat = bot.reply(chatid);
-
-  db.readfilefromdb("Sessions",{id : chatid}).then(function(session){
-    if(session){// CASO 1 ESISTE LA SESSIONE?
-      if(session.started==true){
-        if(timers[chatid] == null||timers[chatid]=="1"||timers[chatid].timer.isPaused()!=true){ //CASO 2 SESSIONE IN PAUSA?
-          if(session.actualturn==query.from.id){
-
-            support.deletecmd(query.message.id,reply);
-            replytochat.text(query.message.text);
-            var timetoset=Date.now();
-            db.createobj(
-              "Messages",
-              {
-                usr : query.from.id, sessionid : chatid , time: timetoset , message : query.message.text
-              },
-              {
-                usr : query.from.id, sessionid : chatid , time : timetoset
-              },
-            );
-            turn.callturn(chatid , query.from.id);
-          }
-          else{  // CASO 2 RESPONSE
-            support.replytousr(query.from.id,txt.isnotturn);
-          }
-
-        }else{
-          support.replytousr(query.from.id,txt.pauseon);
-        }
-      }else{
-        support.replytousr(query.from.id.sessionnotstarted);
-      }
-    }
-    else{ // CASO 1 RESPONSE
-      support.replytousr(query.from.id.sessionnotcreated);
-    }
-  });
-}
 
 
 bot.callback(function (query, next) {

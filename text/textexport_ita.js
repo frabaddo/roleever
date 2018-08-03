@@ -56,6 +56,8 @@ var loseturn="Hai perso il turno"
 
 var onlymaster="Solo il master può avviare la sessione!"
 
+var wanttosend="Vuoi inviare questo messaggio?";
+
 
 module.exports={
   pauseon,
@@ -79,5 +81,6 @@ module.exports={
   yourturn,
   mintoresp,
   loseturn,
-  onlymaster
+  onlymaster,
+  wanttosend
 }
