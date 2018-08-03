@@ -320,7 +320,7 @@ function  sendmessage(query,chatid){
       if(session.started==true){
         if(timers[chatid] == null||timers[chatid]=="1"||timers[chatid].timer.isPaused()!=true){ //CASO 2 SESSIONE IN PAUSA?
           if(session.actualturn==query.from.id){
-            var txttosend=query.message.text.replace(txt.wanttosend,"<strong style='background-color:rgba(0,0,255,0.4)'>"+query.from.name+":"+"</strong>");
+            var txttosend=query.message.text.replace(txt.wanttosend,"<strong>"+query.from.name+":"+"</strong>");
             support.deletecmd(query.message.id,reply);
             replytochat.html(txttosend);
             var timetoset=Date.now();
