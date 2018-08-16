@@ -95,7 +95,8 @@ function startbot(msg,reply){
           }else{
             support.deletecmd(msg,reply);
             reply.inlineKeyboard([
-              [{text:"Avvia la sessione", callback_data: "STARTSESSION"}],
+              [{text:"Avvia sessione con turni da 4h", callback_data: JSON.stringify({ action: "STARTSESSION", hours: 4 })}],
+              [{text:"Avvia sessione con turni da 6h", callback_data: JSON.stringify({ action: "STARTSESSION", hours: 6 })}],
               [{text:"Nuovo giocatore", callback_data: JSON.stringify({ action: "newusr", role: "pg" })},{text:"Nuovo master", callback_data: JSON.stringify({ action: "newusr", role: "master" })}]
             ]);
             reply.markdown("Il master potrà avviare la sessione quando lui e i giocatori si saranno registrati");
@@ -172,7 +173,7 @@ function newusr(query,role){
 }
 
 
-function startsession(query){
+function startsession(query,hours){
   var reply = bot.reply(query.message.chat);
   var msg=query.message;
   db.existindb("Sessions",{id:msg.chat.id}).then(function(bool){  //CASO 1 ESISTE LA SESSIONE?
@@ -409,14 +410,6 @@ function reboot(msg,reply){
 }
 
 
-
-bot.callback(function (query, next) {
-  if (query.data!="STARTSESSION") {
-    return next();
-  }
-  startsession(query);
-});
-
 bot.callback(function (query, next) {
   var data;
   try {
@@ -424,6 +417,7 @@ bot.callback(function (query, next) {
   } catch (e) {
     return next();
   }
+  if (data.action == "STARTSESSION") startsession(query,data.hours);;
   if (data.action == "newusr") newusr(query,data.role);
   if (data.action == "turn") whomustplay(query);
   if (data.action == "pauseon") pause.switchpauseon(query);
