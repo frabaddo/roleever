@@ -45,7 +45,7 @@ var waittoturn=function (chatid,totalindex,usrid,timea,timeb,timec,timed){
       var tempTime = moment.duration(tim);
       var y = tempTime.hours() + ":" + tempTime.minutes();
       if(timea!=0){
-        support.replytousr(usrid,txt.yourturn+ tim.toString() +txt.hourstoresp+chatdata2.sessionname);
+        support.replytousr(usrid,txt.yourturn+ y +txt.hourstoresp+chatdata2.sessionname);
         pauseable.setTimeout(chatid,function(){
           waittoturn(chatid,totalindex,usrid,timeb,timec,timed,0);
         },[timea,timeb,timec,timed]);
