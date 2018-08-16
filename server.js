@@ -93,6 +93,7 @@ function startbot(msg,reply){
               },5000)}
             );
           }else{
+            support.deletecmd(msg,reply);
             reply.inlineKeyboard([
               [{text:"Avvia la sessione", callback_data: "STARTSESSION"}],
               [{text:"Nuovo giocatore", callback_data: JSON.stringify({ action: "newusr", role: "pg" })},{text:"Nuovo master", callback_data: JSON.stringify({ action: "newusr", role: "master" })}]
