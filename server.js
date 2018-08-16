@@ -59,8 +59,8 @@ function startbot(msg,reply){
   else{
     db.existindb("Sessions",{id:msg.chat.id}).then(function(bool){  //CASO 1 ESISTE LA SESSIONE?
       var keyboard= [
-        [{text:"Avvia: 2h", callback_data: JSON.stringify({ action: "STARTSESSION", hours: 2 })},{text:"Avvia: 4h", callback_data: JSON.stringify({ action: "STARTSESSION", hours: 4 })}],
-        [{text:"Avvia: 6h(Consigliato)", callback_data: JSON.stringify({ action: "STARTSESSION", hours: 6 })},{text:"Avvia: 8h", callback_data: JSON.stringify({ action: "STARTSESSION", hours: 8 })}],
+        [{text:"Avvia: 2h", callback_data: JSON.stringify({ action: "STARTSESSION", hours: 7200000 })},{text:"Avvia: 4h", callback_data: JSON.stringify({ action: "STARTSESSION", hours: 14400000 })}],
+        [{text:"Avvia: 6h(Consigliato)", callback_data: JSON.stringify({ action: "STARTSESSION", hours: 21600000 })},{text:"Avvia: 8h", callback_data: JSON.stringify({ action: "STARTSESSION", hours: 28800000 })}],
         [{text:"Nuovo giocatore", callback_data: JSON.stringify({ action: "newusr", role: "pg" })},{text:"Nuovo master", callback_data: JSON.stringify({ action: "newusr", role: "master" })}]
       ];
       if(!bool){
@@ -69,10 +69,9 @@ function startbot(msg,reply){
           {
             id:msg.chat.id,
             sessionname:msg.chat.title,
-            users:[],
+            hours:0,
             totalturn:1,
             actualturn:0,
-            message: [],
             started: false
           },
           {
@@ -171,7 +170,7 @@ function newusr(query,role){
 }
 
 
-function startsession(query,hours){
+function startsession(query,turntime){
   var reply = bot.reply(query.message.chat);
   var msg=query.message;
   db.existindb("Sessions",{id:msg.chat.id}).then(function(bool){  //CASO 1 ESISTE LA SESSIONE?
@@ -183,7 +182,7 @@ function startsession(query,hours){
             //console.log("master found in this session: "+master);
             if(master&&master.id==query.from.id){// CASO 3 ESISTE IL MASTER?
               //AVVIA SESSIONE
-                db.modifyobj("Sessions",{actualturn:master.id,started:true},{id:msg.chat.id});
+                db.modifyobj("Sessions",{actualturn:master.id,hours:turntime,started:true},{id:msg.chat.id});
                 timers[msg.chat.id]="1";
                 reply.inlineKeyboard([
                   [{text:"Nuovo giocatore", callback_data: JSON.stringify({ action: "newusr", role: "pg" })},{text:"Scheda Pg", callback_data: JSON.stringify({ action: "sheet"})}],

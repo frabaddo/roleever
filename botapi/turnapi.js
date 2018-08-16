@@ -13,7 +13,7 @@ var callturn=function (chatid , currentid){
       var newindex=0;
       db.readfilefromdb("Users", {sessionid:chatid},true).then(function(users){
 
-        newindex=users.map(function(x) {return x.id; }).indexOf(currentid); //figlio di puttana
+        newindex=users.map(function(x) {return x.id; }).indexOf(currentid);
         console.log("il vecchio index è: "+newindex);
         newindex=(newindex+1)%users.length;
         console.log("il nuovo index è: "+newindex);
@@ -27,7 +27,10 @@ var callturn=function (chatid , currentid){
             id: chatid
           }
         ).then(function(){console.log(chatdata.totalturn);
-      console.log(totalindex);  waittoturn(chatid,totalindex,users[newindex].id,45000,45000,0,0)});
+          var interval=chatdata.hours/4;
+          console.log(totalindex);
+          waittoturn(chatid,totalindex,users[newindex].id,interval,interval,interval,interval)
+        });
       });
     });
 }
@@ -80,31 +83,12 @@ var inittimers=function(){
         var timea=Date.now()-timer.timestart;
         var timeb=timea-localtimeinpause;
         var timec=timer.timetodo[0]-timeb;
-        //console.log("timer a: "+timea+"; timer b: "+timeb+"; timer c: "+timec);
         reinitwait(timer.id,totalturn,chatdata.actualturn,Math.max(timec,0),timer.timetodo[1],timer.timetodo[2],timer.timetodo[3],timer.pausestart!=0);
       });
     });
   });
 }
 
-/*var savetimer=function(signal){
-  console.log("Restart in questo istante");
-  var timerstopass=[];
-  var timersprop=mapValues(timers,function(element, key, obj){
-      return {
-        id:element.id,
-        timestart:element.timestart,
-        pausestart:element.pausestart,
-        timeinpause:element.timeinpause,
-        timetodo:element.timetodo,
-      }
-  });
-  Object.keys(timersprop).forEach(function(key) {
-    timerstopass.push(timersprop[key]);
-  });
-  db.addmodobjs("Timers",timerstopass,"id").then(console.log("done"));
-}
-*/
 module.exports={
   callturn,
   inittimers
