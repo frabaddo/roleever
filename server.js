@@ -40,6 +40,9 @@ app.get('/reboottimer', function(req, res) {
 });
 
 
+process.on('uncaughtException', function(err) {
+  console.log('Caught exception: ' + err);
+});
 /*
 function calctime( time ){
   var range1 = Moment.range(Moment(), Moment().add(6, 'h'));
@@ -80,13 +83,23 @@ function startbot(msg,reply){
           reply.markdown("Il master potrà avviare la sessione quando lui e i giocatori si saranno registrati");
         });
       }else{
-        reply.keyboard().text(txt.justcreate)
-        .then(function(err,result){
-          support.deletecmd(msg,reply);
-          setTimeout(function(){
-            support.deletecmd(result,reply);
-          },5000)}
-        );
+        db.readfilefromdb("Sessions", {id:msg.chat.id}).then(function(session){
+          if(session.started==true){
+            reply.keyboard().text(txt.justcreate)
+            .then(function(err,result){
+              support.deletecmd(msg,reply);
+              setTimeout(function(){
+                support.deletecmd(result,reply);
+              },5000)}
+            );
+          }else{
+            reply.inlineKeyboard([
+              [{text:"Avvia la sessione", callback_data: "STARTSESSION"}],
+              [{text:"Nuovo giocatore", callback_data: JSON.stringify({ action: "newusr", role: "pg" })},{text:"Nuovo master", callback_data: JSON.stringify({ action: "newusr", role: "master" })}]
+            ]);
+            reply.markdown("Il master potrà avviare la sessione quando lui e i giocatori si saranno registrati");
+          }
+        });
       }
     });
   }
@@ -189,10 +202,12 @@ function startsession(query){
 
         }else{ //CASO 2 RESPONSE
           query.answer({ text: txt.juststarted, alert: true });
+          support.deletecmd(msg,reply);
         }
       });
     }else{  //CASO 1 RESPONSE
       query.answer({ text: txt.sessionnotcreated, alert: true });
+      support.deletecmd(msg,reply);
     }
   });
 }
