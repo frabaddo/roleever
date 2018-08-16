@@ -1,6 +1,7 @@
 const db = require("../databaseapi/mongoapi");
 const support= require("./supportfunc");
 const txt = require("../text/textexport_ita");
+const moment = require('moment');
 const pauseable = require('./pauseableplus/pauseableplus');
 var mapValues = require('object.map');
 
@@ -40,9 +41,11 @@ var waittoturn=function (chatid,totalindex,usrid,timea,timeb,timec,timed){
     console.log(chatdata2.totalturn);
     console.log(totalindex);
      if(chatdata2.totalturn==totalindex){
-      var tim=(timea+timeb+timec+timed)/60000;
+      var tim=timea+timeb+timec+timed;
+      var tempTime = moment.duration(tim);
+      var y = tempTime.hours() + ":" + tempTime.minutes();
       if(timea!=0){
-        support.replytousr(usrid,txt.yourturn+ tim.toString() +txt.mintoresp+chatdata2.sessionname);
+        support.replytousr(usrid,txt.yourturn+ tim.toString() +txt.hourstoresp+chatdata2.sessionname);
         pauseable.setTimeout(chatid,function(){
           waittoturn(chatid,totalindex,usrid,timeb,timec,timed,0);
         },[timea,timeb,timec,timed]);

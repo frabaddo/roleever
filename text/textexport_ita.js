@@ -50,7 +50,7 @@ var isnotturn="Non è il tuo turno";
 
 var yourturn="è il tuo turno! Hai ancora ";
 
-var mintoresp="min per rispondere in ";
+var hourstoresp=" ore per rispondere in ";
 
 var loseturn="Hai perso il turno"
 
@@ -81,7 +81,7 @@ module.exports={
   juststarted,
   isnotturn,
   yourturn,
-  mintoresp,
+  hourstoresp,
   loseturn,
   onlymaster,
   wanttosend,
