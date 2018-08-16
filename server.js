@@ -97,7 +97,7 @@ function startbot(msg,reply){
           }else{
             support.deletecmd(msg,reply);
             reply.inlineKeyboard(keyboard);
-            reply.markdown("Il master potrà avviare la sessione quando lui e i giocatori si saranno registrati");
+            reply.markdown(txt.startregister);
           }
         });
       }
