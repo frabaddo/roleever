@@ -58,6 +58,8 @@ var onlymaster="Solo il master può avviare la sessione!"
 
 var wanttosend="Vuoi inviare questo messaggio?";
 
+var startregister="Il master potrà avviare la sessione selezionando una durata dei turni, quando lui e i giocatori si saranno registrati";
+
 
 module.exports={
   pauseon,
@@ -82,5 +84,6 @@ module.exports={
   mintoresp,
   loseturn,
   onlymaster,
-  wanttosend
+  wanttosend,
+  startregister
 }

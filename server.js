@@ -58,6 +58,13 @@ function startbot(msg,reply){
   }
   else{
     db.existindb("Sessions",{id:msg.chat.id}).then(function(bool){  //CASO 1 ESISTE LA SESSIONE?
+      var keyboard= [
+        [{text:"Avvia: 2h", callback_data: JSON.stringify({ action: "STARTSESSION", hours: 2 })}],
+        [{text:"Avvia: 4h", callback_data: JSON.stringify({ action: "STARTSESSION", hours: 4 })}],
+        [{text:"Avvia: 6h(Consigliato)", callback_data: JSON.stringify({ action: "STARTSESSION", hours: 6 })}],
+        [{text:"Avvia: 8h", callback_data: JSON.stringify({ action: "STARTSESSION", hours: 8 })}],
+        [{text:"Nuovo giocatore", callback_data: JSON.stringify({ action: "newusr", role: "pg" })},{text:"Nuovo master", callback_data: JSON.stringify({ action: "newusr", role: "master" })}]
+      ];
       if(!bool){
         db.createobj(
           "Sessions",
@@ -76,11 +83,8 @@ function startbot(msg,reply){
         )
         .then(support.deletecmd(msg,reply))
         .then(function(result){
-          reply.inlineKeyboard([
-            [{text:"Avvia la sessione", callback_data: "STARTSESSION"}],
-            [{text:"Nuovo giocatore", callback_data: JSON.stringify({ action: "newusr", role: "pg" })},{text:"Nuovo master", callback_data: JSON.stringify({ action: "newusr", role: "master" })}]
-          ]);
-          reply.markdown("Il master potrà avviare la sessione quando lui e i giocatori si saranno registrati");
+          reply.inlineKeyboard(keyboard);
+          reply.markdown(txt.startregister);
         });
       }else{
         db.readfilefromdb("Sessions", {id:msg.chat.id}).then(function(session){
@@ -94,13 +98,7 @@ function startbot(msg,reply){
             );
           }else{
             support.deletecmd(msg,reply);
-            reply.inlineKeyboard([
-              [{text:"Avvia sessione con turni da 2h", callback_data: JSON.stringify({ action: "STARTSESSION", hours: 2 })}],
-              [{text:"Avvia sessione con turni da 4h", callback_data: JSON.stringify({ action: "STARTSESSION", hours: 4 })}],
-              [{text:"Avvia sessione con turni da 6h(Consigliato)", callback_data: JSON.stringify({ action: "STARTSESSION", hours: 6 })}],
-              [{text:"Avvia sessione con turni da 8h", callback_data: JSON.stringify({ action: "STARTSESSION", hours: 8 })}],
-              [{text:"Nuovo giocatore", callback_data: JSON.stringify({ action: "newusr", role: "pg" })},{text:"Nuovo master", callback_data: JSON.stringify({ action: "newusr", role: "master" })}]
-            ]);
+            reply.inlineKeyboard(keyboard);
             reply.markdown("Il master potrà avviare la sessione quando lui e i giocatori si saranno registrati");
           }
         });
