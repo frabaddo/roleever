@@ -243,7 +243,7 @@ function whomustplay(query){
 }
 
 
-var openmenu = function(msg,reply){
+function openmenu(msg,reply){
   if(msg.chat.type!="group"&&msg.chat.type!="supergroup"){
    reply.text(txt.bootnogroup);
    support.deletecmd(msg,reply);
@@ -288,7 +288,6 @@ function start(msg,reply){
 function newmessage(msg,reply){
   if(msg.chat.type!="group"&&msg.chat.type!="supergroup"){
    reply.text(txt.bootnogroup);
-   reply.text(msg.chat.type);
   }
   else{
     db.readfilefromdb("Sessions",{id : msg.chat.id}).then(function(session){

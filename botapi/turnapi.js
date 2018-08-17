@@ -14,9 +14,8 @@ var callturn=function (chatid , currentid){
       var newindex=0;
       db.readfilefromdb("Users", {sessionid:chatid},true).then(function(users){
 
-        newindex=users.map(function(x) {return x.id; }).indexOf(currentid);
-        console.log("il vecchio index è: "+newindex);
-        newindex=(newindex+1)%users.length;
+        newindex=calcnewindex(users,currentid);
+
         console.log("il nuovo index è: "+newindex);
         db.modifyobj(
           "Sessions",
@@ -34,6 +33,14 @@ var callturn=function (chatid , currentid){
         });
       });
     });
+}
+
+function calcnewindex(users,currentid){
+  var index=users.map(function(x) {return x.id; }).indexOf(currentid);
+  console.log("il vecchio index è: "+index);
+  index=(newindex+1)%users.length;
+  if(users[index].ready==true) return index;
+  else return calcnewindex(users,users[index].id);
 }
 
 var waittoturn=function (chatid,totalindex,usrid,timea,timeb,timec,timed){
