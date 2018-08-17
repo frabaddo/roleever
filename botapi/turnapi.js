@@ -38,7 +38,7 @@ var callturn=function (chatid , currentid){
 function calcnewindex(users,currentid){
   var index=users.map(function(x) {return x.id; }).indexOf(currentid);
   console.log("il vecchio index è: "+index);
-  index=(newindex+1)%users.length;
+  index=(index+1)%users.length;
   if(users[index].ready==true) return index;
   else return calcnewindex(users,users[index].id);
 }
