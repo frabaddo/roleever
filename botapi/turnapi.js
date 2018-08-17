@@ -7,40 +7,56 @@ var mapValues = require('object.map');
 
 var callturn=function (chatid , currentid){
     db.readfilefromdb("Sessions",{id : chatid}).then(function(chatdata){
-      var actualindex=chatdata.actualturn;
       var totalindex=chatdata.totalturn+1;
       console.log(chatdata.totalturn);
       console.log(totalindex);
       var newindex=0;
       db.readfilefromdb("Users", {sessionid:chatid},true).then(function(users){
 
-        newindex=calcnewindex(users,currentid);
+        newindex=calcnewindex(users,currentid,1);
 
-        console.log("il nuovo index è: "+newindex);
-        db.modifyobj(
-          "Sessions",
-          {
-            totalturn:totalindex,
-            actualturn:users[newindex].id
-          },
-          {
-            id: chatid
-          }
-        ).then(function(){console.log(chatdata.totalturn);
-          var interval=chatdata.hours/4;
-          console.log(totalindex);
-          waittoturn(chatid,totalindex,users[newindex].id,interval,interval,interval,interval)
-        });
+        console.log("il nuovo index accettabile è: "+newindex);
+        if(newindex!=false){
+          db.modifyobj(
+            "Sessions",
+            {
+              totalturn:totalindex,
+              actualturn:users[newindex].id
+            },
+            {
+              id: chatid
+            }
+          ).then(function(){console.log(chatdata.totalturn);
+            var interval=chatdata.hours/4;
+            console.log(totalindex);
+            waittoturn(chatid,totalindex,users[newindex].id,interval,interval,interval,interval)
+          });
+        }
+        else{
+          db.modifyobj(
+            "Sessions",
+            {
+              totalturn:totalindex,
+              actualturn:0
+            },
+            {
+              id: chatid
+            }
+          );
+        }
       });
     });
 }
 
-function calcnewindex(users,currentid){
+function calcnewindex(users,currentid,i){
   var index=users.map(function(x) {return x.id; }).indexOf(currentid);
   console.log("il vecchio index è: "+index);
   index=(index+1)%users.length;
   if(users[index].ready==true) return index;
-  else return calcnewindex(users,users[index].id);
+  else{
+    if(i<users.length) return calcnewindex(users,users[index].id,i+1);
+    else return false;
+  }
 }
 
 var waittoturn=function (chatid,totalindex,usrid,timea,timeb,timec,timed){
