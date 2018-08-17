@@ -16,7 +16,7 @@ var callturn=function (chatid , currentid){
         newindex=calcnewindex(users,currentid,1);
 
         console.log("il nuovo index accettabile è: "+newindex);
-        if(newindex!=false){
+        if(newindex!==false){
           db.modifyobj(
             "Sessions",
             {
