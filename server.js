@@ -17,6 +17,18 @@ turn.inittimers();
 moment().format();
 
 
+var keyboardmenu=[
+  [{text:"Nuovo giocatore", callback_data: JSON.stringify({ action: "newusr", role: "pg" })},{text:"Scheda Pg", callback_data: JSON.stringify({ action: "sheet"})}],
+  [{text:"Pausa", callback_data: JSON.stringify({ action: "pauseon"})},{text:"Turno", callback_data: JSON.stringify({ action: "turn"})}],
+];
+
+var keyboardstart= [
+  [{text:"Avvia: 2h", callback_data: JSON.stringify({ action: "STARTSESSION", hours: 7200000 })},{text:"Avvia: 4h", callback_data: JSON.stringify({ action: "STARTSESSION", hours: 14400000 })}],
+  [{text:"Avvia: 6h(Consigliato)", callback_data: JSON.stringify({ action: "STARTSESSION", hours: 21600000 })},{text:"Avvia: 8h", callback_data: JSON.stringify({ action: "STARTSESSION", hours: 28800000 })}],
+  [{text:"Nuovo giocatore", callback_data: JSON.stringify({ action: "newusr", role: "pg" })},{text:"Nuovo master", callback_data: JSON.stringify({ action: "newusr", role: "master" })}]
+];
+
+
 
 
 app.use(express.static('public'));
@@ -58,11 +70,7 @@ function startbot(msg,reply){
   }
   else{
     db.existindb("Sessions",{id:msg.chat.id}).then(function(bool){  //CASO 1 ESISTE LA SESSIONE?
-      var keyboard= [
-        [{text:"Avvia: 2h", callback_data: JSON.stringify({ action: "STARTSESSION", hours: 7200000 })},{text:"Avvia: 4h", callback_data: JSON.stringify({ action: "STARTSESSION", hours: 14400000 })}],
-        [{text:"Avvia: 6h(Consigliato)", callback_data: JSON.stringify({ action: "STARTSESSION", hours: 21600000 })},{text:"Avvia: 8h", callback_data: JSON.stringify({ action: "STARTSESSION", hours: 28800000 })}],
-        [{text:"Nuovo giocatore", callback_data: JSON.stringify({ action: "newusr", role: "pg" })},{text:"Nuovo master", callback_data: JSON.stringify({ action: "newusr", role: "master" })}]
-      ];
+
       if(!bool){
         db.createobj(
           "Sessions",
@@ -80,7 +88,7 @@ function startbot(msg,reply){
         )
         .then(support.deletecmd(msg,reply))
         .then(function(result){
-          reply.inlineKeyboard(keyboard);
+          reply.inlineKeyboard(keyboardstart);
           reply.markdown(txt.startregister);
         });
       }else{
@@ -95,7 +103,7 @@ function startbot(msg,reply){
             );
           }else{
             support.deletecmd(msg,reply);
-            reply.inlineKeyboard(keyboard);
+            reply.inlineKeyboard(keyboardstart);
             reply.markdown(txt.startregister);
           }
         });
@@ -124,8 +132,10 @@ function newusr(query,role){
                       sessionid:msg.chat.id,
                       name:query.from.name,
                       role:"master",
-                      gamedata:{},
-                      active:true
+                      gamedata:{
+
+                      },
+                      ready:true
                     },
                     {
                       id:query.from.id,
@@ -147,14 +157,18 @@ function newusr(query,role){
                   name:query.from.name,
                   role:"pg",
                   gamedata:{},
-                  active:true
+                  ready:false
                 },
                 {
                   id:query.from.id,
                   sessionid:msg.chat.id,
                 }
               )
-              .then(reply.text(query.from.name+txt.orae+role));
+              .then(function(){
+                reply.text(query.from.name+txt.orae+role);
+                var replytousr = bot.reply(query.from.id);
+
+              });
             }
           }else{
             query.answer({ text: query.from.name+txt.alreadyexist, alert: true });
@@ -184,10 +198,7 @@ function startsession(query,turntime){
               //AVVIA SESSIONE
                 db.modifyobj("Sessions",{actualturn:master.id,hours:turntime,started:true},{id:msg.chat.id});
                 timers[msg.chat.id]="1";
-                reply.inlineKeyboard([
-                  [{text:"Nuovo giocatore", callback_data: JSON.stringify({ action: "newusr", role: "pg" })},{text:"Scheda Pg", callback_data: JSON.stringify({ action: "sheet"})}],
-                  [{text:"Pausa", callback_data: JSON.stringify({ action: "pauseon"})},{text:"Turno", callback_data: JSON.stringify({ action: "turn"})}],
-                ]);
+                reply.inlineKeyboard(keyboardmenu);
                 reply.markdown("MENU SESSIONE").then((err, result) => {
                   bot.pinChatMessage(msg.chat.id,result,{disableNotification:false},function(){});
                 });
@@ -241,10 +252,7 @@ var openmenu = function(msg,reply){
     db.readfilefromdb("Sessions",{id : msg.chat.id}).then(function(session){
       if(session){// CASO 1 ESISTE LA SESSIONE?
         if(session.started==true){
-          reply.inlineKeyboard([
-            [{text:"Nuovo giocatore", callback_data: JSON.stringify({ action: "newusr", role: "pg" })},{text:"Scheda Pg", callback_data: JSON.stringify({ action: "sheet"})}],
-            [{text:"Pausa", callback_data: JSON.stringify({ action: "pauseon"})},{text:"Turno", callback_data: JSON.stringify({ action: "turn"})}],
-          ]);
+          reply.inlineKeyboard(keyboardmenu);
           reply.markdown("MENU SESSIONE").then((err, result) => {
             bot.pinChatMessage(msg.chat.id,result,{disableNotification:false},function(){});
           });
@@ -280,6 +288,7 @@ function start(msg,reply){
 function newmessage(msg,reply){
   if(msg.chat.type!="group"&&msg.chat.type!="supergroup"){
    reply.text(txt.bootnogroup);
+   reply.text(msg.chat.type);
   }
   else{
     db.readfilefromdb("Sessions",{id : msg.chat.id}).then(function(session){
