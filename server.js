@@ -166,7 +166,6 @@ function newusr(query,role){
               )
               .then(function(){
                 reply.text(query.from.name+txt.orae+role);
-                var replytousr = bot.reply(query.from.id);
 
               });
             }
