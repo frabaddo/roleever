@@ -286,7 +286,7 @@ function start(msg,reply){
 
 function createusrquery(query,data,next){
   if(query.message.chat.type!="user"){
-   next();
+   return next();
   }
   var reply = bot.reply(query.message.chat);
   db.readfilefromdb("Users", {id:query.from.id,ready:false}).then(function(user){
@@ -335,7 +335,7 @@ function createusrquery(query,data,next){
 
 function createusr(msg,reply,next){
   if(msg.chat.type!="user"){
-   next();
+   return next();
   }
   db.readfilefromdb("Users", {id:msg.from.id,ready:false}).then(function(user){
     if(!user){
@@ -345,12 +345,12 @@ function createusr(msg,reply,next){
     switch (user.phase) {
       case 0:
         replyto.inlineKeyboard([
-          [{text:txt.yes, callback_data: JSON.stringify({ sid:user.sessionid, ys: true })},{text:txt.no, callback_data: JSON.stringify({sid:user.sessionid, ys: false })}]
+          [{text:txt.yes, callback_data: JSON.stringify({action:"createusr", sid:user.sessionid, ys: true })},{text:txt.no, callback_data: JSON.stringify({sid:user.sessionid, ys: false })}]
         ]).html(txt.addthisname+msg.text);
         break;
       case 1:
         replyto.inlineKeyboard([
-          [{text:txt.yes, callback_data: JSON.stringify({ sid:user.sessionid, ys: true })},{text:txt.no, callback_data: JSON.stringify({sid:user.sessionid, ys: false })}]
+          [{text:txt.yes, callback_data: JSON.stringify({action:"createusr", sid:user.sessionid, ys: true })},{text:txt.no, callback_data: JSON.stringify({sid:user.sessionid, ys: false })}]
         ]).html(txt.addthisdescription+msg.text);
         break;
       case 2:
@@ -509,7 +509,7 @@ bot.callback(function (query, next) {
   if (data.action == "pauseoff") pause.switchpauseoff(query);
   if (data.action == "sendmessage") sendmessage(query,data.chatid);
   if (data.action == "deletemessage") deletesentmessage(query);
-  createusrquery(query,data,next);
+  if (data.action == "createusr") createusrquery(query,data,next);
   return next();
 });
 
