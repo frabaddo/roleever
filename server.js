@@ -340,11 +340,8 @@ function createusr(msg,reply,next){
   if(msg.chat.type!="user"){
    next();
   }
-  db.readfilefromdb("Users", {sessionid:msg.chat.id}).then(function(user){
+  db.readfilefromdb("Users", {id:msg.from.id,ready:false}).then(function(user){
     if(!user){
-      return next();
-    }
-    if(user.ready){
       return next();
     }
     var replyto = bot.reply(msg.from.id);
