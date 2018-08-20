@@ -301,7 +301,7 @@ function createusrquery(query,data,next){
         if(data.ys){
           db.modifyobj("Users",{
             gamedata:{
-              charactername: query.message.text.replace(txt.addthisname,"");
+              charactername: query.message.text.replace(txt.addthisname,""),
             },
             phase:1
           },{ id: query.from.id , sessionid: data.sid});
@@ -315,7 +315,7 @@ function createusrquery(query,data,next){
         if(data.ys){
           db.modifyobj("Users",{
             gamedata:{
-              characterdescription: query.message.text.replace(txt.addthisdescription,"");
+              characterdescription: query.message.text.replace(txt.addthisdescription,""),
             },
             phase:2
           },{ id: query.from.id , sessionid: data.sid});
