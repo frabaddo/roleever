@@ -351,7 +351,7 @@ function createusr(msg,reply,next){
     switch (user.phase) {
       case 0:
       replyto.inlineKeyboard([
-        [{text:txt.yes, callback_data: JSON.stringify({ sid:msg.chat.id, ys: true })},{text:txt.no, callback_data: JSON.stringify({sid:msg.chat.id, ys: false })}
+        [{text:txt.yes, callback_data: JSON.stringify({ sid:msg.chat.id, ys: true })},{text:txt.no, callback_data: JSON.stringify({sid:msg.chat.id, ys: false })}]
       ]).html(txt.addthisname+msg.text);
         break;
       case 1:
