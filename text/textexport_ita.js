@@ -36,6 +36,8 @@ module.exports={
 
   alreadyexist:" esiste gia in questa sessione",
 
+  alreadycreating: "Per creare un nuovo personaggio occorre prima terminare tutti i pg in fase di creazione "
+
   afternewusr:"Dopo il comando /newusr inserisci solo pg o master\
               per giocare nei panni di uno o dell'altro.",
 

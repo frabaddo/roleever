@@ -152,25 +152,29 @@ function newusr(query,role){
               });
             }else{
               //INSERT PLAYER
-              db.createobj(
-                "Users",
-                {
-                  id:query.from.id,
-                  sessionid:msg.chat.id,
-                  name:query.from.name,
-                  role:"pg",
-                  gamedata:{},
-                  ready:false,
-                  phase:0
-                },
-                {
-                  id:query.from.id,
-                  sessionid:msg.chat.id,
+              db.countindb("Users",{id:msg.from.id,ready:false}).then(function(countready){
+                if(countready==0){
+                  db.createobj(
+                    "Users",
+                    {
+                      id:query.from.id,
+                      sessionid:msg.chat.id,
+                      name:query.from.name,
+                      role:"pg",
+                      gamedata:{},
+                      ready:false,
+                      phase:0
+                    },
+                    {
+                      id:query.from.id,
+                      sessionid:msg.chat.id,
+                    }
+                  )
+                  .then(function(){
+                    reply.text(query.from.name+txt.orae+role);
+                    support.replytousr(query.from.id,txt.createpgcase0);
+                  });
                 }
-              )
-              .then(function(){
-                reply.text(query.from.name+txt.orae+role);
-                support.replytousr(query.from.id,txt.createpgcase0);
               });
             }
           }else{
