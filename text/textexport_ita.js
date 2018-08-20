@@ -66,7 +66,7 @@ module.exports={
 
   createpgcase1: "inserisci ora una descrizione per il tuo personaggio",
 
-  createpgcase2: "",
+  createpgcase2: "ok",
 
   addthisname:"vuoi che sia questo il nome del tuo pg \n \n",
 

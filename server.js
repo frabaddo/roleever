@@ -311,11 +311,11 @@ function createusrquery(query,data,next){
       case 1:
         if(data.ys){
           db.modifyobj("Users",{
-            gamedata:{
-              characterdescription: query.message.text.replace(txt.addthisdescription,""),
-            },
+            gamedata:Object.assign({characterdescription: query.message.text.replace(txt.addthisdescription,"")},user.gamedata),
             phase:2
-          },{ id: query.from.id , sessionid: data.sid});
+          },
+          { id: query.from.id , sessionid: data.sid}
+        );
           reply.text(txt.createpgcase2);
         }else{
           reply.text(txt.createpgcase1);
