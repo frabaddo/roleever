@@ -135,14 +135,18 @@ function newusr(query,role){
                       gamedata:{
 
                       },
-                      ready:true
+                      ready:true,
+                      phase:0
                     },
                     {
                       id:query.from.id,
                       sessionid:msg.chat.id
                     }
                   )
-                  .then(reply.text(query.from.name+txt.orae+role));
+                  .then(function(){
+                    reply.text(query.from.name+txt.orae+role);
+                    support.replytousr(query.from.id,txt.createpgcase0);
+                  });
                 }else{
                   query.answer({ text: txt.masterexist, alert: true });
                 }
@@ -280,13 +284,68 @@ function start(msg,reply){
 
 
 
+function createusrquery(query,data){
+  if(msg.chat.type!="user"){
+   next();
+  }
+  db.readfilefromdb("Users", {sessionid:msg.chat.id}).then(function(user){
+    if(!user){
+      next();
+    }
+    if(user.ready){
+      next();
+    }
+    switch (user.phase) {
+      case 0:
+        break;
+      case 1:
+        break;
+      case 2:
+        break;
+      case 3:
+        break;
+      default:
+        break;
+    }
+  });
+}
 
 
+function createusr(msg,reply,next){
+  if(msg.chat.type!="user"){
+   next();
+  }
+  db.readfilefromdb("Users", {sessionid:msg.chat.id}).then(function(user){
+    if(!user){
+      next();
+    }
+    if(user.ready){
+      next();
+    }
+    var replyto = bot.reply(msg.from.id);
+    switch (user.phase) {
+      case 0:
+      replyto.inlineKeyboard([
+        [{text:txt.yes, callback_data: JSON.stringify({ action: "createusr", phase: 0, ys: true })},{text:txt.no, callback_data: JSON.stringify({ action: "createusr", phase: 0, ys: false })}
+      ]).markdown(txt.addthisname);
+        break;
+      case 1:
+        break;
+      case 2:
+        break;
+      case 3:
+        break;
+      default:
+        break;
+    }
+  });
+}
 
 
-function newmessage(msg,reply){
-  if(msg.chat.type!="group"&&msg.chat.type!="supergroup"){
-   reply.text(txt.bootnogroup);
+function newmessage(msg,reply,next){
+  if(msg.chat.type!="supergroup"){
+   //reply.text(txt.bootnogroup);
+   next();
   }
   else{
     db.readfilefromdb("Sessions",{id : msg.chat.id}).then(function(session){
@@ -428,6 +487,7 @@ bot.callback(function (query, next) {
   if (data.action == "pauseoff") pause.switchpauseoff(query);
   if (data.action == "sendmessage") sendmessage(query,data.chatid);
   if (data.action == "deletemessage") deletesentmessage(query);
+  if (data.action == "createusr") createusrquery(query,data);
 });
 
 
@@ -440,4 +500,5 @@ bot.command("reboot", reboot);
 bot.command("deleteusr", deleteusr);
 bot.command("pauseoff", pause.reinitpausemsg);
 bot.text(newmessage);
+bot.text(createusr);
 //bot.all(function (msg, reply) {support.deletecmd(msg,reply);});
