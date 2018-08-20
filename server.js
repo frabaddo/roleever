@@ -285,7 +285,7 @@ function start(msg,reply){
 
 
 function createusrquery(query,data,next){
-  if(query.message.chat.id!="user"){
+  if(query.message.chat.type!="user"){
    next();
   }
   var reply = bot.reply(query.message.chat);
