@@ -289,11 +289,8 @@ function createusrquery(query,data,next){
    next();
   }
   var reply = bot.reply(query.message.chat);
-  db.readfilefromdb("Users", {sessionid:query.message.chat.id}).then(function(user){
+  db.readfilefromdb("Users", {id:query.from.id,ready:false}).then(function(user){
     if(!user){
-      return next();
-    }
-    if(user.ready){
       return next();
     }
     switch (user.phase) {
