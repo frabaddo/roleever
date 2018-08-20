@@ -306,7 +306,7 @@ function createusrquery(query,data,next){
         }else{
           reply.text(txt.createpgcase0);
         }
-        deletecmd(query.message,reply);
+        deletecmd(query.message.id,reply);
         break;
       case 1:
         if(data.ys){
@@ -320,7 +320,7 @@ function createusrquery(query,data,next){
         }else{
           reply.text(txt.createpgcase1);
         }
-        deletecmd(query.message,reply);
+        deletecmd(query.message.id,reply);
         break;
       case 2:
         break;
