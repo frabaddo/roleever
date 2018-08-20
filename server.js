@@ -342,10 +342,10 @@ function createusr(msg,reply,next){
   }
   db.readfilefromdb("Users", {sessionid:msg.chat.id}).then(function(user){
     if(!user){
-      next();
+      return next();
     }
     if(user.ready){
-      next();
+      return next();
     }
     var replyto = bot.reply(msg.from.id);
     switch (user.phase) {
