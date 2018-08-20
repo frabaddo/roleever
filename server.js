@@ -145,7 +145,6 @@ function newusr(query,role){
                   )
                   .then(function(){
                     reply.text(query.from.name+txt.orae+role);
-                    support.replytousr(query.from.id,txt.createpgcase0);
                   });
                 }else{
                   query.answer({ text: txt.masterexist, alert: true });
@@ -161,7 +160,8 @@ function newusr(query,role){
                   name:query.from.name,
                   role:"pg",
                   gamedata:{},
-                  ready:false
+                  ready:false,
+                  phase:0
                 },
                 {
                   id:query.from.id,
@@ -170,7 +170,7 @@ function newusr(query,role){
               )
               .then(function(){
                 reply.text(query.from.name+txt.orae+role);
-
+                support.replytousr(query.from.id,txt.createpgcase0);
               });
             }
           }else{
@@ -284,21 +284,46 @@ function start(msg,reply){
 
 
 
-function createusrquery(query,data){
-  if(msg.chat.type!="user"){
+function createusrquery(query,data,next){
+  if(query.message.chat.id!="user"){
    next();
   }
-  db.readfilefromdb("Users", {sessionid:msg.chat.id}).then(function(user){
+  var reply = bot.reply(query.message.chat);
+  db.readfilefromdb("Users", {sessionid:query.message.chat.id}).then(function(user){
     if(!user){
-      next();
+      return next();
     }
     if(user.ready){
-      next();
+      return next();
     }
     switch (user.phase) {
       case 0:
+        if(data.ys){
+          db.modifyobj("Users",{
+            gamedata:{
+              charactername: query.message.text.replace(txt.addthisname,"");
+            },
+            phase:1
+          },{ id: query.from.id , sessionid: data.sid});
+          reply.text(txt.createpgcase1);
+        }else{
+          reply.text(txt.createpgcase0);
+        }
+        deletecmd(query.message,reply);
         break;
       case 1:
+        if(data.ys){
+          db.modifyobj("Users",{
+            gamedata:{
+              characterdescription: query.message.text.replace(txt.addthisdescription,"");
+            },
+            phase:2
+          },{ id: query.from.id , sessionid: data.sid});
+          reply.text(txt.createpgcase2);
+        }else{
+          reply.text(txt.createpgcase1);
+        }
+        deletecmd(query.message,reply);
         break;
       case 2:
         break;
@@ -326,10 +351,13 @@ function createusr(msg,reply,next){
     switch (user.phase) {
       case 0:
       replyto.inlineKeyboard([
-        [{text:txt.yes, callback_data: JSON.stringify({ action: "createusr", phase: 0, ys: true })},{text:txt.no, callback_data: JSON.stringify({ action: "createusr", phase: 0, ys: false })}
-      ]).markdown(txt.addthisname);
+        [{text:txt.yes, callback_data: JSON.stringify({ sid:msg.chat.id, ys: true })},{text:txt.no, callback_data: JSON.stringify({sid:msg.chat.id, ys: false })}
+      ]).html(txt.addthisname+msg.text);
         break;
       case 1:
+        replyto.inlineKeyboard([
+          [{text:txt.yes, callback_data: JSON.stringify({ sid:msg.chat.id, ys: true })},{text:txt.no, callback_data: JSON.stringify({sid:msg.chat.id, ys: false })}
+        ]).html(txt.addthisdescription+msg.text);
         break;
       case 2:
         break;
@@ -487,7 +515,8 @@ bot.callback(function (query, next) {
   if (data.action == "pauseoff") pause.switchpauseoff(query);
   if (data.action == "sendmessage") sendmessage(query,data.chatid);
   if (data.action == "deletemessage") deletesentmessage(query);
-  if (data.action == "createusr") createusrquery(query,data);
+  createusrquery(query,data,next);
+  return next();
 });
 
 
