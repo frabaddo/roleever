@@ -152,8 +152,8 @@ function newusr(query,role){
               });
             }else{
               //INSERT PLAYER
-              db.countindb("Users",{id:msg.from.id,ready:false}).then(function(countready){
-                if(countready==0){
+              db.countindb("Users",{id:query.from.id,ready:false}).then(function(countunready){
+                if(countunready==0){
                   db.createobj(
                     "Users",
                     {
@@ -174,6 +174,8 @@ function newusr(query,role){
                     reply.text(query.from.name+txt.orae+role);
                     support.replytousr(query.from.id,txt.createpgcase0);
                   });
+                }else{
+                  query.answer({ text: txt.alreadycreating, alert: true });
                 }
               });
             }
