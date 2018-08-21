@@ -311,6 +311,7 @@ function createusrquery(query,data,next){
           support.deletecmd(query.message.id,reply);
           reply.text(txt.createpgcase1);
         }else{
+          console.log("test");
           support.deletecmd(query.message.id,reply);
           reply.text(txt.createpgcase0);
         }
