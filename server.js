@@ -308,11 +308,12 @@ function createusrquery(query,data,next){
             },
             phase:1
           },{ id: query.from.id , sessionid: data.sid});
+          support.deletecmd(query.message.id,reply);
           reply.text(txt.createpgcase1);
         }else{
+          support.deletecmd(query.message.id,reply);
           reply.text(txt.createpgcase0);
         }
-        support.deletecmd(query.message.id,reply);
         break;
       case 1:
         if(data.ys){
