@@ -353,12 +353,12 @@ function createusr(msg,reply,next){
     switch (user.phase) {
       case 0:
         replyto.inlineKeyboard([
-          [{text:txt.yes, callback_data: JSON.stringify({action:"createusr", sid:user.sessionid, ys: true })},{text:txt.no, callback_data: JSON.stringify({sid:user.sessionid, ys: false })}]
+          [{text:txt.yes, callback_data: JSON.stringify({action:"createusr", sid:user.sessionid, ys: true })},{text:txt.no, callback_data: JSON.stringify({action:"createusr", sid:user.sessionid, ys: false })}]
         ]).html(txt.addthisname+msg.text);
         break;
       case 1:
         replyto.inlineKeyboard([
-          [{text:txt.yes, callback_data: JSON.stringify({action:"createusr", sid:user.sessionid, ys: true })},{text:txt.no, callback_data: JSON.stringify({sid:user.sessionid, ys: false })}]
+          [{text:txt.yes, callback_data: JSON.stringify({action:"createusr", sid:user.sessionid, ys: true })},{text:txt.no, callback_data: JSON.stringify({action:"createusr", sid:user.sessionid, ys: false })}]
         ]).html(txt.addthisdescription+msg.text);
         break;
       case 2:
