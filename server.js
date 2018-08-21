@@ -405,7 +405,8 @@ function newmessage(msg,reply,next){
             support.replytousr(msg.from.id,txt.pauseon).then(support.deletecmd(msg,reply));
           }
         }else{
-          reply.text(txt.sessionnotstarted).then(support.deletecmd(msg,reply));
+          support.deletecmd(msg,reply)
+          //reply.text(txt.sessionnotstarted).then(support.deletecmd(msg,reply));
         }
       }
       else{ // CASO 1 RESPONSE
