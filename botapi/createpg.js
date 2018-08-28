@@ -112,7 +112,7 @@ function modifyappr(query,data,next){
           db.readfilefromdb("Users", {id:query.from.id,ready:false}).then(function(userm){
             totdisp=tot-(user.appr1+user.appr2+user.appr3+user.appr4+user.appr5);
             sem.take(function(){
-              reply.inlineKeyboard(statupdown).editHTML(query.message,txt.createpgcase3+totdisp+txt.appr1+userm.appr1+txt.appr2+userm.appr2+txt.appr3+userm.appr3+txt.appr4+userm.appr4+txt.appr5+userm.appr5).then(function(){setTimeout(sem.leave,1500)});
+              reply.inlineKeyboard(apprupdown).editHTML(query.message,txt.createpgcase3+totdisp+txt.appr1+userm.appr1+txt.appr2+userm.appr2+txt.appr3+userm.appr3+txt.appr4+userm.appr4+txt.appr5+userm.appr5).then(function(){setTimeout(sem.leave,1500)});
             });
           });
         });
@@ -123,7 +123,7 @@ function modifyappr(query,data,next){
           db.readfilefromdb("Users", {id:query.from.id,ready:false}).then(function(userm){
             totdisp=tot-(user.appr1+user.appr2+user.appr3+user.appr4+user.appr5);
             sem.take(function(){
-              reply.inlineKeyboard(statupdown).editHTML(query.message,txt.createpgcase3+totdisp+txt.appr1+userm.appr1+txt.appr2+userm.appr2+txt.appr3+userm.appr3+txt.appr4+userm.appr4+txt.appr5+userm.appr5).then(function(){setTimeout(sem.leave,1500)});
+              reply.inlineKeyboard(apprupdown).editHTML(query.message,txt.createpgcase3+totdisp+txt.appr1+userm.appr1+txt.appr2+userm.appr2+txt.appr3+userm.appr3+txt.appr4+userm.appr4+txt.appr5+userm.appr5).then(function(){setTimeout(sem.leave,1500)});
             });
           });
         });
@@ -231,7 +231,7 @@ function createusr(msg,reply,next){
       case 3:
       var tot=8;
       var totdisp=tot-(user.appr1+user.appr2+user.appr3+user.appr4+user.appr5);
-      replyto.inlineKeyboard(statupdown).html(txt.createpgcase3+totdisp+txt.appr1+user.appr1+txt.appr2+user.appr2+txt.appr3+user.appr3+txt.appr4+user.appr4+txt.appr5+user.appr5);
+      replyto.inlineKeyboard(apprupdown).html(txt.createpgcase3+totdisp+txt.appr1+user.appr1+txt.appr2+user.appr2+txt.appr3+user.appr3+txt.appr4+user.appr4+txt.appr5+user.appr5);
         break;
       default:
         break;
