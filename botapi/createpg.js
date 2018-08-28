@@ -63,12 +63,6 @@ function modifystat(query,data,next){
           });
         });
       }
-      else{
-        sem.take(function(){
-          reply.inlineKeyboard(statupdown).editHTML(query.message,txt.createpgcase2+totdisp+txt.forz+user.forz+txt.dex+user.dex+txt.inte+user.inte+txt.cari+user.cari);
-          setTimeout(sem.leave,1500);
-        });
-      }
     }
     else{
       support.deletecmd(reply,query.message);
