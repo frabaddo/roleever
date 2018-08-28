@@ -437,6 +437,7 @@ bot.callback(function (query, next) {
   if (data.action == "deletemessage") deletesentmessage(query);
   if (data.action == "createusr") createpg.createusrquery(query,data,next);
   if (data.action == "modifystat") createpg.modifystat(query,data,next);
+  if (data.action == "modifyappr") createpg.modifyappr(query,data,next);
   return next();
 });
 
