@@ -33,13 +33,13 @@ function modifystat(query,data,next){
     if(user.phase==2){
       if(data.dir=="up"){
         db.modifyobj("Users",{
-          eval(data.stat) : user[data.stat]+1,
+          eval("data.stat") : user[data.stat]+1,
         },{ id: query.from.id , ready:false});
       }
       else if(data.dir=="down"){
-        db.modifyobj("Users",{
-          eval("data.stat") : user[data.stat]-1,
-        },{ id: query.from.id , ready:false});
+        var x={};
+        x[data.stat]=user[data.stat]-1;
+        db.modifyobj("Users",x,{ id: query.from.id , ready:false});
       }
       reply.editHTML(query.message,txt.createpgcase2+txt.forz+user.forz+txt.dex+user.dex+txt.inte+user.inte+txt.cari+user.cari);
     }
