@@ -171,7 +171,7 @@ function createusrquery(query,data,next){
         if(data.ys){
           db.modifyobj("Users",{
             characterdescription: query.message.text.replace(txt.addthisdescription,""),
-            forz:0,dex:0,inte:0,cari:0,appr1:0,appr2:0,appr3:0,appr4:0,appr5:0,
+            forz:0,dex:0,inte:0,cari:0,appr1:0,appr2:0,appr3:0,appr4:0,appr5:0,pf:3,
             phase:2
           },
           { id: query.from.id , sessionid: data.sid}
