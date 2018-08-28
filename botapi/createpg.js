@@ -25,24 +25,24 @@ const statupdown=[
 
 const apprupdown=[
   [
-    {text:txt.appr1+" : \xE2\xAC\x86", callback_data: JSON.stringify({action:"modifyappr",stat:"forz",dir:"up"  })},
-    {text:txt.appr1+" : \xE2\xAC\x87:", callback_data: JSON.stringify({action:"modifyappr",stat:"forz",dir:"down"  })}
+    {text:txt.appr1+" : \xE2\xAC\x86", callback_data: JSON.stringify({action:"modifyappr",stat:"appr1",dir:"up"  })},
+    {text:txt.appr1+" : \xE2\xAC\x87:", callback_data: JSON.stringify({action:"modifyappr",stat:"appr1",dir:"down"  })}
   ],
   [
-    {text:txt.appr2+" : \xE2\xAC\x86", callback_data: JSON.stringify({action:"modifyappr",stat:"dex",dir:"up"  })},
-    {text:txt.appr2+" : \xE2\xAC\x87", callback_data: JSON.stringify({action:"modifyappr",stat:"dex",dir:"down"  })}
+    {text:txt.appr2+" : \xE2\xAC\x86", callback_data: JSON.stringify({action:"modifyappr",stat:"appr2",dir:"up"  })},
+    {text:txt.appr2+" : \xE2\xAC\x87", callback_data: JSON.stringify({action:"modifyappr",stat:"appr2",dir:"down"  })}
   ],
   [
-    {text:txt.appr3+" : \xE2\xAC\x86", callback_data: JSON.stringify({action:"modifyappr",stat:"inte",dir:"up"  })},
-    {text:txt.appr3+" : \xE2\xAC\x87", callback_data: JSON.stringify({action:"modifyappr",stat:"inte",dir:"down"  })}
+    {text:txt.appr3+" : \xE2\xAC\x86", callback_data: JSON.stringify({action:"modifyappr",stat:"appr3",dir:"up"  })},
+    {text:txt.appr3+" : \xE2\xAC\x87", callback_data: JSON.stringify({action:"modifyappr",stat:"appr3",dir:"down"  })}
   ],
   [
-    {text:txt.appr4+" : \xE2\xAC\x86", callback_data: JSON.stringify({action:"modifyappr",stat:"cari",dir:"up"  })},
-    {text:txt.appr4+" : \xE2\xAC\x87:", callback_data: JSON.stringify({action:"modifyappr",stat:"cari",dir:"down"  })}
+    {text:txt.appr4+" : \xE2\xAC\x86", callback_data: JSON.stringify({action:"modifyappr",stat:"appr4",dir:"up"  })},
+    {text:txt.appr4+" : \xE2\xAC\x87:", callback_data: JSON.stringify({action:"modifyappr",stat:"appr4",dir:"down"  })}
   ],
   [
-    {text:txt.appr5+" : \xE2\xAC\x86", callback_data: JSON.stringify({action:"modifyappr",stat:"cari",dir:"up"  })},
-    {text:txt.appr5+" : \xE2\xAC\x87:", callback_data: JSON.stringify({action:"modifyappr",stat:"cari",dir:"down"  })}
+    {text:txt.appr5+" : \xE2\xAC\x86", callback_data: JSON.stringify({action:"modifyappr",stat:"appr5",dir:"up"  })},
+    {text:txt.appr5+" : \xE2\xAC\x87:", callback_data: JSON.stringify({action:"modifyappr",stat:"appr5",dir:"down"  })}
   ],
   [
     {text:txt.conferma, callback_data: JSON.stringify({action:"createusr", confirm:true })},
@@ -103,14 +103,14 @@ function modifyappr(query,data,next){
     }
     if(user.phase==3){
       var tot=8;
-      var totdisp=tot-(user.forz+user.dex+user.inte+user.cari);
+      var totdisp=tot-(user.appr1+user.appr2+user.appr3+user.appr4+user.appr5);
       var x={};
       x[data.stat]=user[data.stat];
       if(data.dir=="up"&&totdisp>0&&x[data.stat]<3){
         x[data.stat]=x[data.stat]+1;
         db.modifyobj("Users",x,{ id: query.from.id , ready:false}).then(function(){
           db.readfilefromdb("Users", {id:query.from.id,ready:false}).then(function(userm){
-            totdisp=tot-(userm.forz+userm.dex+userm.inte+userm.cari);
+            totdisp=tot-(user.appr1+user.appr2+user.appr3+user.appr4+user.appr5);
             sem.take(function(){
               reply.inlineKeyboard(statupdown).editHTML(query.message,txt.createpgcase3+totdisp+txt.appr1+userm.appr1+txt.appr2+userm.appr2+txt.appr3+userm.appr3+txt.appr4+userm.appr4+txt.appr5+userm.appr5).then(function(){setTimeout(sem.leave,1500)});
             });
@@ -121,7 +121,7 @@ function modifyappr(query,data,next){
         x[data.stat]=x[data.stat]-1;
         db.modifyobj("Users",x,{ id: query.from.id , ready:false}).then(function(){
           db.readfilefromdb("Users", {id:query.from.id,ready:false}).then(function(userm){
-            totdisp=tot-(userm.forz+userm.dex+userm.inte+userm.cari);
+            totdisp=tot-(user.appr1+user.appr2+user.appr3+user.appr4+user.appr5);
             sem.take(function(){
               reply.inlineKeyboard(statupdown).editHTML(query.message,txt.createpgcase3+totdisp+txt.appr1+userm.appr1+txt.appr2+userm.appr2+txt.appr3+userm.appr3+txt.appr4+userm.appr4+txt.appr5+userm.appr5).then(function(){setTimeout(sem.leave,1500)});
             });
