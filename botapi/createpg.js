@@ -133,3 +133,9 @@ function createusr(msg,reply,next){
     }
   });
 }
+
+module.exports={
+  modifystat,
+  createusrquery,
+  createusr
+}

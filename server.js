@@ -436,6 +436,7 @@ bot.callback(function (query, next) {
   if (data.action == "sendmessage") sendmessage(query,data.chatid);
   if (data.action == "deletemessage") deletesentmessage(query);
   if (data.action == "createusr") createpg.createusrquery(query,data,next);
+  if (data.action == "modifystat") createpg.modifystat(query,data,next);
   return next();
 });
 
