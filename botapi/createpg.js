@@ -53,6 +53,9 @@ function modifystat(query,data,next){
           });
         });
       }
+      else{
+        reply.inlineKeyboard(statupdown).editHTML(query.message,txt.createpgcase2+totdisp+txt.forz+user.forz+txt.dex+user.dex+txt.inte+user.inte+txt.cari+user.cari);
+      }
     }
     else{
       support.deletecmd(reply,query.message);
