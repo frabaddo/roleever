@@ -35,11 +35,11 @@ function modifystat(query,data,next){
       var totdisp=tot-user.forz+user.dex+user.inte+user.cari;
       var x={};
       x[data.stat]=user[data.stat];
-      if(data.dir=="up"&&totdisp>=0){
+      if(data.dir=="up"&&totdisp>0){
         x[data.stat]=x[data.stat]+1;
         db.modifyobj("Users",x,{ id: query.from.id , ready:false}).then(function(){
           db.readfilefromdb("Users", {id:query.from.id,ready:false}).then(function(userm){
-            totdisp=totdisp-1;
+            totdisp=tot-userm.forz+userm.dex+userm.inte+userm.cari;
             reply.inlineKeyboard(statupdown).editHTML(query.message,txt.createpgcase2+totdisp+txt.forz+userm.forz+txt.dex+userm.dex+txt.inte+userm.inte+txt.cari+userm.cari);
           });
         });
