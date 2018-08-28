@@ -92,7 +92,7 @@ function modifystat(query,data,next){
       }
       else{
         support.deletecmd(reply,query.message);
-        sems[query.from.id].leave());
+        sems[query.from.id].leave();
       }
     });
   });
