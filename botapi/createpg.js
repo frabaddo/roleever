@@ -49,7 +49,7 @@ function modifystat(query,data,next){
         db.modifyobj("Users",x,{ id: query.from.id , ready:false}).then(function(){
           db.readfilefromdb("Users", {id:query.from.id,ready:false}).then(function(userm){
             totdisp=tot-(userm.forz+userm.dex+userm.inte+userm.cari);
-            reply.inlineKeyboard(statupdown).editHTML(query.message,txt.createpgcase2+txt.forz+userm.forz+txt.dex+userm.dex+txt.inte+userm.inte+txt.cari+userm.cari);
+            reply.inlineKeyboard(statupdown).editHTML(query.message,txt.createpgcase2+totdisp+txt.forz+userm.forz+txt.dex+userm.dex+txt.inte+userm.inte+txt.cari+userm.cari);
           });
         });
       }
