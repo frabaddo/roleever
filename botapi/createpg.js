@@ -132,6 +132,7 @@ function modifyappr(query,data,next){
       }
       else{
         support.deletecmd(reply,query.message);
+        setTimeout(sems[user.id].leave,1500);
       }
     });
   });
