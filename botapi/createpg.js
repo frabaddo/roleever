@@ -87,6 +87,7 @@ function modifystat(query,data,next){
             });
           });
         }
+        else sems[user.id].leave();
       }
       else{
         support.deletecmd(reply,query.message);
@@ -130,6 +131,7 @@ function modifyappr(query,data,next){
             });
           });
         }
+        else sems[user.id].leave();
       }
       else{
         support.deletecmd(reply,query.message);
