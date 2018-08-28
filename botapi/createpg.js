@@ -34,14 +34,21 @@ function modifystat(query,data,next){
       if(data.dir=="up"){
         var x={};
         x[data.stat]=user[data.stat]+1;
-        db.modifyobj("Users",x,{ id: query.from.id , ready:false});
+        db.modifyobj("Users",x,{ id: query.from.id , ready:false}).then(
+          db.readfilefromdb("Users", {id:query.from.id,ready:false}).then(function(userm){
+            reply.inlineKeyboard(statupdown).editHTML(query.message,txt.createpgcase2+txt.forz+userm.forz+txt.dex+userm.dex+txt.inte+userm.inte+txt.carim+user.cari);
+          });
+        );
       }
       else if(data.dir=="down"){
         var x={};
         x[data.stat]=user[data.stat]-1;
-        db.modifyobj("Users",x,{ id: query.from.id , ready:false});
+        db.modifyobj("Users",x,{ id: query.from.id , ready:false}).then(
+          db.readfilefromdb("Users", {id:query.from.id,ready:false}).then(function(userm){
+            reply.inlineKeyboard(statupdown).editHTML(query.message,txt.createpgcase2+txt.forz+userm.forz+txt.dex+userm.dex+txt.inte+userm.inte+txt.carim+user.cari);
+          });
+        );
       }
-      reply.editHTML(query.message,txt.createpgcase2+txt.forz+user.forz+txt.dex+user.dex+txt.inte+user.inte+txt.cari+user.cari);
     }
     else{
       support.deletecmd(reply,query.message);
