@@ -23,6 +23,32 @@ const statupdown=[
   ]
 ];
 
+const apprupdown=[
+  [
+    {text:txt.appr1+" : \xE2\xAC\x86", callback_data: JSON.stringify({action:"modifyappr",stat:"forz",dir:"up"  })},
+    {text:txt.appr1+" : \xE2\xAC\x87:", callback_data: JSON.stringify({action:"modifyappr",stat:"forz",dir:"down"  })}
+  ],
+  [
+    {text:txt.appr2+" : \xE2\xAC\x86", callback_data: JSON.stringify({action:"modifyappr",stat:"dex",dir:"up"  })},
+    {text:txt.appr2+" : \xE2\xAC\x87", callback_data: JSON.stringify({action:"modifyappr",stat:"dex",dir:"down"  })}
+  ],
+  [
+    {text:txt.appr3+" : \xE2\xAC\x86", callback_data: JSON.stringify({action:"modifyappr",stat:"inte",dir:"up"  })},
+    {text:txt.appr3+" : \xE2\xAC\x87", callback_data: JSON.stringify({action:"modifyappr",stat:"inte",dir:"down"  })}
+  ],
+  [
+    {text:txt.appr4+" : \xE2\xAC\x86", callback_data: JSON.stringify({action:"modifyappr",stat:"cari",dir:"up"  })},
+    {text:txt.appr4+" : \xE2\xAC\x87:", callback_data: JSON.stringify({action:"modifyappr",stat:"cari",dir:"down"  })}
+  ],
+  [
+    {text:txt.appr5+" : \xE2\xAC\x86", callback_data: JSON.stringify({action:"modifyappr",stat:"cari",dir:"up"  })},
+    {text:txt.appr5+" : \xE2\xAC\x87:", callback_data: JSON.stringify({action:"modifyappr",stat:"cari",dir:"down"  })}
+  ],
+  [
+    {text:txt.conferma, callback_data: JSON.stringify({action:"createusr", confirm:true })},
+  ]
+];
+
 var sem = require('semaphore')(1);
 
 
@@ -69,6 +95,47 @@ function modifystat(query,data,next){
 }
 
 
+function modifyappr(query,data,next){
+  var reply = bot.reply(query.message.chat);
+  db.readfilefromdb("Users", {id:query.from.id,ready:false}).then(function(user){
+    if(!user){
+      return next();
+    }
+    if(user.phase==3){
+      var tot=8;
+      var totdisp=tot-(user.forz+user.dex+user.inte+user.cari);
+      var x={};
+      x[data.stat]=user[data.stat];
+      if(data.dir=="up"&&totdisp>0&&x[data.stat]<3){
+        x[data.stat]=x[data.stat]+1;
+        db.modifyobj("Users",x,{ id: query.from.id , ready:false}).then(function(){
+          db.readfilefromdb("Users", {id:query.from.id,ready:false}).then(function(userm){
+            totdisp=tot-(userm.forz+userm.dex+userm.inte+userm.cari);
+            sem.take(function(){
+              reply.inlineKeyboard(statupdown).editHTML(query.message,txt.createpgcase3+totdisp+txt.appr1+userm.appr1+txt.appr2+userm.appr2+txt.appr3+userm.appr3+txt.appr4+userm.appr4+txt.appr5+userm.appr5).then(function(){setTimeout(sem.leave,1500)});
+            });
+          });
+        });
+      }
+      else if(data.dir=="down"&&x[data.stat]>0){
+        x[data.stat]=x[data.stat]-1;
+        db.modifyobj("Users",x,{ id: query.from.id , ready:false}).then(function(){
+          db.readfilefromdb("Users", {id:query.from.id,ready:false}).then(function(userm){
+            totdisp=tot-(userm.forz+userm.dex+userm.inte+userm.cari);
+            sem.take(function(){
+              reply.inlineKeyboard(statupdown).editHTML(query.message,txt.createpgcase3+totdisp+txt.appr1+userm.appr1+txt.appr2+userm.appr2+txt.appr3+userm.appr3+txt.appr4+userm.appr4+txt.appr5+userm.appr5).then(function(){setTimeout(sem.leave,1500)});
+            });
+          });
+        });
+      }
+    }
+    else{
+      support.deletecmd(reply,query.message);
+    }
+  });
+}
+
+
 function createusrquery(query,data,next){
   if(query.message.chat.type!="user"){
    return next();
@@ -96,7 +163,7 @@ function createusrquery(query,data,next){
         if(data.ys){
           db.modifyobj("Users",{
             characterdescription: query.message.text.replace(txt.addthisdescription,""),
-            forz:0,dex:0,inte:0,cari:0,
+            forz:0,dex:0,inte:0,cari:0,appr1:0,appr2:0,appr3:0,appr4:0,appr5:0,
             phase:2
           },
           { id: query.from.id , sessionid: data.sid}
@@ -108,8 +175,26 @@ function createusrquery(query,data,next){
         support.deletecmd(query.message.id,reply);
         break;
       case 2:
+        if(data.confirm){
+          db.modifyobj("Users",{
+              phase:3
+            },
+            { id: query.from.id , ready:false}
+          );
+          support.deletecmd(query.message.id,reply);
+          reply.inlineKeyboard(apprupdown).html(txt.createpgcase3+txt.appr1+"0"+txt.appr2+"0"+txt.appr3+"0"+txt.appr4+"0"+txt.appr5+"0");
+        }
         break;
       case 3:
+        if(data.confirm){
+          db.modifyobj("Users",{
+              phase:4,
+              ready:true
+            },
+            { id: query.from.id , ready:false}
+          );
+          support.deletecmd(query.message.id,reply);
+        }
         break;
       default:
         break;
@@ -144,8 +229,14 @@ function createusr(msg,reply,next){
         ]).html(txt.addthisdescription+msg.text);
         break;
       case 2:
+        var tot=15;
+        var totdisp=tot-(user.forz+user.dex+user.inte+user.cari);
+        replyto.inlineKeyboard(statupdown).html(query.message,txt.createpgcase2+totdisp+txt.forz+user.forz+txt.dex+user.dex+txt.inte+user.inte+txt.cari+user.cari);
         break;
       case 3:
+      var tot=8;
+      var totdisp=tot-(user.appr1+user.appr2+user.appr3+user.appr4+user.appr5);
+      replyto.inlineKeyboard(statupdown).html(txt.createpgcase3+totdisp+txt.appr1+user.appr1+txt.appr2+user.appr2+txt.appr3+user.appr3+txt.appr4+user.appr4+txt.appr5+user.appr5);
         break;
       default:
         break;
