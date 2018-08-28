@@ -80,15 +80,15 @@ module.exports={
 
   cari: "\nCarisma: ",
 
-  appr1:"\nappr1",
+  appr1:"\nappr1: ",
 
-  appr2:"\nappr2",
+  appr2:"\nappr2: ",
 
-  appr3:"\nappr3",
+  appr3:"\nappr3: ",
 
-  appr4:"\nappr4",
+  appr4:"\nappr4: ",
 
-  appr5:"\nappr5",
+  appr5:"\nappr5: ",
 
   addthisname:"vuoi che sia questo il nome del tuo pg \n \n",
 
@@ -98,6 +98,10 @@ module.exports={
 
   no:"No",
 
-  conferma: "Conferma"
+  conferma: "Conferma",
+
+  regcompl: "complimenti hai creato il tuo personaggio, da ora potrai giocare",
+
+  insall: "inserisci tutti i punti a tua disposizione"
 
 }
