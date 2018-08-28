@@ -3,20 +3,20 @@ const support= require("./supportfunc");
 const txt = require("../text/textexport_ita");
 const statupdown=[
   [
-    {text:txt.forz+" : U+2B06", callback_data: JSON.stringify({action:"modifystat",stat:"forz",dir:"up"  })},
-    {text:txt.forz+" : U+2B07:", callback_data: JSON.stringify({action:"modifystat",stat:"forz",dir:"down"  })}
+    {text:txt.forz+" : \xE2\xAC\x86", callback_data: JSON.stringify({action:"modifystat",stat:"forz",dir:"up"  })},
+    {text:txt.forz+" : \xE2\xAC\x87:", callback_data: JSON.stringify({action:"modifystat",stat:"forz",dir:"down"  })}
   ],
   [
-    {text:txt.dex+" : U+2B06", callback_data: JSON.stringify({action:"modifystat",stat:"dex",dir:"up"  })},
-    {text:txt.dex+" : U+2B07", callback_data: JSON.stringify({action:"modifystat",stat:"dex",dir:"down"  })}
+    {text:txt.dex+" : \xE2\xAC\x86", callback_data: JSON.stringify({action:"modifystat",stat:"dex",dir:"up"  })},
+    {text:txt.dex+" : \xE2\xAC\x87", callback_data: JSON.stringify({action:"modifystat",stat:"dex",dir:"down"  })}
   ],
   [
-    {text:txt.inte+" : U+2B06", callback_data: JSON.stringify({action:"modifystat",stat:"inte",dir:"up"  })},
-    {text:txt.inte+" : U+2B07", callback_data: JSON.stringify({action:"modifystat",stat:"inte",dir:"down"  })}
+    {text:txt.inte+" : \xE2\xAC\x86", callback_data: JSON.stringify({action:"modifystat",stat:"inte",dir:"up"  })},
+    {text:txt.inte+" : \xE2\xAC\x87", callback_data: JSON.stringify({action:"modifystat",stat:"inte",dir:"down"  })}
   ],
   [
-    {text:txt.cari+" : U+2B06", callback_data: JSON.stringify({action:"modifystat",stat:"cari",dir:"up"  })},
-    {text:txt.cari+" : U+2B07:", callback_data: JSON.stringify({action:"modifystat",stat:"cari",dir:"down"  })}
+    {text:txt.cari+" : \xE2\xAC\x86", callback_data: JSON.stringify({action:"modifystat",stat:"cari",dir:"up"  })},
+    {text:txt.cari+" : \xE2\xAC\x87:", callback_data: JSON.stringify({action:"modifystat",stat:"cari",dir:"down"  })}
   ],
   [
     {text:txt.conferma, callback_data: JSON.stringify({action:"createusr", confirm:true })},
@@ -36,7 +36,7 @@ function modifystat(query,data,next){
         x[data.stat]=user[data.stat]+1;
         db.modifyobj("Users",x,{ id: query.from.id , ready:false}).then(function(){
           db.readfilefromdb("Users", {id:query.from.id,ready:false}).then(function(userm){
-            reply.inlineKeyboard(statupdown).editHTML(query.message,txt.createpgcase2+txt.forz+userm.forz+txt.dex+userm.dex+txt.inte+userm.inte+txt.carim+user.cari);
+            reply.inlineKeyboard(statupdown).editHTML(query.message,txt.createpgcase2+txt.forz+userm.forz+txt.dex+userm.dex+txt.inte+userm.inte+txt.cari+userm.cari);
           });
         });
       }
