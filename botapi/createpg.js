@@ -181,7 +181,9 @@ function createusrquery(query,data,next){
         support.deletecmd(query.message.id,reply);
         break;
       case 2:
-        if(data.confirm){
+        var tot=15;
+        var totdisp=tot-(user.forz+user.dex+user.inte+user.cari);
+        if(data.confirm&&totdisp==0){
           db.modifyobj("Users",{
               phase:3
             },
@@ -190,17 +192,22 @@ function createusrquery(query,data,next){
           support.deletecmd(query.message.id,reply);
           reply.inlineKeyboard(apprupdown).html(txt.createpgcase3+txt.appr1+"0"+txt.appr2+"0"+txt.appr3+"0"+txt.appr4+"0"+txt.appr5+"0");
         }
+        else query.answer({ text:txt.insall, alert: true });
         break;
       case 3:
-        if(data.confirm){
+        var tot=8;
+        var totdisp=tot-(user.appr1+user.appr2+user.appr3+user.appr4+user.appr5);
+        if(data.confirm&&totdisp==0){
           db.modifyobj("Users",{
               phase:4,
               ready:true
             },
             { id: query.from.id , ready:false}
           );
+          reply.html(txt.regcompl);
           support.deletecmd(query.message.id,reply);
         }
+        else query.answer({ text:txt.insall, alert: true });
         break;
       default:
         break;
