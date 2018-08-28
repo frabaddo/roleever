@@ -68,7 +68,15 @@ module.exports={
 
   createpgcase1: "inserisci ora una descrizione per il tuo personaggio",
 
-  createpgcase2: "ok",
+  createpgcase2: "inserisci i valori per le quattro caratteristiche principali del tuo personaggio quindi conferma: \n",
+
+  forz: "\nForza: ",
+
+  dex: "\nAgilità: ",
+
+  inte: "\nIntelligenza: ",
+
+  cari: "\nCarisma: ",
 
   addthisname:"vuoi che sia questo il nome del tuo pg \n \n",
 
@@ -77,5 +85,7 @@ module.exports={
   yes: "Si",
 
   no:"No",
+
+  conferma: "Conferma"
 
 }

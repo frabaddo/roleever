@@ -6,6 +6,7 @@ const txt = require("./text/textexport_ita");
 const pause = require("./botapi/pausefunc");
 const support= require("./botapi/supportfunc");
 const turn= require("./botapi/turnapi");
+const createpg= require("./botapi/createpg");
 const Botgram = require('botgram');
 const moment = require('moment');
 const MomentRange = require('moment-range');
@@ -288,89 +289,6 @@ function start(msg,reply){
 
 
 
-
-
-function createusrquery(query,data,next){
-  if(query.message.chat.type!="user"){
-   return next();
-  }
-  var reply = bot.reply(query.message.chat);
-  db.readfilefromdb("Users", {id:query.from.id,ready:false}).then(function(user){
-    if(!user){
-      return next();
-    }
-    switch (user.phase) {
-      case 0:
-        if(data.ys){
-          db.modifyobj("Users",{
-            gamedata:{
-              charactername: query.message.text.replace(txt.addthisname,""),
-            },
-            phase:1
-          },{ id: query.from.id , sessionid: data.sid});
-          support.deletecmd(query.message.id,reply);
-          reply.text(txt.createpgcase1);
-        }else{
-          support.deletecmd(query.message.id,reply);
-          reply.text(txt.createpgcase0);
-        }
-        break;
-      case 1:
-        if(data.ys){
-          db.modifyobj("Users",{
-            gamedata:Object.assign({characterdescription: query.message.text.replace(txt.addthisdescription,"")},user.gamedata),
-            phase:2
-          },
-          { id: query.from.id , sessionid: data.sid}
-        );
-          reply.text(txt.createpgcase2);
-        }else{
-          reply.text(txt.createpgcase1);
-        }
-        support.deletecmd(query.message.id,reply);
-        break;
-      case 2:
-        break;
-      case 3:
-        break;
-      default:
-        break;
-    }
-  });
-}
-
-
-function createusr(msg,reply,next){
-  if(msg.chat.type!="user"){
-   return next();
-  }
-  db.readfilefromdb("Users", {id:msg.from.id,ready:false}).then(function(user){
-    if(!user){
-      return next();
-    }
-    var replyto = bot.reply(msg.from.id);
-    switch (user.phase) {
-      case 0:
-        replyto.inlineKeyboard([
-          [{text:txt.yes, callback_data: JSON.stringify({action:"createusr", sid:user.sessionid, ys: true })},{text:txt.no, callback_data: JSON.stringify({action:"createusr", sid:user.sessionid, ys: false })}]
-        ]).html(txt.addthisname+msg.text);
-        break;
-      case 1:
-        replyto.inlineKeyboard([
-          [{text:txt.yes, callback_data: JSON.stringify({action:"createusr", sid:user.sessionid, ys: true })},{text:txt.no, callback_data: JSON.stringify({action:"createusr", sid:user.sessionid, ys: false })}]
-        ]).html(txt.addthisdescription+msg.text);
-        break;
-      case 2:
-        break;
-      case 3:
-        break;
-      default:
-        break;
-    }
-  });
-}
-
-
 function newmessage(msg,reply,next){
   if(msg.chat.type!="supergroup"){
    //reply.text(txt.bootnogroup);
@@ -517,7 +435,7 @@ bot.callback(function (query, next) {
   if (data.action == "pauseoff") pause.switchpauseoff(query);
   if (data.action == "sendmessage") sendmessage(query,data.chatid);
   if (data.action == "deletemessage") deletesentmessage(query);
-  if (data.action == "createusr") createusrquery(query,data,next);
+  if (data.action == "createusr") createpg.createusrquery(query,data,next);
   return next();
 });
 
@@ -531,5 +449,5 @@ bot.command("reboot", reboot);
 bot.command("deleteusr", deleteusr);
 bot.command("pauseoff", pause.reinitpausemsg);
 bot.text(newmessage);
-bot.text(createusr);
+bot.text(createpg.createusr);
 //bot.all(function (msg, reply) {support.deletecmd(msg,reply);});
