@@ -80,15 +80,15 @@ module.exports={
 
   cari: "\nCarisma: ",
 
-  appr1:"",
+  appr1:"appr1",
 
-  appr2:"",
+  appr2:"appr2",
 
-  appr3:"",
+  appr3:"appr3",
 
-  appr4:"",
+  appr4:"appr4",
 
-  appr5:"",
+  appr5:"appr5",
 
   addthisname:"vuoi che sia questo il nome del tuo pg \n \n",
 
