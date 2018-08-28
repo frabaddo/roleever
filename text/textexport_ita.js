@@ -70,6 +70,8 @@ module.exports={
 
   createpgcase2: "inserisci i valori per le quattro caratteristiche principali del tuo personaggio quindi conferma! \n\n Punti disponibili: \n",
 
+  createpgcase3: "inserisci i valori per i cinque approcci principali del tuo personaggio quindi conferma!\n\n Punti disponibili: \n",
+
   forz: "\nForza: ",
 
   dex: "\nAgilità: ",
@@ -77,6 +79,16 @@ module.exports={
   inte: "\nIntelligenza: ",
 
   cari: "\nCarisma: ",
+
+  appr1:"",
+
+  appr2:"",
+
+  appr3:"",
+
+  appr4:"",
+
+  appr5:"",
 
   addthisname:"vuoi che sia questo il nome del tuo pg \n \n",
 
