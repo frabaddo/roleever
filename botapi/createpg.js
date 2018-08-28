@@ -32,7 +32,7 @@ function modifystat(query,data,next){
     }
     if(user.phase==2){
       var tot=15;
-      var totdisp=tot-userm.forz+userm.dex+userm.inte+userm.cari;
+      var totdisp=tot-user.forz+user.dex+user.inte+user.cari;
       var x={};
       x[data.stat]=user[data.stat];
       if(data.dir=="up"&&totdisp>=0){
