@@ -56,14 +56,15 @@ var sems=[];
 
 function modifystat(query,data,next){
   var reply = bot.reply(query.message.chat);
-  db.readfilefromdb("Users", {id:query.from.id,ready:false}).then(function(user){
-    if(!user){
-      return next();
-    }
-    if(!(user.id in sems)){
-      sems[user.id]=semaphore(1);
-    }
-    sems[user.id].take(function(){
+  if(!(query.from.id in sems)){
+    sems[query.from.id]=semaphore(1);
+  }
+  sems[query.from.id].take(function(){
+    db.readfilefromdb("Users", {id:query.from.id,ready:false}).then(function(user){
+      if(!user){
+        sems[query.from.id].leave();
+        return next();
+      }
       if(user.phase==2){
         var tot=15;
         var totdisp=tot-(user.forz+user.dex+user.inte+user.cari);
@@ -74,7 +75,7 @@ function modifystat(query,data,next){
           db.modifyobj("Users",x,{ id: query.from.id , ready:false}).then(function(){
             db.readfilefromdb("Users", {id:query.from.id,ready:false}).then(function(userm){
               totdisp=tot-(userm.forz+userm.dex+userm.inte+userm.cari);
-              reply.inlineKeyboard(statupdown).editHTML(query.message,txt.createpgcase2+totdisp+txt.forz+userm.forz+txt.dex+userm.dex+txt.inte+userm.inte+txt.cari+userm.cari).then(function(){setTimeout(sems[user.id].leave,1500)});
+              reply.inlineKeyboard(statupdown).editHTML(query.message,txt.createpgcase2+totdisp+txt.forz+userm.forz+txt.dex+userm.dex+txt.inte+userm.inte+txt.cari+userm.cari).then(function(){setTimeout(sems[query.from.id].leave,1500)});
             });
           });
         }
@@ -83,15 +84,15 @@ function modifystat(query,data,next){
           db.modifyobj("Users",x,{ id: query.from.id , ready:false}).then(function(){
             db.readfilefromdb("Users", {id:query.from.id,ready:false}).then(function(userm){
               totdisp=tot-(userm.forz+userm.dex+userm.inte+userm.cari);
-              reply.inlineKeyboard(statupdown).editHTML(query.message,txt.createpgcase2+totdisp+txt.forz+userm.forz+txt.dex+userm.dex+txt.inte+userm.inte+txt.cari+userm.cari).then(function(){setTimeout(sems[user.id].leave,1500)});
+              reply.inlineKeyboard(statupdown).editHTML(query.message,txt.createpgcase2+totdisp+txt.forz+userm.forz+txt.dex+userm.dex+txt.inte+userm.inte+txt.cari+userm.cari).then(function(){setTimeout(sems[query.from.id].leave,1500)});
             });
           });
         }
-        else sems[user.id].leave();
+        else sems[query.from.id].leave();
       }
       else{
         support.deletecmd(reply,query.message);
-        setTimeout(sems[user.id].leave,1500);
+        sems[query.from.id].leave());
       }
     });
   });
@@ -100,14 +101,15 @@ function modifystat(query,data,next){
 
 function modifyappr(query,data,next){
   var reply = bot.reply(query.message.chat);
-  db.readfilefromdb("Users", {id:query.from.id,ready:false}).then(function(user){
-    if(!user){
-      return next();
-    }
-    if(!(user.id in sems)){
-      sems[user.id]=semaphore(1);
-    }
-    sems[user.id].take(function(){
+  if(!(query.from.id in sems)){
+    sems[query.from.id]=semaphore(1);
+  }
+  sems[query.from.id].take(function(){
+    db.readfilefromdb("Users", {id:query.from.id,ready:false}).then(function(user){
+      if(!user){
+        sems[query.from.id].leave();
+        return next();
+      }
       if(user.phase==3){
         var tot=8;
         var totdisp=tot-(user.appr1+user.appr2+user.appr3+user.appr4+user.appr5);
@@ -118,7 +120,7 @@ function modifyappr(query,data,next){
           db.modifyobj("Users",x,{ id: query.from.id , ready:false}).then(function(){
             db.readfilefromdb("Users", {id:query.from.id,ready:false}).then(function(userm){
               totdisp=tot-(user.appr1+user.appr2+user.appr3+user.appr4+user.appr5);
-              reply.inlineKeyboard(apprupdown).editHTML(query.message,txt.createpgcase3+totdisp+txt.appr1+userm.appr1+txt.appr2+userm.appr2+txt.appr3+userm.appr3+txt.appr4+userm.appr4+txt.appr5+userm.appr5).then(function(){setTimeout(sems[user.id].leave,1500)});
+              reply.inlineKeyboard(apprupdown).editHTML(query.message,txt.createpgcase3+totdisp+txt.appr1+userm.appr1+txt.appr2+userm.appr2+txt.appr3+userm.appr3+txt.appr4+userm.appr4+txt.appr5+userm.appr5).then(function(){setTimeout(sems[query.from.id].leave,1500)});
             });
           });
         }
@@ -127,15 +129,15 @@ function modifyappr(query,data,next){
           db.modifyobj("Users",x,{ id: query.from.id , ready:false}).then(function(){
             db.readfilefromdb("Users", {id:query.from.id,ready:false}).then(function(userm){
               totdisp=tot-(user.appr1+user.appr2+user.appr3+user.appr4+user.appr5);
-              reply.inlineKeyboard(apprupdown).editHTML(query.message,txt.createpgcase3+totdisp+txt.appr1+userm.appr1+txt.appr2+userm.appr2+txt.appr3+userm.appr3+txt.appr4+userm.appr4+txt.appr5+userm.appr5).then(function(){setTimeout(sems[user.id].leave,1500)});
+              reply.inlineKeyboard(apprupdown).editHTML(query.message,txt.createpgcase3+totdisp+txt.appr1+userm.appr1+txt.appr2+userm.appr2+txt.appr3+userm.appr3+txt.appr4+userm.appr4+txt.appr5+userm.appr5).then(function(){setTimeout(sems[query.from.id].leave,1500)});
             });
           });
         }
-        else sems[user.id].leave();
+        else sems[query.from.id].leave();
       }
       else{
         support.deletecmd(reply,query.message);
-        setTimeout(sems[user.id].leave,1500);
+        sems[query.from.id].leave());
       }
     });
   });
@@ -242,9 +244,9 @@ function createusr(msg,reply,next){
         replyto.inlineKeyboard(statupdown).html(query.message,txt.createpgcase2+totdisp+txt.forz+user.forz+txt.dex+user.dex+txt.inte+user.inte+txt.cari+user.cari);
         break;
       case 3:
-      var tot=8;
-      var totdisp=tot-(user.appr1+user.appr2+user.appr3+user.appr4+user.appr5);
-      replyto.inlineKeyboard(apprupdown).html(txt.createpgcase3+totdisp+txt.appr1+user.appr1+txt.appr2+user.appr2+txt.appr3+user.appr3+txt.appr4+user.appr4+txt.appr5+user.appr5);
+        var tot=8;
+        var totdisp=tot-(user.appr1+user.appr2+user.appr3+user.appr4+user.appr5);
+        replyto.inlineKeyboard(apprupdown).html(txt.createpgcase3+totdisp+txt.appr1+user.appr1+txt.appr2+user.appr2+txt.appr3+user.appr3+txt.appr4+user.appr4+txt.appr5+user.appr5);
         break;
       default:
         break;
