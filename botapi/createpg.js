@@ -43,11 +43,11 @@ function modifystat(query,data,next){
       else if(data.dir=="down"){
         var x={};
         x[data.stat]=user[data.stat]-1;
-        db.modifyobj("Users",x,{ id: query.from.id , ready:false}).then(
+        db.modifyobj("Users",x,{ id: query.from.id , ready:false}).then(function(){
           db.readfilefromdb("Users", {id:query.from.id,ready:false}).then(function(userm){
             reply.inlineKeyboard(statupdown).editHTML(query.message,txt.createpgcase2+txt.forz+userm.forz+txt.dex+userm.dex+txt.inte+userm.inte+txt.carim+user.cari);
           });
-        );
+        });
       }
     }
     else{
