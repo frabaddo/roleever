@@ -46,7 +46,7 @@ function modifystat(query,data,next){
             totdisp=tot-(userm.forz+userm.dex+userm.inte+userm.cari);
             sem.take(function(){
               reply.inlineKeyboard(statupdown).editHTML(query.message,txt.createpgcase2+totdisp+txt.forz+userm.forz+txt.dex+userm.dex+txt.inte+userm.inte+txt.cari+userm.cari);
-              setTimeout(sem.leave,1200);
+              setTimeout(sem.leave,1500);
             });
           });
         });
@@ -58,7 +58,7 @@ function modifystat(query,data,next){
             totdisp=tot-(userm.forz+userm.dex+userm.inte+userm.cari);
             sem.take(function(){
               reply.inlineKeyboard(statupdown).editHTML(query.message,txt.createpgcase2+totdisp+txt.forz+userm.forz+txt.dex+userm.dex+txt.inte+userm.inte+txt.cari+userm.cari);
-              setTimeout(sem.leave,1200);
+              setTimeout(sem.leave,1500);
             });
           });
         });
@@ -66,7 +66,7 @@ function modifystat(query,data,next){
       else{
         sem.take(function(){
           reply.inlineKeyboard(statupdown).editHTML(query.message,txt.createpgcase2+totdisp+txt.forz+user.forz+txt.dex+user.dex+txt.inte+user.inte+txt.cari+user.cari);
-          setTimeout(sem.leave,1200);
+          setTimeout(sem.leave,1500);
         });
       }
     }
