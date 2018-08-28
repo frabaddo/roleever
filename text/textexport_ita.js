@@ -68,7 +68,7 @@ module.exports={
 
   createpgcase1: "inserisci ora una descrizione per il tuo personaggio",
 
-  createpgcase2: "inserisci i valori per le quattro caratteristiche principali del tuo personaggio quindi conferma: \n",
+  createpgcase2: "inserisci i valori per le quattro caratteristiche principali del tuo personaggio quindi conferma! \n\n Punti disponibili: \n",
 
   forz: "\nForza: ",
 

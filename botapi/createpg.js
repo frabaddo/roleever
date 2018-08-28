@@ -31,18 +31,20 @@ function modifystat(query,data,next){
       return next();
     }
     if(user.phase==2){
-      if(data.dir=="up"){
-        var x={};
-        x[data.stat]=user[data.stat]+1;
+      var tot=15;
+      var totdisp=tot-userm.forz+userm.dex+userm.inte+userm.cari;
+      var x={};
+      x[data.stat]=user[data.stat];
+      if(data.dir=="up"&&totdisp>=0){
+        x[data.stat]=x[data.stat]+1;
         db.modifyobj("Users",x,{ id: query.from.id , ready:false}).then(function(){
           db.readfilefromdb("Users", {id:query.from.id,ready:false}).then(function(userm){
-            reply.inlineKeyboard(statupdown).editHTML(query.message,txt.createpgcase2+txt.forz+userm.forz+txt.dex+userm.dex+txt.inte+userm.inte+txt.cari+userm.cari);
+            reply.inlineKeyboard(statupdown).editHTML(query.message,txt.createpgcase2+totdisp+txt.forz+userm.forz+txt.dex+userm.dex+txt.inte+userm.inte+txt.cari+userm.cari);
           });
         });
       }
-      else if(data.dir=="down"){
-        var x={};
-        x[data.stat]=user[data.stat]-1;
+      else if(data.dir=="down"&&x[data.stat]>0){
+        x[data.stat]=x[data.stat]-1;
         db.modifyobj("Users",x,{ id: query.from.id , ready:false}).then(function(){
           db.readfilefromdb("Users", {id:query.from.id,ready:false}).then(function(userm){
             reply.inlineKeyboard(statupdown).editHTML(query.message,txt.createpgcase2+txt.forz+userm.forz+txt.dex+userm.dex+txt.inte+userm.inte+txt.cari+userm.cari);
@@ -89,7 +91,7 @@ function createusrquery(query,data,next){
           },
           { id: query.from.id , sessionid: data.sid}
         );
-          reply.inlineKeyboard(statupdown).html(txt.createpgcase2+txt.forz+"0"+txt.dex+"0"+txt.inte+"0"+txt.cari+"0");
+          reply.inlineKeyboard(statupdown).html(txt.createpgcase2+"15"+txt.forz+"0"+txt.dex+"0"+txt.inte+"0"+txt.cari+"0");
         }else{
           reply.text(txt.createpgcase1);
         }
