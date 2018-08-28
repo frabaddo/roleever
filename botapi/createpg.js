@@ -3,20 +3,20 @@ const support= require("./supportfunc");
 const txt = require("../text/textexport_ita");
 const statupdown=[
   [
-    {text:txt.forz+" :arrow_up:", callback_data: JSON.stringify({action:"modifystat",stat:"forz",dir:"up"  })},
-    {text:txt.forz+" :arrow_down:", callback_data: JSON.stringify({action:"modifystat",stat:"forz",dir:"down"  })}
+    {text:txt.forz+" : U+2B06", callback_data: JSON.stringify({action:"modifystat",stat:"forz",dir:"up"  })},
+    {text:txt.forz+" : U+2B07:", callback_data: JSON.stringify({action:"modifystat",stat:"forz",dir:"down"  })}
   ],
   [
-    {text:txt.dex+" :arrow_up:", callback_data: JSON.stringify({action:"modifystat",stat:"dex",dir:"up"  })},
-    {text:txt.dex+" :arrow_down:", callback_data: JSON.stringify({action:"modifystat",stat:"dex",dir:"down"  })}
+    {text:txt.dex+" : U+2B06", callback_data: JSON.stringify({action:"modifystat",stat:"dex",dir:"up"  })},
+    {text:txt.dex+" : U+2B07", callback_data: JSON.stringify({action:"modifystat",stat:"dex",dir:"down"  })}
   ],
   [
-    {text:txt.inte+" :arrow_up:", callback_data: JSON.stringify({action:"modifystat",stat:"inte",dir:"up"  })},
-    {text:txt.inte+" :arrow_down:", callback_data: JSON.stringify({action:"modifystat",stat:"inte",dir:"down"  })}
+    {text:txt.inte+" : U+2B06", callback_data: JSON.stringify({action:"modifystat",stat:"inte",dir:"up"  })},
+    {text:txt.inte+" : U+2B07", callback_data: JSON.stringify({action:"modifystat",stat:"inte",dir:"down"  })}
   ],
   [
-    {text:txt.cari+" :arrow_up:", callback_data: JSON.stringify({action:"modifystat",stat:"cari",dir:"up"  })},
-    {text:txt.cari+" :arrow_down:", callback_data: JSON.stringify({action:"modifystat",stat:"cari",dir:"down"  })}
+    {text:txt.cari+" : U+2B06", callback_data: JSON.stringify({action:"modifystat",stat:"cari",dir:"up"  })},
+    {text:txt.cari+" : U+2B07:", callback_data: JSON.stringify({action:"modifystat",stat:"cari",dir:"down"  })}
   ],
   [
     {text:txt.conferma, callback_data: JSON.stringify({action:"createusr", confirm:true })},
