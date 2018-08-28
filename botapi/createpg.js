@@ -100,16 +100,21 @@ function createusrquery(query,data,next){
 
 
 function createusr(msg,reply,next){
+  console.log("1.a");
   if(msg.chat.type!="user"){
+    console.log("1.b");
    return next();
   }
   db.readfilefromdb("Users", {id:msg.from.id,ready:false}).then(function(user){
     if(!user){
+      console.log("1.c");
       return next();
     }
+    console.log("1.d");
     var replyto = bot.reply(msg.from.id);
     switch (user.phase) {
       case 0:
+        console.log("1.e");
         replyto.inlineKeyboard([
           [{text:txt.yes, callback_data: JSON.stringify({action:"createusr", sid:user.sessionid, ys: true })},{text:txt.no, callback_data: JSON.stringify({action:"createusr", sid:user.sessionid, ys: false })}]
         ]).html(txt.addthisname+msg.text);
