@@ -74,7 +74,7 @@ function modifystat(query,data,next){
           db.modifyobj("Users",x,{ id: query.from.id , ready:false}).then(function(){
             db.readfilefromdb("Users", {id:query.from.id,ready:false}).then(function(userm){
               totdisp=tot-(userm.forz+userm.dex+userm.inte+userm.cari);
-              reply.inlineKeyboard(statupdown).editHTML(query.message,txt.createpgcase2+totdisp+txt.forz+userm.forz+txt.dex+userm.dex+txt.inte+userm.inte+txt.cari+userm.cari).then(function(){setTimeout(sem.leave,1500)});
+              reply.inlineKeyboard(statupdown).editHTML(query.message,txt.createpgcase2+totdisp+txt.forz+userm.forz+txt.dex+userm.dex+txt.inte+userm.inte+txt.cari+userm.cari).then(function(){setTimeout(sems[user.id].leave,1500)});
             });
           });
         }
@@ -83,7 +83,7 @@ function modifystat(query,data,next){
           db.modifyobj("Users",x,{ id: query.from.id , ready:false}).then(function(){
             db.readfilefromdb("Users", {id:query.from.id,ready:false}).then(function(userm){
               totdisp=tot-(userm.forz+userm.dex+userm.inte+userm.cari);
-              reply.inlineKeyboard(statupdown).editHTML(query.message,txt.createpgcase2+totdisp+txt.forz+userm.forz+txt.dex+userm.dex+txt.inte+userm.inte+txt.cari+userm.cari).then(function(){setTimeout(sem.leave,1500)});
+              reply.inlineKeyboard(statupdown).editHTML(query.message,txt.createpgcase2+totdisp+txt.forz+userm.forz+txt.dex+userm.dex+txt.inte+userm.inte+txt.cari+userm.cari).then(function(){setTimeout(sems[user.id].leave,1500)});
             });
           });
         }
@@ -116,7 +116,7 @@ function modifyappr(query,data,next){
           db.modifyobj("Users",x,{ id: query.from.id , ready:false}).then(function(){
             db.readfilefromdb("Users", {id:query.from.id,ready:false}).then(function(userm){
               totdisp=tot-(user.appr1+user.appr2+user.appr3+user.appr4+user.appr5);
-              reply.inlineKeyboard(apprupdown).editHTML(query.message,txt.createpgcase3+totdisp+txt.appr1+userm.appr1+txt.appr2+userm.appr2+txt.appr3+userm.appr3+txt.appr4+userm.appr4+txt.appr5+userm.appr5).then(function(){setTimeout(sem.leave,1500)});
+              reply.inlineKeyboard(apprupdown).editHTML(query.message,txt.createpgcase3+totdisp+txt.appr1+userm.appr1+txt.appr2+userm.appr2+txt.appr3+userm.appr3+txt.appr4+userm.appr4+txt.appr5+userm.appr5).then(function(){setTimeout(sems[user.id].leave,1500)});
             });
           });
         }
@@ -125,7 +125,7 @@ function modifyappr(query,data,next){
           db.modifyobj("Users",x,{ id: query.from.id , ready:false}).then(function(){
             db.readfilefromdb("Users", {id:query.from.id,ready:false}).then(function(userm){
               totdisp=tot-(user.appr1+user.appr2+user.appr3+user.appr4+user.appr5);
-              reply.inlineKeyboard(apprupdown).editHTML(query.message,txt.createpgcase3+totdisp+txt.appr1+userm.appr1+txt.appr2+userm.appr2+txt.appr3+userm.appr3+txt.appr4+userm.appr4+txt.appr5+userm.appr5).then(function(){setTimeout(sem.leave,1500)});
+              reply.inlineKeyboard(apprupdown).editHTML(query.message,txt.createpgcase3+totdisp+txt.appr1+userm.appr1+txt.appr2+userm.appr2+txt.appr3+userm.appr3+txt.appr4+userm.appr4+txt.appr5+userm.appr5).then(function(){setTimeout(sems[user.id].leave,1500)});
             });
           });
         }
