@@ -45,7 +45,8 @@ function modifystat(query,data,next){
           db.readfilefromdb("Users", {id:query.from.id,ready:false}).then(function(userm){
             totdisp=tot-(userm.forz+userm.dex+userm.inte+userm.cari);
             sem.take(function(){
-              reply.inlineKeyboard(statupdown).editHTML(query.message,txt.createpgcase2+totdisp+txt.forz+userm.forz+txt.dex+userm.dex+txt.inte+userm.inte+txt.cari+userm.cari).then(function(){setTimeout(sem.leave,1500)});
+              reply.inlineKeyboard(statupdown).editHTML(query.message,txt.createpgcase2+totdisp+txt.forz+userm.forz+txt.dex+userm.dex+txt.inte+userm.inte+txt.cari+userm.cari);
+              setTimeout(sem.leave,1500);
             });
           });
         });
@@ -56,14 +57,16 @@ function modifystat(query,data,next){
           db.readfilefromdb("Users", {id:query.from.id,ready:false}).then(function(userm){
             totdisp=tot-(userm.forz+userm.dex+userm.inte+userm.cari);
             sem.take(function(){
-              reply.inlineKeyboard(statupdown).editHTML(query.message,txt.createpgcase2+totdisp+txt.forz+userm.forz+txt.dex+userm.dex+txt.inte+userm.inte+txt.cari+userm.cari).then(function(){setTimeout(sem.leave,1500)});
+              reply.inlineKeyboard(statupdown).editHTML(query.message,txt.createpgcase2+totdisp+txt.forz+userm.forz+txt.dex+userm.dex+txt.inte+userm.inte+txt.cari+userm.cari);
+              setTimeout(sem.leave,1500);
             });
           });
         });
       }
       else{
         sem.take(function(){
-          reply.inlineKeyboard(statupdown).editHTML(query.message,txt.createpgcase2+totdisp+txt.forz+user.forz+txt.dex+user.dex+txt.inte+user.inte+txt.cari+user.cari).then(function(){setTimeout(sem.leave,1500)});
+          reply.inlineKeyboard(statupdown).editHTML(query.message,txt.createpgcase2+totdisp+txt.forz+user.forz+txt.dex+user.dex+txt.inte+user.inte+txt.cari+user.cari);
+          setTimeout(sem.leave,1500);
         });
       }
     }
