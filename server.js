@@ -351,6 +351,7 @@ function  sendmessage(query,chatid){
             var txttosend=query.message.text.replace(txt.wanttosend,"<strong>"+query.from.name+":"+"</strong>");
             support.deletecmd(query.message.id,reply);
             replytochat.html(txttosend);
+            reply.html(txt.msgsent);
             var timetoset=Date.now();
             db.createobj(
               "Messages",
