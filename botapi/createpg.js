@@ -3,20 +3,20 @@ const support= require("./supportfunc");
 const txt = require("../text/textexport_ita");
 const statupdown=[
   [
-    {text:txt.forz+" : \xE2\xAC\x86", callback_data: JSON.stringify({action:"modifystat",stat:"forz",dir:"up"  })},
-    {text:txt.forz+" : \xE2\xAC\x87:", callback_data: JSON.stringify({action:"modifystat",stat:"forz",dir:"down"  })}
+    {text:txt.forz+" : ↑", callback_data: JSON.stringify({action:"modifystat",stat:"forz",dir:"up"  })},
+    {text:txt.forz+" : ↓", callback_data: JSON.stringify({action:"modifystat",stat:"forz",dir:"down"  })}
   ],
   [
-    {text:txt.dex+" : \xE2\xAC\x86", callback_data: JSON.stringify({action:"modifystat",stat:"dex",dir:"up"  })},
-    {text:txt.dex+" : \xE2\xAC\x87", callback_data: JSON.stringify({action:"modifystat",stat:"dex",dir:"down"  })}
+    {text:txt.dex+" : ↑", callback_data: JSON.stringify({action:"modifystat",stat:"dex",dir:"up"  })},
+    {text:txt.dex+" : ↓", callback_data: JSON.stringify({action:"modifystat",stat:"dex",dir:"down"  })}
   ],
   [
-    {text:txt.inte+" : \xE2\xAC\x86", callback_data: JSON.stringify({action:"modifystat",stat:"inte",dir:"up"  })},
-    {text:txt.inte+" : \xE2\xAC\x87", callback_data: JSON.stringify({action:"modifystat",stat:"inte",dir:"down"  })}
+    {text:txt.inte+" : ↑", callback_data: JSON.stringify({action:"modifystat",stat:"inte",dir:"up"  })},
+    {text:txt.inte+" : ↓", callback_data: JSON.stringify({action:"modifystat",stat:"inte",dir:"down"  })}
   ],
   [
-    {text:txt.cari+" : \xE2\xAC\x86", callback_data: JSON.stringify({action:"modifystat",stat:"cari",dir:"up"  })},
-    {text:txt.cari+" : \xE2\xAC\x87:", callback_data: JSON.stringify({action:"modifystat",stat:"cari",dir:"down"  })}
+    {text:txt.cari+" : ↑", callback_data: JSON.stringify({action:"modifystat",stat:"cari",dir:"up"  })},
+    {text:txt.cari+" : ↓:", callback_data: JSON.stringify({action:"modifystat",stat:"cari",dir:"down"  })}
   ],
   [
     {text:txt.conferma, callback_data: JSON.stringify({action:"createusr", confirm:true })},
@@ -25,24 +25,24 @@ const statupdown=[
 
 const apprupdown=[
   [
-    {text:txt.appr1+" : \xE2\xAC\x86", callback_data: JSON.stringify({action:"modifyappr",stat:"appr1",dir:"up"  })},
-    {text:txt.appr1+" : \xE2\xAC\x87:", callback_data: JSON.stringify({action:"modifyappr",stat:"appr1",dir:"down"  })}
+    {text:txt.appr1+" : ↑", callback_data: JSON.stringify({action:"modifyappr",stat:"appr1",dir:"up"  })},
+    {text:txt.appr1+" : ↓:", callback_data: JSON.stringify({action:"modifyappr",stat:"appr1",dir:"down"  })}
   ],
   [
-    {text:txt.appr2+" : \xE2\xAC\x86", callback_data: JSON.stringify({action:"modifyappr",stat:"appr2",dir:"up"  })},
-    {text:txt.appr2+" : \xE2\xAC\x87", callback_data: JSON.stringify({action:"modifyappr",stat:"appr2",dir:"down"  })}
+    {text:txt.appr2+" : ↑", callback_data: JSON.stringify({action:"modifyappr",stat:"appr2",dir:"up"  })},
+    {text:txt.appr2+" : ↓", callback_data: JSON.stringify({action:"modifyappr",stat:"appr2",dir:"down"  })}
   ],
   [
-    {text:txt.appr3+" : \xE2\xAC\x86", callback_data: JSON.stringify({action:"modifyappr",stat:"appr3",dir:"up"  })},
-    {text:txt.appr3+" : \xE2\xAC\x87", callback_data: JSON.stringify({action:"modifyappr",stat:"appr3",dir:"down"  })}
+    {text:txt.appr3+" : ↑", callback_data: JSON.stringify({action:"modifyappr",stat:"appr3",dir:"up"  })},
+    {text:txt.appr3+" : ↓", callback_data: JSON.stringify({action:"modifyappr",stat:"appr3",dir:"down"  })}
   ],
   [
-    {text:txt.appr4+" : \xE2\xAC\x86", callback_data: JSON.stringify({action:"modifyappr",stat:"appr4",dir:"up"  })},
-    {text:txt.appr4+" : \xE2\xAC\x87:", callback_data: JSON.stringify({action:"modifyappr",stat:"appr4",dir:"down"  })}
+    {text:txt.appr4+" : ↑", callback_data: JSON.stringify({action:"modifyappr",stat:"appr4",dir:"up"  })},
+    {text:txt.appr4+" : ↓", callback_data: JSON.stringify({action:"modifyappr",stat:"appr4",dir:"down"  })}
   ],
   [
-    {text:txt.appr5+" : \xE2\xAC\x86", callback_data: JSON.stringify({action:"modifyappr",stat:"appr5",dir:"up"  })},
-    {text:txt.appr5+" : \xE2\xAC\x87:", callback_data: JSON.stringify({action:"modifyappr",stat:"appr5",dir:"down"  })}
+    {text:txt.appr5+" : ↑", callback_data: JSON.stringify({action:"modifyappr",stat:"appr5",dir:"up"  })},
+    {text:txt.appr5+" : ↓", callback_data: JSON.stringify({action:"modifyappr",stat:"appr5",dir:"down"  })}
   ],
   [
     {text:txt.conferma, callback_data: JSON.stringify({action:"createusr", confirm:true })},
