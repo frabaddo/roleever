@@ -102,6 +102,8 @@ module.exports={
 
   regcompl: "complimenti hai creato il tuo personaggio, da ora potrai giocare",
 
-  insall: "inserisci tutti i punti a tua disposizione"
+  insall: "inserisci tutti i punti a tua disposizione",
+
+  msgsent: "Il tuo messaggio è stato inviato!"
 
 }
