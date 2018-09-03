@@ -115,7 +115,26 @@ var inittimers=function(){
   });
 }
 
+function whomustplay(query){
+  var reply = bot.reply(query.message.chat);
+  var msg=query.message;
+  if(msg.chat.type!="group"&&msg.chat.type!="supergroup"){
+   reply.text(txt.bootnogroup);
+ }else{
+   db.readfilefromdb("Sessions", {id:msg.chat.id}).then(function(session){
+     if(session.started===true){
+       db.readfilefromdb("Users", {id:session.actualturn,sessionid:msg.chat.id}).then(function(users){
+        query.answer({ text:txt.turnof+users.name, alert: true });
+       });
+     }else{
+       query.answer({ text:txt. sessionnotstarted, alert: true });
+     }
+   });
+ }
+}
+
 module.exports={
   callturn,
-  inittimers
+  inittimers,
+  whomustplay
 }

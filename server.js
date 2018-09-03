@@ -6,7 +6,8 @@ const txt = require("./text/textexport_ita");
 const pause = require("./botapi/pausefunc");
 const support= require("./botapi/supportfunc");
 const turn= require("./botapi/turnapi");
-const createpg= require("./botapi/createpg");
+const createpg= require("./botapi/characterapi");
+const msgapi= require("./botapi/messageapi");
 const Botgram = require('botgram');
 const moment = require('moment');
 const MomentRange = require('moment-range');
@@ -233,26 +234,6 @@ function startsession(query,turntime){
 }
 
 
-function whomustplay(query){
-  var reply = bot.reply(query.message.chat);
-  var msg=query.message;
-  if(msg.chat.type!="group"&&msg.chat.type!="supergroup"){
-   reply.text(txt.bootnogroup);
- }else{
-   db.readfilefromdb("Sessions", {id:msg.chat.id}).then(function(session){
-     if(session.started===true){
-       db.readfilefromdb("Users", {id:session.actualturn,sessionid:msg.chat.id}).then(function(users){
-        query.answer({ text:txt.turnof+users.name, alert: true });
-       });
-     }else{
-       query.answer({ text:txt. sessionnotstarted, alert: true });
-       //console.log('session not started');
-     }
-   });
- }
-}
-
-
 function openmenu(msg,reply){
   if(msg.chat.type!="group"&&msg.chat.type!="supergroup"){
    reply.text(txt.bootnogroup);
@@ -274,111 +255,13 @@ function openmenu(msg,reply){
 }
 
 
-
-
-
 function help(msg,reply){
  reply.text();
 }
 
 
-
 function start(msg,reply){
  reply.text("Ciao "+msg.from.firstname+txt.start);
-}
-
-
-
-function newmessage(msg,reply,next){
-  if(msg.chat.type!="supergroup"){
-   //reply.text(txt.bootnogroup);
-   next();
-  }
-  else{
-    db.readfilefromdb("Sessions",{id : msg.chat.id}).then(function(session){
-      if(session){// CASO 1 ESISTE LA SESSIONE?
-        if(session.started==true){
-          if(timers[msg.chat.id] == null||timers[msg.chat.id]=="1"||timers[msg.chat.id].timer.isPaused()!=true){ //CASO 2 SESSIONE IN PAUSA?
-            if(session.actualturn==msg.from.id){
-
-
-              var replytousr = bot.reply(msg.from.id);
-              replytousr.inlineKeyboard([
-                [
-                  {text:"Invia", callback_data: JSON.stringify({ action: "sendmessage", chatid: msg.chat.id})},
-                  {text:"Annulla", callback_data: JSON.stringify({ action: "deletemessage" })},
-                ]
-              ]);
-
-              var txttosend= "<strong>"+txt.wanttosend+"</strong>"+"\n \n"+msg.text;
-
-              replytousr.html(txttosend).then(support.deletecmd(msg,reply));
-
-            }
-            else{  // CASO 2 RESPONSE
-              support.replytousr(msg.from.id,txt.isnotturn).then(support.deletecmd(msg,reply));
-            }
-
-          }else{
-            support.replytousr(msg.from.id,txt.pauseon).then(support.deletecmd(msg,reply));
-          }
-        }else{
-          support.deletecmd(msg,reply)
-          //reply.text(txt.sessionnotstarted).then(support.deletecmd(msg,reply));
-        }
-      }
-      else{ // CASO 1 RESPONSE
-        reply.text(txt.sessionnotcreated).then(support.deletecmd(msg,reply));
-      }
-    });
-  }
-}
-
-function deletesentmessage(query){
-  var reply = bot.reply(query.message.chat);
-  support.deletecmd(query.message.id,reply);
-}
-
-function  sendmessage(query,chatid){
-  var reply = bot.reply(query.message.chat);
-  var replytochat = bot.reply(chatid);
-
-  db.readfilefromdb("Sessions",{id : chatid}).then(function(session){
-    if(session){// CASO 1 ESISTE LA SESSIONE?
-      if(session.started==true){
-        if(timers[chatid] == null||timers[chatid]=="1"||timers[chatid].timer.isPaused()!=true){ //CASO 2 SESSIONE IN PAUSA?
-          if(session.actualturn==query.from.id){
-            var txttosend=query.message.text.replace(txt.wanttosend,"<strong>"+query.from.name+":"+"</strong>");
-            support.deletecmd(query.message.id,reply);
-            replytochat.html(txttosend);
-            reply.html(txt.msgsent);
-            var timetoset=Date.now();
-            db.createobj(
-              "Messages",
-              {
-                usr : query.from.id, sessionid : chatid , time: timetoset , message : query.message.text
-              },
-              {
-                usr : query.from.id, sessionid : chatid , time : timetoset
-              },
-            );
-            turn.callturn(chatid , query.from.id);
-          }
-          else{  // CASO 2 RESPONSE
-            support.replytousr(query.from.id,txt.isnotturn);
-          }
-
-        }else{
-          support.replytousr(query.from.id,txt.pauseon);
-        }
-      }else{
-        support.replytousr(query.from.id.sessionnotstarted);
-      }
-    }
-    else{ // CASO 1 RESPONSE
-      support.replytousr(query.from.id.sessionnotcreated);
-    }
-  });
 }
 
 
@@ -392,36 +275,6 @@ function deleteusr(msg,reply,nome){
 
 
 
-function reboot(msg,reply){
-  if(msg.chat.type!="group"&&msg.chat.type!="supergroup"){
-   reply.text(txt.bootnogroup);
- }else{
-  db.existindb("Sessions",{id:msg.chat.id}).then(function(bool){  //CASO 1 ESISTE LA SESSIONE?
-    if(bool&&msg.args(1)[0]=="password"){ //CASO 1 ESISTE LA SESSIONE e la password è corretta?
-      db.modifyobj(
-        "Sessions",
-        {
-          id:msg.chat.id,
-          sessionname:msg.chat.title,
-          users:[],
-          totalturn:1,
-          actualturn:0,
-          message: [],
-          started: false
-        },
-        {
-          id:msg.chat.id
-        }
-      ).then(reply.text("Sessione riavviata Master è il tuo turno. DEBUG"))
-      .then(support.deletecmd(msg,reply));
-    }else{
-      support.deletecmd(msg,reply);
-    }
-  });
- }
-}
-
-
 bot.callback(function (query, next) {
   var data;
   try {
@@ -431,11 +284,11 @@ bot.callback(function (query, next) {
   }
   if (data.action == "STARTSESSION") startsession(query,data.hours);;
   if (data.action == "newusr") newusr(query,data.role);
-  if (data.action == "turn") whomustplay(query);
+  if (data.action == "turn") turn.whomustplay(query);
   if (data.action == "pauseon") pause.switchpauseon(query);
   if (data.action == "pauseoff") pause.switchpauseoff(query);
-  if (data.action == "sendmessage") sendmessage(query,data.chatid);
-  if (data.action == "deletemessage") deletesentmessage(query);
+  if (data.action == "sendmessage") msgapi.sendmessage(query,data.chatid);
+  if (data.action == "deletemessage") msgapi.deletesentmessage(query);
   if (data.action == "createusr") createpg.createusrquery(query,data,next);
   if (data.action == "modifystat") createpg.modifystat(query,data,next);
   if (data.action == "modifyappr") createpg.modifyappr(query,data,next);
@@ -447,10 +300,9 @@ bot.callback(function (query, next) {
 bot.command("start", start);
 bot.command("startbot", startbot);
 bot.command("menu", openmenu);
-bot.command("help", help);
-bot.command("reboot", reboot);
-bot.command("deleteusr", deleteusr);
 bot.command("pauseoff", pause.reinitpausemsg);
-bot.text(newmessage);
+bot.command("help", help);
+bot.command("deleteusr", deleteusr);
+bot.text(msgapi.newmessage);
 bot.text(createpg.createusr);
 //bot.all(function (msg, reply) {support.deletecmd(msg,reply);});
