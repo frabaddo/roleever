@@ -5,7 +5,7 @@ const txt = require("../text/textexport_ita");
 
 
 //msg.chat.id
-var masterplayerkeyboard= function(chatid,id,players=false){
+var masterplayerkeyboard= function(chatid,id,players){
   var mkey=[
       [
         {text:"Invia", callback_data: JSON.stringify({ action: "sendmessage", chatid: chatid})},
@@ -49,7 +49,7 @@ function newmessage(msg,reply,next){
 
 
               var replytousr = bot.reply(msg.from.id);
-              db.readfilefromdb("Users", {sessionid:chatid},true).then(function(users){
+              db.readfilefromdb("Users", {sessionid:msg.chat.id},true).then(function(users){
                 var keyboard= masterplayerkeyboard(msg.chat.id,msg.from.id,users);
                 replytousr.inlineKeyboard(keyboard);
 
