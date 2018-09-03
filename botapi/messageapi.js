@@ -10,9 +10,6 @@ var masterplayerkeyboard= function(chatid,id,players){
       [
         {text:"Invia", callback_data: JSON.stringify({ action: "sendmessage", chatid: chatid})},
         {text:"Annulla", callback_data: JSON.stringify({ action: "deletemessage" })},
-      ],
-      [
-        {text:"Infliggi danni", callback_data: JSON.stringify({ action: "makedamage", chatid: chatid})}
       ]
     ];
   var pkey=[
@@ -25,11 +22,11 @@ var masterplayerkeyboard= function(chatid,id,players){
       ]
     ];
     players.forEach(function(p){
-      if(p.role=="pg"){
+      if(p.role=="pg"&&p.ready==true){
         mkey.push([{text: p.charactername+": -1pf", callback_data: JSON.stringify({ action: "makedamage",d:"-", id: p.id})}],
                     [{text: p.charactername+": +1pf", callback_data: JSON.stringify({ action: "makedamage",d:"+", id: p.id})}]);
       }
-      else if(p.role=="master"&&p.id==id) return pkey;
+      if(p.role=="pgr"&&p.id==id) return pkey;
     });
     return mkey;
 }
