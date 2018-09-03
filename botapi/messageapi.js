@@ -1,6 +1,6 @@
 const db = require("../databaseapi/mongoapi");
 const support= require("./supportfunc");
-const turn= require("./botapi/turnapi");
+const turn= require("./turnapi");
 
 function newmessage(msg,reply,next){
   if(msg.chat.type!="supergroup"){
