@@ -1,10 +1,11 @@
 const db = require("../databaseapi/mongoapi");
 const support= require("./supportfunc");
 const turn= require("./turnapi");
+const txt = require("../text/textexport_ita");
 
 
 //msg.chat.id
-var masterplayerkeyboard= function(chatid,players=false){
+var masterplayerkeyboard= function(chatid,id,players=false){
   var mkey=[
       [
         {text:"Invia", callback_data: JSON.stringify({ action: "sendmessage", chatid: chatid})},
@@ -18,15 +19,19 @@ var masterplayerkeyboard= function(chatid,players=false){
       [
         {text:"Invia", callback_data: JSON.stringify({ action: "sendmessage", chatid: chatid})},
         {text:"Annulla", callback_data: JSON.stringify({ action: "deletemessage" })},
+      ],
+      [
+        {text:"Add Roll", callback_data: JSON.stringify({ action: "addroll", chatid: chatid})}
       ]
     ];
-    if(players) {
-      players.forEach(function(p){
-        if(p.role=""){}
-      });
-      return mkey;
-    }
-    else return pkey;
+    players.forEach(function(p){
+      if(p.role=="pg"){
+        mkey.push([{text: p.charactername+": -1pf", callback_data: JSON.stringify({ action: "makedamage",d:"-", id: p.id})}],
+                    [{text: p.charactername+": +1pf", callback_data: JSON.stringify({ action: "makedamage",d:"+", id: p.id})}]);
+      }
+      else if(p.role=="master"&&p.id==id) return pkey;
+    });
+    return mkey;
 }
 
 function newmessage(msg,reply,next){
@@ -44,14 +49,14 @@ function newmessage(msg,reply,next){
 
 
               var replytousr = bot.reply(msg.from.id);
-              var players=false;
-              var keyboard= masterplayerkeyboard(msg.chat.id,players);
-              replytousr.inlineKeyboard(keyboard);
+              db.readfilefromdb("Users", {sessionid:chatid},true).then(function(users){
+                var keyboard= masterplayerkeyboard(msg.chat.id,msg.from.id,users);
+                replytousr.inlineKeyboard(keyboard);
 
-              var txttosend= "<strong>"+txt.wanttosend+"</strong>"+"\n \n"+msg.text;
+                var txttosend= "<strong>"+txt.wanttosend+"</strong>"+"\n \n"+msg.text;
 
-              replytousr.html(txttosend).then(support.deletecmd(msg,reply));
-
+                replytousr.html(txttosend).then(support.deletecmd(msg,reply));
+              }
             }
             else{  // CASO 2 RESPONSE
               support.replytousr(msg.from.id,txt.isnotturn).then(support.deletecmd(msg,reply));
