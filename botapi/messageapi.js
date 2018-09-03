@@ -26,7 +26,7 @@ var masterplayerkeyboard= function(chatid,id,players){
         mkey.push([{text: p.charactername+": -1pf", callback_data: JSON.stringify({ action: "makedamage",d:"-", id: p.id})}],
                     [{text: p.charactername+": +1pf", callback_data: JSON.stringify({ action: "makedamage",d:"+", id: p.id})}]);
       }
-      if(p.role=="pgr"&&p.id==id) return pkey;
+      if(p.role=="pg"&&p.id==id) return pkey;
     });
     return mkey;
 }
