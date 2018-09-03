@@ -53,7 +53,6 @@ var semaphore=require('semaphore');
 
 var sems=[];
 
-
 function modifystat(query,data,next){
   var reply = bot.reply(query.message.chat);
   if(!(query.from.id in sems)){

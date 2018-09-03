@@ -2,6 +2,33 @@ const db = require("../databaseapi/mongoapi");
 const support= require("./supportfunc");
 const turn= require("./turnapi");
 
+
+//msg.chat.id
+var masterplayerkeyboard= function(chatid,players=false){
+  var mkey=[
+      [
+        {text:"Invia", callback_data: JSON.stringify({ action: "sendmessage", chatid: chatid})},
+        {text:"Annulla", callback_data: JSON.stringify({ action: "deletemessage" })},
+      ],
+      [
+        {text:"Infliggi danni", callback_data: JSON.stringify({ action: "makedamage", chatid: chatid})}
+      ]
+    ];
+  var pkey=[
+      [
+        {text:"Invia", callback_data: JSON.stringify({ action: "sendmessage", chatid: chatid})},
+        {text:"Annulla", callback_data: JSON.stringify({ action: "deletemessage" })},
+      ]
+    ];
+    if(players) {
+      player.forEach(function(p){
+        if(p.role=)
+      });
+      return mkey;
+    }
+    else return pkey;
+}
+
 function newmessage(msg,reply,next){
   if(msg.chat.type!="supergroup"){
    //reply.text(txt.bootnogroup);
@@ -16,12 +43,9 @@ function newmessage(msg,reply,next){
 
 
               var replytousr = bot.reply(msg.from.id);
-              replytousr.inlineKeyboard([
-                [
-                  {text:"Invia", callback_data: JSON.stringify({ action: "sendmessage", chatid: msg.chat.id})},
-                  {text:"Annulla", callback_data: JSON.stringify({ action: "deletemessage" })},
-                ]
-              ]);
+              var players=false;
+              var keyboard= masterplayerkeyboard(msg.chat.id,players);
+              replytousr.inlineKeyboard(keyboard);
 
               var txttosend= "<strong>"+txt.wanttosend+"</strong>"+"\n \n"+msg.text;
 
