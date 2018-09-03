@@ -56,7 +56,7 @@ function newmessage(msg,reply,next){
                 var txttosend= "<strong>"+txt.wanttosend+"</strong>"+"\n \n"+msg.text;
 
                 replytousr.html(txttosend).then(support.deletecmd(msg,reply));
-              }
+              });
             }
             else{  // CASO 2 RESPONSE
               support.replytousr(msg.from.id,txt.isnotturn).then(support.deletecmd(msg,reply));
