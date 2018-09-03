@@ -21,8 +21,8 @@ var masterplayerkeyboard= function(chatid,players=false){
       ]
     ];
     if(players) {
-      player.forEach(function(p){
-        if(p.role=)
+      players.forEach(function(p){
+        if(p.role=""){}
       });
       return mkey;
     }
