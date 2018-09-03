@@ -219,8 +219,10 @@ function createusrquery(query,data,next){
 
 function createusr(msg,reply,next){
   if(msg.chat.type!="user"){
+    console.log("2");
    return next();
   }
+  console.log("3");
   db.readfilefromdb("Users", {id:msg.from.id,ready:false}).then(function(user){
     if(!user){
       return next();

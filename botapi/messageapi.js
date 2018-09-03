@@ -31,6 +31,7 @@ var masterplayerkeyboard= function(chatid,players=false){
 
 function newmessage(msg,reply,next){
   if(msg.chat.type!="supergroup"){
+    console.log("1");
    //reply.text(txt.bootnogroup);
    next();
   }

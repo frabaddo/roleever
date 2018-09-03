@@ -305,4 +305,4 @@ bot.command("help", help);
 bot.command("deleteusr", deleteusr);
 bot.text(msgapi.newmessage);
 bot.text(createpg.createusr);
-bot.all(function (msg, reply) {support.deletecmd(msg,reply);});
+//bot.all(function (msg, reply) {support.deletecmd(msg,reply);});
