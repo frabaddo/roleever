@@ -104,6 +104,10 @@ module.exports={
 
   insall: "inserisci tutti i punti a tua disposizione",
 
-  msgsent: "Il tuo messaggio è stato inviato!"
+  msgsent: "Il tuo messaggio è stato inviato!",
+
+  name: "Nome: ",
+
+  description: "Descrizione: "
 
 }
