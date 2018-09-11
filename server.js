@@ -293,7 +293,6 @@ bot.callback(function (query, next) {
   if (data.action == "createusr") createpg.createusrquery(query,data,next);
   if (data.action == "modifystat") createpg.modifystat(query,data,next);
   if (data.action == "modifyappr") createpg.modifyappr(query,data,next);
-  if (data.action == "sheet") createpg.retrievesheet(query);
   return next();
 });
 
