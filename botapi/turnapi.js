@@ -127,7 +127,7 @@ function whomustplay(query){
         query.answer({ text:txt.turnof+users.name, alert: true });
        });
      }else{
-       query.answer({ text:txt. sessionnotstarted, alert: true });
+       query.answer({ text:txt.sessionnotstarted, alert: true });
      }
    });
  }

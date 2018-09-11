@@ -284,6 +284,7 @@ bot.callback(function (query, next) {
   }
   if (data.action == "STARTSESSION") startsession(query,data.hours);;
   if (data.action == "newusr") newusr(query,data.role);
+  if (data.action == "sheet") createpg.retrievesheet(query);
   if (data.action == "turn") turn.whomustplay(query);
   if (data.action == "pauseon") pause.switchpauseon(query);
   if (data.action == "pauseoff") pause.switchpauseoff(query);
@@ -292,6 +293,7 @@ bot.callback(function (query, next) {
   if (data.action == "createusr") createpg.createusrquery(query,data,next);
   if (data.action == "modifystat") createpg.modifystat(query,data,next);
   if (data.action == "modifyappr") createpg.modifyappr(query,data,next);
+  if (data.action == "sheet") createpg.retrievesheet(query);
   return next();
 });
 
