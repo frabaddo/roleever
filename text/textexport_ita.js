@@ -108,6 +108,8 @@ module.exports={
 
   name: "Nome: ",
 
-  description: "Descrizione: "
+  description: "Descrizione: ",
+
+  pf:"Punti Ferita: "
 
 }
