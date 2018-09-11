@@ -257,7 +257,7 @@ function createusr(msg,reply,next){
 
 var retrievesheet=function(query){
   db.readfilefromdb("Users", {id:query.from.id,sessionid:query.message.chat.id,role:"pg",ready:true}).then(function(user){
-    var sheettext="<strong>"+user.charactername+"</strong>\n\n<strong>"+user.characterdescription+"</strong>\n\n";
+    var sheettext="<strong>"+user.charactername+"</strong>";
     sheettext=sheettext+"<strong>"+txt.forz+":</strong> "+user.forz+"\n"+"<strong>"+txt.dex+":</strong> "+user.dex+"\n"+"<strong>"+txt.inte+":</strong> "+user.inte+"\n"+"<strong>"+txt.cari+":</strong> "+user.cari+"\n\n";
     sheettext=sheettext+"<strong>"+txt.appr1+":</strong> "+user.appr1+"\n"+"<strong>"+txt.appr2+":</strong> "+user.appr2+"\n"+"<strong>"+txt.appr3+":</strong> "+user.appr3+"\n";
     sheettext=sheettext+"<strong>"+txt.appr4+":</strong> "+user.appr4+"\n"+"<strong>"+txt.appr5+":</strong> "+user.appr5+"\n\n";
