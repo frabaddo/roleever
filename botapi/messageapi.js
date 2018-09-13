@@ -23,8 +23,7 @@ var masterplayerkeyboard= function(chatid,id,players){
     ];
     players.forEach(function(p){
       if(p.role=="pg"&&p.ready==true){
-        mkey.push([{text: p.charactername+": -1pf", callback_data: JSON.stringify({ action: "makedamage",d:"-", id: p.id})}],
-                    [{text: p.charactername+": +1pf", callback_data: JSON.stringify({ action: "makedamage",d:"+", id: p.id})}]);
+        mkey.push([{text: p.charactername+": -1pf", callback_data: JSON.stringify({ action: "makedamage",d:"-", id: p.id})},{text: p.charactername+": +1pf", callback_data: JSON.stringify({ action: "makedamage",d:"+", id: p.id})}]);
       }
       //if(p.role=="pg"&&p.id==id) return pkey;
     });
