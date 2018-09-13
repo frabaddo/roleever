@@ -297,7 +297,7 @@ bot.callback(function (query, next) {
   if (data.action == "addroll") gamefunc.addroll(query,data);
   if (data.action == "addappr") gamefunc.addappr(query,data);
   if (data.action == "confirm") gamefunc.confirmfunc(query,data);
-  if (data.action == "back") gamefunc.backfunc(query);
+  if (data.action == "back") gamefunc.backfunc(query,data);
   return next();
 });
 

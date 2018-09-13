@@ -42,7 +42,7 @@ var addroll = function(query,data){
 }
 
 
-var backfunc = function(query){
+var backfunc = function(query,data){
   var reply = bot.reply(query.message.chat);
   var key=pkey(data.chatid);
   reply.inlineKeyboard(key).editHTML(query.message,query.message.text);
@@ -60,7 +60,7 @@ var confirmfunc = function(query,data){
   var approc=["appr1","appr2","appr3","appr4","appr5"];
   db.readfilefromdb("Users",{sessionid : data.chatid,id:query.from.id}).then(function(user){
     if(user){
-      var key=addstatkey(data.chatid);
+      var key=pkey(data.chatid);
       var d10=Math.floor((Math.random() * 10) + 1);
       var roll=d10+user[stat[data.s]]+user[approc[data.a]];
       var texttosend=query.message.text+"\n\n"+"1d10 + "+stat[data.s]+" + "+approc[data.a]+" = "+roll;
