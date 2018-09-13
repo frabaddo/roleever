@@ -19,7 +19,7 @@ var addstatkey=function(id){
     [{text:txt.dex, callback_data: JSON.stringify({ action: "addappr", s:2,chatid: id })}],
     [{text:txt.inte, callback_data: JSON.stringify({ action: "addappr", s:3,chatid: id})}],
     [{text:txt.cari, callback_data: JSON.stringify({ action: "addappr", s:4,chatid: id})}],
-    [{text:"back", callback_data: JSON.stringify({ action: "back",chatid: chatid})}],
+    [{text:"back", callback_data: JSON.stringify({ action: "back",chatid: id})}],
   ];
 }
 
@@ -31,7 +31,7 @@ var addapprkey=function(i,id){
     [{text:txt.appr4, callback_data: JSON.stringify({ action: "confirm", s:i,a:4,chatid: id})}],
     [{text:txt.appr5, callback_data: JSON.stringify({ action: "confirm", s:i,a:5,chatid: id})}],
     [{text:txt.appr6, callback_data: JSON.stringify({ action: "confirm", s:i,a:6,chatid: id})}],
-    [{text:txt.dex, callback_data: JSON.stringify({ action: "back",chatid: chatid})}],
+    [{text:txt.dex, callback_data: JSON.stringify({ action: "back",chatid: id})}],
   ];
   return key;
 }
