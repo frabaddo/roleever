@@ -5,11 +5,11 @@ const txt = require("../text/textexport_ita");
 var pkey=function(id){
   return [
     [
-      {text:"Invia", callback_data: JSON.stringify({ action: "sendmessage", chatid: chatid})},
+      {text:"Invia", callback_data: JSON.stringify({ action: "sendmessage", chatid: id})},
       {text:"Annulla", callback_data: JSON.stringify({ action: "deletemessage" })},
     ],
     [
-      {text:"Add Roll", callback_data: JSON.stringify({ action: "addroll", chatid: chatid})}
+      {text:"Add Roll", callback_data: JSON.stringify({ action: "addroll", chatid: id})}
     ]
   ];
 }
