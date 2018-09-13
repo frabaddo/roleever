@@ -26,9 +26,13 @@ var masterplayerkeyboard= function(chatid,id,players){
         mkey.push([{text: p.charactername+": -1pf", callback_data: JSON.stringify({ action: "makedamage",d:"-", id: p.id})}],
                     [{text: p.charactername+": +1pf", callback_data: JSON.stringify({ action: "makedamage",d:"+", id: p.id})}]);
       }
-      if(p.role=="pg"&&p.id==id) return pkey;
+      //if(p.role=="pg"&&p.id==id) return pkey;
     });
-    return mkey;
+    var player = array.find(function(element) {
+      if(element.id=id)return element;
+    });
+    if (player.role=="master") return mkey;
+    else return pkey;
 }
 
 function newmessage(msg,reply,next){
