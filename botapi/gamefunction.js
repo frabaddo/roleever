@@ -30,8 +30,7 @@ var addapprkey=function(i,id){
     [{text:txt.appr3, callback_data: JSON.stringify({ action: "confirm", s:i,a:3,chatid: id})}],
     [{text:txt.appr4, callback_data: JSON.stringify({ action: "confirm", s:i,a:4,chatid: id})}],
     [{text:txt.appr5, callback_data: JSON.stringify({ action: "confirm", s:i,a:5,chatid: id})}],
-    [{text:txt.appr6, callback_data: JSON.stringify({ action: "confirm", s:i,a:6,chatid: id})}],
-    [{text:txt.dex, callback_data: JSON.stringify({ action: "back",chatid: id})}],
+    [{text:"back", callback_data: JSON.stringify({ action: "back",chatid: id})}],
   ];
   return key;
 }
@@ -58,7 +57,7 @@ var addappr = function(query,data){
 var confirmfunc = function(query,data){
   var reply = bot.reply(query.message.chat);
   var stat=["forz","dex","inte","cari"];
-  var approc=["appr1","appr2","appr3","appr4","appr5","appr6"];
+  var approc=["appr1","appr2","appr3","appr4","appr5"];
   db.readfilefromdb("Users",{sessionid : data.chatid,id:query.from.id}).then(function(user){
     if(user){
       var key=addstatkey(data.chatid);
