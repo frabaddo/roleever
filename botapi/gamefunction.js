@@ -42,7 +42,7 @@ var addroll = function(query,data){
 }
 
 
-var back = function(query){
+var backfunc = function(query){
   var key=pkey(data.chatid);
   reply.inlineKeyboard(key).editHTML(query.message.text);
 }
@@ -52,7 +52,7 @@ var addappr = function(query,data){
   reply.inlineKeyboard(key).editHTML(query.message.text);
 }
 
-var confirm = function(query,data){
+var confirmfunc = function(query,data){
   var stat=["forz","dex","inte","cari"];
   var approc=["appr1","appr2","appr3","appr4","appr5","appr6"];
   db.readfilefromdb("Users",{sessionid : data.chatid,id:query.from.id}).then(function(user){
