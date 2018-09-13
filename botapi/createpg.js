@@ -59,7 +59,7 @@ function modifystat(query,data,next){
   if(!(query.from.id in sems)){
     sems[query.from.id]=semaphore(1);
   }
-  sems[query.from.id].take(function(){
+  if(sems[query.from.id].available()){
     db.readfilefromdb("Users", {id:query.from.id,ready:false}).then(function(user){
       if(!user){
         sems[query.from.id].leave();
@@ -95,7 +95,7 @@ function modifystat(query,data,next){
         sems[query.from.id].leave();
       }
     });
-  });
+  }
 }
 
 
@@ -104,7 +104,7 @@ function modifyappr(query,data,next){
   if(!(query.from.id in sems)){
     sems[query.from.id]=semaphore(1);
   }
-  sems[query.from.id].take(function(){
+  if(sems[query.from.id].available()){
     db.readfilefromdb("Users", {id:query.from.id,ready:false}).then(function(user){
       if(!user){
         sems[query.from.id].leave();
@@ -140,7 +140,7 @@ function modifyappr(query,data,next){
         sems[query.from.id].leave();
       }
     });
-  });
+  }
 }
 
 
