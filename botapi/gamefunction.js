@@ -37,22 +37,26 @@ var addapprkey=function(i,id){
 }
 
 var addroll = function(query,data){
+  var reply = bot.reply(query.message.chat);
   var key=addstatkey(data.chatid);
-  reply.inlineKeyboard(key).editHTML(query.message.text);
+  reply.inlineKeyboard(key).editHTML(query.message,query.message.text);
 }
 
 
 var backfunc = function(query){
+  var reply = bot.reply(query.message.chat);
   var key=pkey(data.chatid);
-  reply.inlineKeyboard(key).editHTML(query.message.text);
+  reply.inlineKeyboard(key).editHTML(query.message,query.message.text);
 }
 
 var addappr = function(query,data){
+  var reply = bot.reply(query.message.chat);
   var key=addapprkey(data.s,data.chatid);
-  reply.inlineKeyboard(key).editHTML(query.message.text);
+  reply.inlineKeyboard(key).editHTML(query.message,query.message.text);
 }
 
 var confirmfunc = function(query,data){
+  var reply = bot.reply(query.message.chat);
   var stat=["forz","dex","inte","cari"];
   var approc=["appr1","appr2","appr3","appr4","appr5","appr6"];
   db.readfilefromdb("Users",{sessionid : data.chatid,id:query.from.id}).then(function(user){
@@ -61,7 +65,7 @@ var confirmfunc = function(query,data){
       var d10=Math.floor((Math.random() * 10) + 1);
       var roll=d10+user[stat[data.s]]+user[approc[data.a]];
       var texttosend=query.message.text+"\n\n"+"1d10 + "+stat[data.s]+" + "+approc[data.a]+" = "+roll;
-      reply.inlineKeyboard(key).editHTML(texttosend);
+      reply.inlineKeyboard(key).editHTML(query.message,texttosend);
     }
   });
 }
