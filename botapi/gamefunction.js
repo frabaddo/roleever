@@ -63,7 +63,7 @@ var confirmfunc = function(query,data){
       var key=pkey(data.chatid);
       var d10=Math.floor((Math.random() * 10) + 1);
       var roll=d10+user[stat[data.s-1]]+user[approc[data.a-1]];
-      var texttosend=query.message.text+"\n\n"+"1d10 + "+stat[data.s-1]+" + "+approc[data.a-1]+" = "+roll;
+      var texttosend=query.message.text+"\n\n"+"<strong>1d10 + "+stat[data.s-1]+" + "+approc[data.a-1]+" = "+roll+"</strong>";
       setTimeout(function(){reply.inlineKeyboard(key).editHTML(query.message,texttosend); }, 800);
     }
   });
