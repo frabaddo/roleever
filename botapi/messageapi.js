@@ -29,7 +29,7 @@ var masterplayerkeyboard= function(chatid,id,players){
       //if(p.role=="pg"&&p.id==id) return pkey;
     });
     var player = players.find(function(element) {
-      if(element.id=id)return element;
+      if(element.id==id)return element;
     });
     if (player.role=="master") return mkey;
     else return pkey;
