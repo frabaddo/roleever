@@ -67,7 +67,7 @@ function modifystat(query,data,next){
           return next();
         }
         if(user.phase==2){
-          var tot=15;
+          var tot=8;
           var totdisp=tot-(user.forz+user.dex+user.inte+user.cari);
           var x={};
           x[data.stat]=user[data.stat];
@@ -187,7 +187,7 @@ function createusrquery(query,data,next){
         support.deletecmd(query.message.id,reply);
         break;
       case 2:
-        var tot=15;
+        var tot=8;
         var totdisp=tot-(user.forz+user.dex+user.inte+user.cari);
         if(data.confirm&&totdisp==0){
           db.modifyobj("Users",{
@@ -201,6 +201,7 @@ function createusrquery(query,data,next){
         else query.answer({ text:txt.insall, alert: true });
         break;
       case 3:
+        console.log("ready to display user info 1");
         var tot=8;
         var totdisp=tot-(user.appr1+user.appr2+user.appr3+user.appr4+user.appr5);
         if(data.confirm&&totdisp==0){
@@ -210,7 +211,7 @@ function createusrquery(query,data,next){
             },
             { id: query.from.id , ready:false}
           );
-          console.log("ready to display user info");
+          console.log("ready to display user info 2");
           bot.reply(user.sessionid).html(user.charactername+"\n\n"+user.characterdescription).then(function(){
             setTimeout(function(){
               reply.html(txt.regcompl);
@@ -248,7 +249,7 @@ function createusr(msg,reply,next){
         ]).html(txt.addthisdescription+msg.text);
         break;
       case 2:
-        var tot=15;
+        var tot=8;
         var totdisp=tot-(user.forz+user.dex+user.inte+user.cari);
         replyto.inlineKeyboard(statupdown).html(query.message,txt.createpgcase2+totdisp+txt.forz+user.forz+txt.dex+user.dex+txt.inte+user.inte+txt.cari+user.cari);
         break;

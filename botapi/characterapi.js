@@ -90,7 +90,6 @@ function modifystat(query,data,next){
         else sems[query.from.id].leave();
       }
       else{
-        support.deletecmd(reply,query.message);
         sems[query.from.id].leave();
       }
     });
@@ -135,7 +134,6 @@ function modifyappr(query,data,next){
         else sems[query.from.id].leave();
       }
       else{
-        support.deletecmd(reply,query.message);
         sems[query.from.id].leave();
       }
     });
