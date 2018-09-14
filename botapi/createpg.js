@@ -67,7 +67,7 @@ function modifystat(query,data,next){
           return next();
         }
         if(user.phase==2){
-          var tot=5;
+          var tot=15;
           var totdisp=tot-(user.forz+user.dex+user.inte+user.cari);
           var x={};
           x[data.stat]=user[data.stat];
@@ -114,7 +114,7 @@ function modifyappr(query,data,next){
           return next();
         }
         if(user.phase==3){
-          var tot=3;
+          var tot=8;
           var totdisp=tot-(user.appr1+user.appr2+user.appr3+user.appr4+user.appr5);
           var x={};
           x[data.stat]=user[data.stat];
