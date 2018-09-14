@@ -148,7 +148,7 @@ function newusr(query,role){
                       sessionid:msg.chat.id
                     }
                   )
-                  .then(function(){reply.text(query.from.name+txt.orae+role);});
+                  .then(function(){reply.text(query.from.name+txt.orae+role);
                   });
                 }else{
                   query.answer({ text: txt.masterexist, alert: true });
