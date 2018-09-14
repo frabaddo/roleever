@@ -211,6 +211,8 @@ function createusrquery(query,data,next){
             { id: query.from.id , ready:false}
           );
           reply.html(txt.regcompl);
+          var replychat = bot.reply(user.sessionid);
+          replychat.html(user.charactername+"\n\n"+user.characterdescription);
           support.deletecmd(query.message.id,reply);
         }
         else query.answer({ text:txt.insall, alert: true });

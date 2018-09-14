@@ -23,7 +23,7 @@ var masterplayerkeyboard= function(chatid,id,players){
     ];
     players.forEach(function(p){
       if(p.role=="pg"&&p.ready==true){
-        mkey.push([{text: p.charactername+": -1pf", callback_data: JSON.stringify({ action: "makedamage",d:"-", id: p.id})},{text: p.charactername+": +1pf", callback_data: JSON.stringify({ action: "makedamage",d:"+", id: p.id})}]);
+        mkey.push([{text: p.charactername+": -1pf", callback_data: JSON.stringify({ action: "makedamage", id: p.id,chatid: chatid})},{text: p.charactername+": +1pf", callback_data: JSON.stringify({ action: "healdamage", id: p.id,chatid: chatid})}]);
       }
       //if(p.role=="pg"&&p.id==id) return pkey;
     });
@@ -55,7 +55,19 @@ function newmessage(msg,reply,next){
 
                 var txttosend= "<strong>"+txt.wanttosend+"</strong>"+"\n \n"+msg.text;
 
-                replytousr.html(txttosend).then(support.deletecmd(msg,reply));
+                replytousr.html(txttosend).then(function(err,result){
+                  support.deletecmd(msg,reply);
+                  var damage=session.playersdamage;
+                  Object.keys(damage).forEach(v => damage[v] = 0);
+                  db.modifyobj(
+                    "Sessions",
+                    {
+                      playersdamage:damage,
+                      messagedamage:result.id
+                    },
+                    {id:msg.chat.id}
+                  );
+                });
               });
             }
             else{  // CASO 2 RESPONSE
