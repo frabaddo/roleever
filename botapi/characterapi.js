@@ -65,7 +65,7 @@ function modifystat(query,data,next){
         return next();
       }
       if(user.phase==2){
-        var tot=15;
+        var tot=8;
         var totdisp=tot-(user.forz+user.dex+user.inte+user.cari);
         var x={};
         x[data.stat]=user[data.stat];
