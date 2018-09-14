@@ -85,7 +85,7 @@ function startbot(msg,reply){
             actualturn:0,
             started: false,
             playersdamage:[],
-            messagedamage
+            messagedamage:0
           },
           {
             id:msg.chat.id
