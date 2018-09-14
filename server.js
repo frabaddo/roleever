@@ -83,7 +83,9 @@ function startbot(msg,reply){
             hours:0,
             totalturn:1,
             actualturn:0,
-            started: false
+            started: false,
+            playersdamage:[],
+            messagedamage
           },
           {
             id:msg.chat.id
@@ -119,7 +121,7 @@ function startbot(msg,reply){
 function newusr(query,role){
   var reply = bot.reply(query.message.chat);
   var msg=query.message;
-  db.existindb("Sessions",{id:msg.chat.id}).then(function(bool){  //CASO 1 ESISTE LA SESSIONE?
+  db.readfilefromdb("Sessions",{id:msg.chat.id}).then(function(bool){  //CASO 1 ESISTE LA SESSIONE?
     if(bool){
       if(role=="pg"||role=="master"){  //CASO 2 è STATO PASSATO UN PARAMETRO CORRETTO
         db.existindb("Users",{id:query.from.id,sessionid:msg.chat.id}).then(function(exist){ //CASO 3 ESISTE GIA QUESTO GIOCATORE NELLA SESSIONE?
@@ -147,7 +149,15 @@ function newusr(query,role){
                     }
                   )
                   .then(function(){
-                    reply.text(query.from.name+txt.orae+role);
+                    var damage = bool.playersdamage;
+                    damage[query.from.id]=0;
+                    db.modifyobj(
+                      "Sessions",
+                      {
+                        playersdamage: damage
+                      },
+                      {id:msg.chat.id}
+                    ).then(function(){reply.text(query.from.name+txt.orae+role);});
                   });
                 }else{
                   query.answer({ text: txt.masterexist, alert: true });

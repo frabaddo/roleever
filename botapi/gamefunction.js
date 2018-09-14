@@ -69,6 +69,8 @@ var confirmfunc = function(query,data){
   });
 }
 
+
+
 module.exports={
   addroll,
   backfunc,
