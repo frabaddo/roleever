@@ -212,9 +212,9 @@ function createusrquery(query,data,next){
           );
           reply.html(txt.regcompl).then(function(){
             setTimeout(function(){
-              var replychat = bot.reply(user.sessionid);
-              replychat.html(user.charactername+"\n\n"+user.characterdescription);
-            },800)
+              console.log("ready to display user info");
+              bot.reply(user.sessionid).html(user.charactername+"\n\n"+user.characterdescription);
+            },800);
           });
           support.deletecmd(query.message.id,reply);
         }
