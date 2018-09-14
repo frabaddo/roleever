@@ -117,7 +117,18 @@ function  sendmessage(query,chatid){
                 usr : query.from.id, sessionid : chatid , time : timetoset
               },
             );
-            turn.callturn(chatid , query.from.id);
+
+            var damage=session.playersdamage;
+            support.forEachPromise(Object.keys(damage),function(v){
+              if(damage[v] != 0){
+                db.readfilefromdb("Users",{id : v, sessionid:chatid}).then(function(u){
+                  var damagereduc=u.pf-damage[v];
+                  return db.modifyobj("Users",{pf:damagereduc},{ id:v, sessionid:chatid});
+                });
+              }
+            }).then(function(){
+              turn.callturn(chatid , query.from.id);
+            })
           }
           else{  // CASO 2 RESPONSE
             support.replytousr(query.from.id,txt.isnotturn);
