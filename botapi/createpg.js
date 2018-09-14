@@ -210,10 +210,10 @@ function createusrquery(query,data,next){
             },
             { id: query.from.id , ready:false}
           );
-          reply.html(txt.regcompl).then(function(){
+          console.log("ready to display user info");
+          bot.reply(user.sessionid).html(user.charactername+"\n\n"+user.characterdescription).then(function(){
             setTimeout(function(){
-              console.log("ready to display user info");
-              bot.reply(user.sessionid).html(user.charactername+"\n\n"+user.characterdescription);
+              reply.html(txt.regcompl);
             },800);
           });
           support.deletecmd(query.message.id,reply);
