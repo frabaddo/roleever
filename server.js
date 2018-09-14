@@ -84,7 +84,7 @@ function startbot(msg,reply){
             totalturn:1,
             actualturn:0,
             started: false,
-            playersdamage:[],
+            playersdamage:{},
             messagedamage:0
           },
           {
