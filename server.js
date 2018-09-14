@@ -148,8 +148,16 @@ function newusr(query,role){
                       sessionid:msg.chat.id
                     }
                   )
-                  .then(function(){reply.text(query.from.name+txt.orae+role);
-                  });
+                  .then(function(){
+                    var damage = bool.playersdamage;
+                    damage[query.from.id]=0;
+                    db.modifyobj(
+                      "Sessions",
+                      {
+                        playersdamage: damage
+                      },
+                      {id:msg.chat.id}
+                    ).then(function(){reply.text(query.from.name+txt.orae+role);});)};
                 }else{
                   query.answer({ text: txt.masterexist, alert: true });
                 }
@@ -175,15 +183,6 @@ function newusr(query,role){
                     }
                   )
                   .then(function(){
-                    var damage = bool.playersdamage;
-                    damage[query.from.id]=0;
-                    db.modifyobj(
-                      "Sessions",
-                      {
-                        playersdamage: damage
-                      },
-                      {id:msg.chat.id}
-                    ).then(function(){
                     reply.text(query.from.name+txt.orae+role);
                     support.replytousr(query.from.id,txt.createpgcase0);
                   });
