@@ -180,7 +180,7 @@ function createusrquery(query,data,next){
           },
           { id: query.from.id , sessionid: data.sid}
         );
-          reply.inlineKeyboard(statupdown).html(txt.createpgcase2+"15"+txt.forz+"0"+txt.dex+"0"+txt.inte+"0"+txt.cari+"0");
+          reply.inlineKeyboard(statupdown).html(txt.createpgcase2+"8"+txt.forz+"0"+txt.dex+"0"+txt.inte+"0"+txt.cari+"0");
         }else{
           reply.text(txt.createpgcase1);
         }
