@@ -113,5 +113,7 @@ module.exports={
   addroll,
   backfunc,
   addappr,
-  confirmfunc
+  confirmfunc,
+  makedamage,
+  healdamage
 }
