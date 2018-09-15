@@ -83,7 +83,7 @@ var makedamage=function(query,data){
           {id:data.chatid}
         );
         var reply = bot.reply(query.message.chat);
-        reply.editHTML(query.message.text+"\n\n"+user.charactername+": -1pf");
+        reply.editHTML(query.message,query.message.text+"\n\n"+user.charactername+": -1pf");
       }
     });
   });
@@ -103,7 +103,7 @@ var healdamage=function(query,data){
           {id:data.chatid}
         );
         var reply = bot.reply(query.message.chat);
-        reply.editHTML(query.message.text+"\n\n"+user.charactername+": +1pf");
+        reply.editHTML(query.message,query.message.text+"\n\n"+user.charactername+": +1pf");
       }
     });
   });
