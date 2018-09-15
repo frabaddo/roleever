@@ -18,9 +18,17 @@ var deleteandretrieve=function(msg,reply){
   reply.deleteMessage(msg);
 }
 
+var forEachPromise=function(items, fn) {
+    return items.reduce(function (promise, item) {
+        return promise.then(function () {
+            return fn(item);
+        });
+    }, Promise.resolve());
+}
 
 module.exports={
   deletecmd,
   replytousr,
-  deleteandretrieve
+  deleteandretrieve,
+  forEachPromise
 }
