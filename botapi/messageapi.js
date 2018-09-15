@@ -104,7 +104,11 @@ function  sendmessage(query,chatid){
         if(session.started==true){
           if(timers[chatid] == null||timers[chatid]=="1"||timers[chatid].timer.isPaused()!=true){ //CASO 2 SESSIONE IN PAUSA?
             if(session.actualturn==query.from.id){
-              var charnamefrom=users.find(x => x.id == query.from.id).charactername;
+
+              var charnamefrom=users.find(x => x.id == query.from.id);
+              if(charnamefrom.role=="pg") charnamefrom=charnamefrom.charactername;
+              else charnamefrom="Master";
+
               var txttosend=query.message.text.replace(txt.wanttosend,"<strong>"+charnamefrom+":"+"</strong>");
               support.deletecmd(query.message.id,reply);
               replytochat.html(txttosend);
