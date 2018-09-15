@@ -126,7 +126,7 @@ function  sendmessage(query,chatid){
                 return db.readfilefromdb("Users",{id:v,sessionid:chatid}).then(function(u){
                   console.log(u);
                   var damagereduc=u.pf-damage[v];
-                  db.modifyobj("Users",{pf:damagereduc},{ id:v, sessionid:chatid});
+                  return db.modifyobj("Users",{pf:damagereduc},{ id:v, sessionid:chatid});
                 });
               }
             }).then(function(){
