@@ -123,10 +123,12 @@ function  sendmessage(query,chatid){
             for(var v in damage ){
               if(damage[v] != 0){
                 console.log( v+"  ///  "+chatid);
-                db.readfilefromdb("Users",{id:v,sessionid:chatid}).then(function(u){
-                  console.log(u);
-                  var damagereduc=u.pf-damage[v];
-                  db.modifyobj("Users",{pf:damagereduc},{ id:v, sessionid:chatid});
+                db.readfilefromdb("Users",{sessionid:chatid}).then(function(users){
+                  console.log(users);
+                  var user=users.find(x => x.id == v);
+                  console.log(user);
+                  var damagereduc=user.pf-damage[v];
+                  db.modifyobj("Users",{pf:damagereduc},{ id:user.id, sessionid:chatid});
                 });
               }
             }
