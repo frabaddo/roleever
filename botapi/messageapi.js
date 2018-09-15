@@ -100,62 +100,65 @@ function  sendmessage(query,chatid){
 
   db.readfilefromdb("Sessions",{id : chatid}).then(function(session){
     if(session){// CASO 1 ESISTE LA SESSIONE?
-      if(session.started==true){
-        if(timers[chatid] == null||timers[chatid]=="1"||timers[chatid].timer.isPaused()!=true){ //CASO 2 SESSIONE IN PAUSA?
-          if(session.actualturn==query.from.id){
-            var txttosend=query.message.text.replace(txt.wanttosend,"<strong>"+query.from.name+":"+"</strong>");
-            support.deletecmd(query.message.id,reply);
-            replytochat.html(txttosend);
-            reply.html(txt.msgsent);
-            var timetoset=Date.now();
-            db.createobj(
-              "Messages",
-              {
-                usr : query.from.id, sessionid : chatid , time: timetoset , message : query.message.text
-              },
-              {
-                usr : query.from.id, sessionid : chatid , time : timetoset
-              },
-            );
+      db.readfilefromdb("Users",{sessionid:chatid},true).then(function(users){
+        if(session.started==true){
+          if(timers[chatid] == null||timers[chatid]=="1"||timers[chatid].timer.isPaused()!=true){ //CASO 2 SESSIONE IN PAUSA?
+            if(session.actualturn==query.from.id){
+              var charnamefrom=users.find(x => x.id == query.from.id).charactername;
+              var txttosend=query.message.text.replace(txt.wanttosend,"<strong>"+charnamefrom+":"+"</strong>");
+              support.deletecmd(query.message.id,reply);
+              replytochat.html(txttosend);
+              reply.html(txt.msgsent);
+              var timetoset=Date.now();
+              db.createobj(
+                "Messages",
+                {
+                  usr : query.from.id, sessionid : chatid , time: timetoset , message : query.message.text
+                },
+                {
+                  usr : query.from.id, sessionid : chatid , time : timetoset
+                },
+              );
 
-            var damage=session.playersdamage;
-            console.log(Object.keys(damage));
-            for(var v in damage ){
-              if(damage[v] != 0){
-                console.log( v+"  ///  "+chatid);
-                db.readfilefromdb("Users",{sessionid:chatid},true).then(function(users){
+              var damage=session.playersdamage;
+              console.log(Object.keys(damage));
+              for(var v in damage ){
+                if(damage[v] != 0){
+                  console.log( v+"  ///  "+chatid);
+
                   console.log(users);
                   var user=users.find(x => x.id == v);
                   console.log(user);
                   var damagereduc=user.pf-damage[v];
                   db.modifyobj("Users",{pf:damagereduc},{ id:user.id, sessionid:chatid});
-                });
-              }
-            }
-            turn.callturn(chatid , query.from.id);
-            /*support.forEachPromise(Object.keys(damage),function(v){
-              if(damage[v] != 0){
-                console.log( v+"  ///  "+chatid);
-                db.readfilefromdb("Users",{id:v,sessionid:chatid}).then(function(u){
-                  console.log(u);
-                  var damagereduc=u.pf-damage[v];
-                  db.modifyobj("Users",{pf:damagereduc},{ id:v, sessionid:chatid});
-                });
-              }
-            }).then(function(){
-              turn.callturn(chatid , query.from.id);
-            })*/
-          }
-          else{  // CASO 2 RESPONSE
-            support.replytousr(query.from.id,txt.isnotturn);
-          }
 
+                }
+              }
+              turn.callturn(chatid , query.from.id);
+              /*support.forEachPromise(Object.keys(damage),function(v){
+                if(damage[v] != 0){
+                  console.log( v+"  ///  "+chatid);
+                  db.readfilefromdb("Users",{id:v,sessionid:chatid}).then(function(u){
+                    console.log(u);
+                    var damagereduc=u.pf-damage[v];
+                    db.modifyobj("Users",{pf:damagereduc},{ id:v, sessionid:chatid});
+                  });
+                }
+              }).then(function(){
+                turn.callturn(chatid , query.from.id);
+              })*/
+            }
+            else{  // CASO 2 RESPONSE
+              support.replytousr(query.from.id,txt.isnotturn);
+            }
+
+          }else{
+            support.replytousr(query.from.id,txt.pauseon);
+          }
         }else{
-          support.replytousr(query.from.id,txt.pauseon);
+          support.replytousr(query.from.id.sessionnotstarted);
         }
-      }else{
-        support.replytousr(query.from.id.sessionnotstarted);
-      }
+      });
     }
     else{ // CASO 1 RESPONSE
       support.replytousr(query.from.id.sessionnotcreated);
