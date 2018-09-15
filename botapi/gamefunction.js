@@ -80,7 +80,7 @@ var makedamage=function(query,data){
           {
             playersdamage:damage
           },
-          {id:msg.chatid}
+          {id:data.chatid}
         );
         var reply = bot.reply(query.message.chat);
         reply.editHTML(query.message.text+"\n\n"+user.charactername+": -1pf");
@@ -100,7 +100,7 @@ var healdamage=function(query,data){
           {
             playersdamage:damage
           },
-          {id:msg.chatid}
+          {id:data.chatid}
         );
         var reply = bot.reply(query.message.chat);
         reply.editHTML(query.message.text+"\n\n"+user.charactername+": +1pf");
