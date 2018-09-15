@@ -120,18 +120,29 @@ function  sendmessage(query,chatid){
 
             var damage=session.playersdamage;
             console.log(Object.keys(damage));
-            support.forEachPromise(Object.keys(damage),function(v){
+            for(var v in damage ){
               if(damage[v] != 0){
                 console.log( v+"  ///  "+chatid);
-                return db.readfilefromdb("Users",{id:v,sessionid:chatid}).then(function(u){
+                db.readfilefromdb("Users",{id:v,sessionid:chatid}).then(function(u){
                   console.log(u);
                   var damagereduc=u.pf-damage[v];
-                  return db.modifyobj("Users",{pf:damagereduc},{ id:v, sessionid:chatid});
+                  db.modifyobj("Users",{pf:damagereduc},{ id:v, sessionid:chatid});
+                });
+              }
+            }
+            turn.callturn(chatid , query.from.id);
+            /*support.forEachPromise(Object.keys(damage),function(v){
+              if(damage[v] != 0){
+                console.log( v+"  ///  "+chatid);
+                db.readfilefromdb("Users",{id:v,sessionid:chatid}).then(function(u){
+                  console.log(u);
+                  var damagereduc=u.pf-damage[v];
+                  db.modifyobj("Users",{pf:damagereduc},{ id:v, sessionid:chatid});
                 });
               }
             }).then(function(){
               turn.callturn(chatid , query.from.id);
-            })
+            })*/
           }
           else{  // CASO 2 RESPONSE
             support.replytousr(query.from.id,txt.isnotturn);
