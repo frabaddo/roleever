@@ -1,5 +1,6 @@
 const db = require("../databaseapi/mongoapi");
 const support= require("./supportfunc");
+const msgapi=require("./messageapi")
 const txt = require("../text/textexport_ita");
 
 var pkey=function(id){
@@ -70,7 +71,8 @@ var confirmfunc = function(query,data){
 }
 
 var makedamage=function(query,data){
-  db.readfilefromdb("Users", {sessionid:data.chatid,id:data.id}).then(function(user){
+  db.readfilefromdb("Users", {sessionid:data.chatid,role:"pg",ready:true},true).then(function(users){
+    var user=users.find(x => x.id == data.id);
     db.readfilefromdb("Sessions", {id:data.chatid}).then(function(session){
       if(user&&session&&session.messagedamage==query.message.id&&(user.pf-session.playersdamage[data.id]>0)){
         var damage=session.playersdamage;
@@ -83,14 +85,16 @@ var makedamage=function(query,data){
           {id:data.chatid}
         );
         var reply = bot.reply(query.message.chat);
-        reply.editHTML(query.message,query.message.text+"\n\n"+user.charactername+": -1pf");
+        var key=msgapi.masterplayerkeyboard(data.chatid,query.from.id,users);
+        reply.inlineKeyboard(key).editHTML(query.message,query.message.text+"\n\n"+user.charactername+": -1pf");
       }
     });
   });
 }
 
 var healdamage=function(query,data){
-  db.readfilefromdb("Users", {sessionid:data.chatid,id:data.id}).then(function(user){
+  db.readfilefromdb("Users", {sessionid:data.chatid,role:"pg",ready:true},true).then(function(users){
+    var user=users.find(x => x.id == data.id);
     db.readfilefromdb("Sessions", {id:data.chatid}).then(function(session){
       if(user&&session&&session.messagedamage==query.message.id&&(user.pf-session.playersdamage[data.id]<3)){
         var damage=session.playersdamage;
@@ -103,7 +107,8 @@ var healdamage=function(query,data){
           {id:data.chatid}
         );
         var reply = bot.reply(query.message.chat);
-        reply.editHTML(query.message,query.message.text+"\n\n"+user.charactername+": +1pf");
+        var key=msgapi.masterplayerkeyboard(data.chatid,query.from.id,users);
+        reply.inlineKeyboard(key).editHTML(query.message,query.message.text+"\n\n"+user.charactername+": +1pf");
       }
     });
   });

@@ -151,5 +151,6 @@ function  sendmessage(query,chatid){
 module.exports={
   newmessage,
   sendmessage,
-  deletesentmessage
+  deletesentmessage,
+  masterplayerkeyboard
 }
