@@ -282,5 +282,6 @@ module.exports={
   modifystat,
   createusrquery,
   createusr,
-  modifyappr
+  modifyappr,
+  retrievesheet
 }
