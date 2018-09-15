@@ -123,7 +123,7 @@ function  sendmessage(query,chatid){
             for(var v in damage ){
               if(damage[v] != 0){
                 console.log( v+"  ///  "+chatid);
-                db.readfilefromdb("Users",{sessionid:chatid}).then(function(users){
+                db.readfilefromdb("Users",{sessionid:chatid},true).then(function(users){
                   console.log(users);
                   var user=users.find(x => x.id == v);
                   console.log(user);
