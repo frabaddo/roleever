@@ -71,7 +71,7 @@ var confirmfunc = function(query,data){
 }
 
 var makedamage=function(query,data){
-  db.readfilefromdb("Users", {sessionid:data.chatid,role:"pg",ready:true},true).then(function(users){
+  db.readfilefromdb("Users", {sessionid:data.chatid},true).then(function(users){
     var user=users.find(x => x.id == data.id);
     db.readfilefromdb("Sessions", {id:data.chatid}).then(function(session){
       if(user&&session&&session.messagedamage==query.message.id&&(user.pf-session.playersdamage[data.id]>0)){
@@ -93,7 +93,7 @@ var makedamage=function(query,data){
 }
 
 var healdamage=function(query,data){
-  db.readfilefromdb("Users", {sessionid:data.chatid,role:"pg",ready:true},true).then(function(users){
+  db.readfilefromdb("Users", {sessionid:data.chatid},true).then(function(users){
     var user=users.find(x => x.id == data.id);
     db.readfilefromdb("Sessions", {id:data.chatid}).then(function(session){
       if(user&&session&&session.messagedamage==query.message.id&&(user.pf-session.playersdamage[data.id]<3)){
