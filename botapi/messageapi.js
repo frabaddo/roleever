@@ -122,9 +122,10 @@ function  sendmessage(query,chatid){
             console.log(Object.keys(damage));
             support.forEachPromise(Object.keys(damage),function(v){
               if(damage[v] != 0){
+                console.log( v+"  ///  "+chatid);
                 db.readfilefromdb("Users",{id : v, sessionid:chatid}).then(function(u){
+                  console.log(u);
                   var damagereduc=u.pf-damage[v];
-                  console.log(damagereduc+"  ///  "+v+"  ///  "+chatid);
                   return db.modifyobj("Users",{pf:damagereduc},{ id:v, sessionid:chatid});
                 });
               }
