@@ -119,6 +119,7 @@ function  sendmessage(query,chatid){
             );
 
             var damage=session.playersdamage;
+            console.log(Object.keys(damage));
             support.forEachPromise(Object.keys(damage),function(v){
               if(damage[v] != 0){
                 db.readfilefromdb("Users",{id : v, sessionid:chatid}).then(function(u){
