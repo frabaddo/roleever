@@ -123,10 +123,10 @@ function  sendmessage(query,chatid){
             support.forEachPromise(Object.keys(damage),function(v){
               if(damage[v] != 0){
                 console.log( v+"  ///  "+chatid);
-                db.readfilefromdb("Users",{id : v, sessionid:chatid}).then(function(u){
+                return db.readfilefromdb("Users",{id:v,sessionid:chatid}).then(function(u){
                   console.log(u);
                   var damagereduc=u.pf-damage[v];
-                  return db.modifyobj("Users",{pf:damagereduc},{ id:v, sessionid:chatid});
+                  db.modifyobj("Users",{pf:damagereduc},{ id:v, sessionid:chatid});
                 });
               }
             }).then(function(){
