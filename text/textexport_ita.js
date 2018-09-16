@@ -67,23 +67,23 @@ module.exports={
 
   createpgcase3: "Inserisci i valori per le cinque macro abilità del tuo personaggio, massimo 3 per ciascuna, quindi conferma! (Attenzione: clicca con calma e abbi pazienza, i punteggi si aggiornano ogni 2 secondi) \n\n Punti disponibili: \n",
 
-  forz: "\nForza: ",
+  forz: "Forza: ",
 
-  dex: "\nDestrezza: ",
+  dex: "Destrezza: ",
 
-  inte: "\nIntelletto: ",
+  inte: "Intelletto: ",
 
-  cari: "\nCarisma: ",
+  cari: "Carisma: ",
 
-  appr1:"\n Combattimento: ",
+  appr1:" Combattimento: ",
 
-  appr2:"\n Sensi: ",
+  appr2:" Sensi: ",
 
-  appr3:"\n Conoscenze: ",
+  appr3:" Conoscenze: ",
 
-  appr4:"\n Sopravvivenza: ",
+  appr4:" Sopravvivenza: ",
 
-  appr5:"\n Comunicazione: ",
+  appr5:" Comunicazione: ",
 
   addthisname:"Vuoi che sia questo il nome del tuo personaggio \n \n",
 
