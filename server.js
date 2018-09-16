@@ -310,6 +310,8 @@ bot.callback(function (query, next) {
   if (data.action == "addappr") gamefunc.addappr(query,data);
   if (data.action == "confirm") gamefunc.confirmfunc(query,data);
   if (data.action == "back") gamefunc.backfunc(query,data);
+  if (data.action == "makedamage") gamefunc.makedamage(query,data);
+  if (data.action == "healdamage") gamefunc.healdamage(query,data);
   return next();
 });
 

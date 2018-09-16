@@ -15,7 +15,7 @@ var createobj=function (collectionname, params,unicprop) {
               console.log('Error occurred while connecting to MongoDB Atlas...\n',err);
               reject(err);
          }
-         console.log('Connected...');
+         //console.log('Connected...');
          const collection = client.db(db).collection(collectionname);
 
          var result=collection.findAndModify(
@@ -83,7 +83,7 @@ var modifyobj = function (collectionname, params={},unicprop={}){
               console.log('Error occurred while connecting to MongoDB Atlas...\n',err);
               reject(err);
          }
-         console.log('Connected...');
+         //console.log('Connected...');
          const collection = client.db(db).collection(collectionname);
 
         collection.update(
@@ -116,7 +116,7 @@ var existindb=function (collectionpar, params) {
               console.log('Error occurred while connecting to MongoDB Atlas...\n',err);
               reject(err);
          }
-         console.log('Connected...');
+         //console.log('Connected...');
          var collection = client.db(db).collection(collectionpar);
          collection.find(params).count().catch(function(){
            client.close();
@@ -139,7 +139,7 @@ var readfilefromdb=function (collectionpar, params={}, all=false) {
               console.log('Error occurred while connecting to MongoDB Atlas...\n',err);
               reject(err);
          }
-         console.log('Connected...');
+         //console.log('Connected...');
          const collection = client.db(db).collection(collectionpar);
          collection.find(params).toArray().catch(function(){
            client.close();
@@ -179,7 +179,7 @@ var countindb=function (collectionpar, params={}) {
               console.log('Error occurred while connecting to MongoDB Atlas...\n',err);
               reject(err);
          }
-         console.log('Connected...');
+         //console.log('Connected...');
          const collection = client.db(db).collection(collectionpar);
          collection.find(params).count().catch(function(){
            client.close();
@@ -196,7 +196,7 @@ var deletefromdb=function (collectionpar, params={}) {
               console.log('Error occurred while connecting to MongoDB Atlas...\n',err);
               reject(err);
          }
-         console.log('Connected...');
+         //console.log('Connected...');
          const collection = client.db(db).collection(collectionpar);
          var result=collection.deleteOne(params).catch(function(){
            client.close();
