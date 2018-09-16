@@ -16,8 +16,8 @@ module.exports={
   Se dovessi mai aver bisogno usa il comando /help (in privato) oppure contatta gli sviluppatori sull'apposito gruppo.
   Buon divertimento!!!`,
   bootnogroup:"Ciao Sono un bot per giocare ai gdr su dispositivi mobile,\
-                per potermi utilizzare inseriscimi prima in un gruppo e\
-                rendimi amministratore",
+  per potermi utilizzare inseriscimi prima in un gruppo e\
+  rendimi amministratore",
 
   justcreate:"Sessione già creata e in corso",
 
@@ -31,10 +31,12 @@ module.exports={
 
   alreadycreating: "Per creare un nuovo personaggio occorre prima terminare tutti i personaggi in fase di creazione ",
 
-  masterturn:"Sessione avviata, Master è il tuo turno, inizia raccontando\
-              ai giocatori dove si trovano e cosa sta succedendo.\
-              Ogni qualvolta invierete un messaggio vi verra chiesto di confermarlo nella chat privata.\
-              Prima di confermare il messaggio potrete aggiungere un tiro di dado se siete giocatori oppure infliggere/curare ferite se siete il master.",
+  masterturn:`Sessione avviata, Master è il tuo turno, inizia raccontando ai giocatori dove si trovano e cosa sta succedendo.
+  Ogni qualvolta invierete un messaggio vi verra chiesto di confermarlo nella chat privata.
+  Prima di confermare il messaggio potrete aggiungere un tiro di dado se siete giocatori oppure infliggere/curare ferite se siete il master.
+  E' stato creato di seguito il Menù di Gioco. Come si può notare sono presenti 4 pulsanti per gestire il gioco. Questo messaggio è stato fissato anche nella parte superiore del tuo schermo, cliccaci in qualsiasi momento per interagirvi comodamente.
+  Se cancellare per sbaglio il menù è sufficiente digitare "/menu" in chat (senza le virgolette).
+  Per ultimo si ricorda in caso di necessità il comando "/help"`,
 
   turnof:"è il turno di ",
 
@@ -51,11 +53,11 @@ module.exports={
   wanttosend:"Vuoi inviare questo messaggio?",
 
   startregister:"Il master potrà avviare la sessione selezionando la durate massima che desidera per i turni di gioco.\n \
-                ricorda sempre i seguenti passaggi:\n \
-                1. fai in modo che ogni giocatore mi avvii in privato.\n \
-                2. fai in modo che ogni giocatore silenzi il gruppo di gioco\n \
-                3. fai in modo che ogni giocatore si registri tramite il menu principale nel gruppo. ricorda che ci può essere un solo master.\n\
-                4. avviate la sessione, scegliendo una durata massima per i turni, dal menù principale.",
+  ricorda sempre i seguenti passaggi:\n \
+  1. fai in modo che ogni giocatore mi avvii in privato.\n \
+  2. fai in modo che ogni giocatore silenzi il gruppo di gioco\n \
+  3. fai in modo che ogni giocatore si registri tramite il menù principale nel gruppo. ricorda che ci può essere un solo master.\n\
+  4. avviate la sessione, scegliendo una durata massima per i turni, dal menù principale.",
 
   createpgcase0:"Complimenti per esserti registrato, per iniziare a creare il tuo personaggio scrivimi il nome che vuoi dargli",
 
