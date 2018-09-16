@@ -5,17 +5,17 @@ module.exports={
   sessionnotstarted: "Questa sessione non è ancora stata avviata, segui le istruzioni per iniziare a giocare",
   sessionnotcreated: "Questa sessione non è ancora stata creata, usa il comando /startbot e segui le istruzioni",
   start:". /n Io sono il Masterbot, per iniziare a giocare, inseriscimi in un\
-  supergruppo e controlla che io sia un amministratore. fatto cio segui questi semplici passi:\n \
-  1. crea la sessione inserendo il comando /startbot nel supergruppo che utilizzerai\n \
+  gruppo e controlla che io sia un amministratore. fatto cio segui questi semplici passi:\n \
+  1. crea la sessione inserendo il comando /startbot nel gruppo che utilizzerai\n \
   2. fai in modo che ogni giocatore mi avvii in privato.\n \
-  3. fai in modo che ogni giocatore silenzi il supergruppo di gioco\n \
-  4. fai in modo che ogni giocatore si registri tramite il menu principale nel supergruppo. ricorda che ci può essere un solo master.\n\
+  3. fai in modo che ogni giocatore silenzi il gruppo di gioco\n \
+  4. fai in modo che ogni giocatore si registri tramite il menu principale nel gruppo. ricorda che ci può essere un solo master.\n\
   5. avviate la sessione, scegliendo una durata massima per i turni, dal menù principale. \
   Ogniqualvolta toccherà a te giocare scrivi un messaggio nel gruppo raccontando le tue gesta, dopo averlo inviato di verra chiesto di confermalo in privato. \
   se dovessi mai aver bisogno usa il comando /help (in privato) oppure contatta gli sviluppatori sull'apposito gruppo.  \
   Buon divertimento!!!",
   bootnogroup:"Ciao Sono un bot per giocare ai gdr su dispositivi mobile,\
-                per potermi utilizzare inseriscimi prima in un supergruppo e\
+                per potermi utilizzare inseriscimi prima in un gruppo e\
                 rendimi amministratore",
 
   botstart:"Benvenuto in RoleEver!!! Io sarò il vostro MasterBot da ora in poi.\
@@ -62,8 +62,8 @@ module.exports={
   startregister:"Il master potrà avviare la sessione selezionando la durate massima che desidera per i turni di gioco.\n \
                 ricorda sempre i seguenti consigli:\n \
                 1. fai in modo che ogni giocatore mi avvii in privato.\n \
-                2. fai in modo che ogni giocatore silenzi il supergruppo di gioco\n \
-                3. fai in modo che ogni giocatore si registri tramite il menu principale nel supergruppo. ricorda che ci può essere un solo master.\n\
+                2. fai in modo che ogni giocatore silenzi il gruppo di gioco\n \
+                3. fai in modo che ogni giocatore si registri tramite il menu principale nel gruppo. ricorda che ci può essere un solo master.\n\
                 4. avviate la sessione, scegliendo una durata massima per i turni, dal menù principale.",
 
   createpgcase0:"Complimenti per esserti registrato, per iniziare a creare il tuo personaggio scrivimi il nome che vuoi dargli",
