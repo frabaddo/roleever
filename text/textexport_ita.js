@@ -63,9 +63,9 @@ module.exports={
 
   createpgcase1: "Inserisci ora una descrizione per il tuo personaggio",
 
-  createpgcase2: "Inserisci i valori per le quattro caratteristiche principali del tuo personaggio quindi conferma! (Attenzione: clicca con calma e abbi pazienza, i punteggi si aggiornano ogni 2 secondi) \n\n Punti disponibili: \n",
+  createpgcase2: "Inserisci i valori per le quattro caratteristiche principali del tuo personaggio, massimo 5 per ciascuna, quindi conferma! (Attenzione: clicca con calma e abbi pazienza, i punteggi si aggiornano ogni 2 secondi) \n\n Punti disponibili: \n",
 
-  createpgcase3: "Inserisci i valori per le cinque macro abilità del tuo personaggio, quindi conferma! (Attenzione: clicca con calma e abbi pazienza, i punteggi si aggiornano ogni 2 secondi) \n\n Punti disponibili: \n",
+  createpgcase3: "Inserisci i valori per le cinque macro abilità del tuo personaggio, massimo 3 per ciascuna, quindi conferma! (Attenzione: clicca con calma e abbi pazienza, i punteggi si aggiornano ogni 2 secondi) \n\n Punti disponibili: \n",
 
   forz: "\nForza: ",
 
