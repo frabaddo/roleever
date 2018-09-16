@@ -314,6 +314,11 @@ function migratechat(msg,reply){
   db.readfilefromdb("Sessions",{id:msg.chat.id}).then(function(session){
     if(session){
       db.modifyobj("Sessions",{id:msg.toId},{id:msg.chat.id});
+      db.readfilefromdb("Users",{sessionid:msg.chat.id}).then(function(users){
+        users.forEach(function(user){
+          db.modifyobj("Users",{sessionid:msg.toId},{sessionid:msg.chat.id,id:user.id});
+        });
+      });
     }
   });
 }
