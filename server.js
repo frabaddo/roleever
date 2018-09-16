@@ -10,6 +10,7 @@ const createpg= require("./botapi/createpg");
 const msgapi= require("./botapi/messageapi");
 const gamefunc= require("./botapi/gamefunction");
 const Botgram = require('botgram');
+const Long = require('mongodb').Long;
 const moment = require('moment');
 const MomentRange = require('moment-range');
 const Moment = MomentRange.extendMoment(moment);
@@ -78,7 +79,7 @@ function startbot(msg,reply){
         db.createobj(
           "Sessions",
           {
-            id:NumberLong(msg.chat.id),
+            id:Long.fromInt(msg.chat.id),
             sessionname:msg.chat.title,
             hours:0,
             totalturn:1,
@@ -134,7 +135,7 @@ function newusr(query,role){
                     "Users",
                     {
                       id:query.from.id,
-                      sessionid:NumberLong(msg.chat.id),
+                      sessionid:Long.fromInt(msg.chat.id),
                       name:query.from.name,
                       role:"master",
                       ready:true,
@@ -160,7 +161,7 @@ function newusr(query,role){
                     "Users",
                     {
                       id:query.from.id,
-                      sessionid:NumberLong(msg.chat.id),
+                      sessionid:Long.fromInt(msg.chat.id),
                       name:query.from.name,
                       role:"pg",
                       ready:false,
