@@ -118,4 +118,6 @@ module.exports={
 
   byebye:"Mi dispiace tu abbia abbandonato il gioco. In caso tu voglia tornare a giocare ti basterà rientrare nel gruppo!",
 
+  newchar: "Nuovo personaggio creato: "
+
 }

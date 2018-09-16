@@ -194,8 +194,10 @@ function createusrquery(query,data,next){
             },
             { id: query.from.id , ready:false}
           );
-          support.deletecmd(query.message.id,reply);
-          reply.inlineKeyboard(apprupdown).html(txt.createpgcase3+txt.appr1+"0"+txt.appr2+"0"+txt.appr3+"0"+txt.appr4+"0"+txt.appr5+"0");
+          setTimeout(function(){
+            support.deletecmd(query.message.id,reply);
+            reply.inlineKeyboard(apprupdown).html(txt.createpgcase3+txt.appr1+"0"+txt.appr2+"0"+txt.appr3+"0"+txt.appr4+"0"+txt.appr5+"0");
+          },1000);
         }
         else query.answer({ text:txt.insall, alert: true });
         break;
@@ -211,12 +213,12 @@ function createusrquery(query,data,next){
             { id: query.from.id , ready:false}
           );
           console.log("ready to display user info 2");
-          bot.reply(user.sessionid).html(user.charactername+"\n\n"+user.characterdescription).then(function(){
+          bot.reply(user.sessionid).html(txt.newchar+user.charactername+"\n\n"+user.characterdescription).then(function(){
             setTimeout(function(){
               reply.html(txt.regcompl);
-            },800);
+              support.deletecmd(query.message.id,reply);
+            },1000);
           });
-          support.deletecmd(query.message.id,reply);
         }
         else query.answer({ text:txt.insall, alert: true });
         break;
