@@ -1,6 +1,6 @@
 const db = require("../databaseapi/mongoapi");
 const support= require("./supportfunc");
-const msgapi=require("./messageapi")
+const msgapi=require("./messageapi");
 const txt = require("../text/textexport_ita");
 
 var pkey=function(id){
