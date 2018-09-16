@@ -117,7 +117,7 @@ function  sendmessage(query,chatid){
               db.createobj(
                 "Messages",
                 {
-                  usr : query.from.id, sessionid : chatid , time: timetoset , message : query.message.text
+                  usr : query.from.id, sessionid : chatid , time: timetoset , message : txttosend
                 },
                 {
                   usr : query.from.id, sessionid : chatid , time : timetoset
@@ -139,18 +139,6 @@ function  sendmessage(query,chatid){
                 }
               }
               turn.callturn(chatid , query.from.id);
-              /*support.forEachPromise(Object.keys(damage),function(v){
-                if(damage[v] != 0){
-                  console.log( v+"  ///  "+chatid);
-                  db.readfilefromdb("Users",{id:v,sessionid:chatid}).then(function(u){
-                    console.log(u);
-                    var damagereduc=u.pf-damage[v];
-                    db.modifyobj("Users",{pf:damagereduc},{ id:v, sessionid:chatid});
-                  });
-                }
-              }).then(function(){
-                turn.callturn(chatid , query.from.id);
-              })*/
             }
             else{  // CASO 2 RESPONSE
               support.replytousr(query.from.id,txt.isnotturn);
