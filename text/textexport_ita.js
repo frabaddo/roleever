@@ -4,29 +4,21 @@ module.exports={
   pauseoff:"Sessione uscita dalla pausa!",
   sessionnotstarted: "Questa sessione non è ancora stata avviata, segui le istruzioni per iniziare a giocare",
   sessionnotcreated: "Questa sessione non è ancora stata creata, usa il comando /startbot e segui le istruzioni",
-  start:". /n Io sono il Masterbot, per iniziare a giocare, inseriscimi in un\
-  gruppo e controlla che io sia un amministratore. fatto cio segui questi semplici passi:\n \
-  1. crea la sessione inserendo il comando /startbot nel gruppo che utilizzerai\n \
-  2. fai in modo che ogni giocatore mi avvii in privato.\n \
-  3. fai in modo che ogni giocatore silenzi il gruppo di gioco\n \
-  4. fai in modo che ogni giocatore si registri tramite il menu principale nel gruppo. ricorda che ci può essere un solo master.\n\
-  5. avviate la sessione, scegliendo una durata massima per i turni, dal menù principale. \
-  Ogniqualvolta toccherà a te giocare scrivi un messaggio nel gruppo raccontando le tue gesta, dopo averlo inviato di verra chiesto di confermalo in privato. \
-  se dovessi mai aver bisogno usa il comando /help (in privato) oppure contatta gli sviluppatori sull'apposito gruppo.  \
-  Buon divertimento!!!",
+  start:` benvenuto in RoleEver. Io sono il Masterbot, per iniziare a giocare, inseriscimi in un
+  gruppo e Assicurati che io sia l'unico amministratore oltre al creatore del gruppo, devono essere inseriti in questo gruppo tutti colore che parteciperanno alla sessione. Fatto ciò segui questi semplici passi:\n
+  1. crea la sessione digitando "/startbot" (senza le virgolette) nel gruppo in cui mi hai inserito (solo una persona deve farlo).\n
+  2. fai in modo che ogni giocatore mi avvii in privato come tu stesso hai fatto.\n
+  3. fai in modo che ogni giocatore silenzi il gruppo di gioco. \n
+  4. fai in modo che ogni giocatore si registri tramite il menu principale nel gruppo. ricorda che ci può essere un solo master.\n
+  5. avviate la sessione, scegliendo una durata massima per i turni, dal menù principale.
+  Ogniqualvolta sarà il tuo turno scrivi un messaggio nel gruppo raccontando le gesta del tuo personaggio, dopo averlo inviato ti verrà chiesto di confermalo in privato.
+  se dovessi mai aver bisogno usa il comando /help (in privato) oppure contatta gli sviluppatori sull'apposito gruppo.
+  Buon divertimento!!!`,
   bootnogroup:"Ciao Sono un bot per giocare ai gdr su dispositivi mobile,\
                 per potermi utilizzare inseriscimi prima in un gruppo e\
                 rendimi amministratore",
 
-  botstart:"Benvenuto in RoleEver!!! Io sarò il vostro MasterBot da ora in poi.\
-                        se dovessi avere bisogno di aiuto usa pure tutti i mei comandi,\
-                        e se non li conosci digita /help. Prima di iniziare assicuratevi\
-                        che io sia un amministratore del gruppo e controllate di aver tutti\
-                        silenziato la chat. durante tutto il gioco sarò sempre io a preoccuparmi\
-                        di mandarvi le notifiche. ora oguno di voi digiti il comando /newusr seguito\
-                        dal ruolo che svolgerà (master o pg). il resto delle istruzioni vi saranno date\
-                        in privato. Buon divertimento!!! ",
-  justcreate:"Sessione già creata, inserisci giocatori seguendo le istruzione nel menu di start",
+  justcreate:"Sessione già creata e in corso",
 
   juststarted:"Sessione gia in corso",
 
@@ -36,16 +28,14 @@ module.exports={
 
   alreadyexist:" esiste gia in questa sessione",
 
-  alreadycreating: "Per creare un nuovo personaggio occorre prima terminare tutti i pg in fase di creazione ",
+  alreadycreating: "Per creare un nuovo personaggio occorre prima terminare tutti i personaggi in fase di creazione ",
 
-  masterturn:"Sessione avviata Master è il tuo turno, inizia raccontando\
+  masterturn:"Sessione avviata, Master è il tuo turno, inizia raccontando\
               ai giocatori dove si trovano e cosa sta succedendo.\
               Ogni qualvolta invierete un messaggio vi verra chiesto di confermarlo nella chat privata.\
-              Prima di farlo potrete aggiungere altre funzioni al vostro messaggio.",
+              Prima di confermare il messaggio potrete aggiungere un tiro di dado se siete giocatori oppure infliggere/curare ferite se siete il master.",
 
   turnof:"è il turno di ",
-
-  nameis:"Il nome di questa campagna è ",
 
   isnotturn:"Non è il tuo turno",
 
@@ -60,7 +50,7 @@ module.exports={
   wanttosend:"Vuoi inviare questo messaggio?",
 
   startregister:"Il master potrà avviare la sessione selezionando la durate massima che desidera per i turni di gioco.\n \
-                ricorda sempre i seguenti consigli:\n \
+                ricorda sempre i seguenti passaggi:\n \
                 1. fai in modo che ogni giocatore mi avvii in privato.\n \
                 2. fai in modo che ogni giocatore silenzi il gruppo di gioco\n \
                 3. fai in modo che ogni giocatore si registri tramite il menu principale nel gruppo. ricorda che ci può essere un solo master.\n\
@@ -68,11 +58,11 @@ module.exports={
 
   createpgcase0:"Complimenti per esserti registrato, per iniziare a creare il tuo personaggio scrivimi il nome che vuoi dargli",
 
-  createpgcase1: "inserisci ora una descrizione per il tuo personaggio",
+  createpgcase1: "Inserisci ora una descrizione per il tuo personaggio",
 
-  createpgcase2: "inserisci i valori per le quattro caratteristiche principali del tuo personaggio quindi conferma! \n\n Punti disponibili: \n",
+  createpgcase2: "Inserisci i valori per le quattro caratteristiche principali del tuo personaggio quindi conferma! (Attenzione: clicca con calma e abbi pazienza, i punteggi si aggiornano ogni 2 secondi) \n\n Punti disponibili: \n",
 
-  createpgcase3: "inserisci i valori per i cinque approcci principali del tuo personaggio quindi conferma!\n\n Punti disponibili: \n",
+  createpgcase3: "Inserisci i valori per le cinque macro abilità del tuo personaggio, quindi conferma! (Attenzione: clicca con calma e abbi pazienza, i punteggi si aggiornano ogni 2 secondi) \n\n Punti disponibili: \n",
 
   forz: "\nForza: ",
 
@@ -82,19 +72,19 @@ module.exports={
 
   cari: "\nCarisma: ",
 
-  appr1:"\nappr1: ",
+  appr1:"\n Combattimento: ",
 
-  appr2:"\nappr2: ",
+  appr2:"\n Sensi: ",
 
-  appr3:"\nappr3: ",
+  appr3:"\n Conoscenze: ",
 
-  appr4:"\nappr4: ",
+  appr4:"\n Sopravvivenza: ",
 
-  appr5:"\nappr5: ",
+  appr5:"\n Comunicazione: ",
 
-  addthisname:"vuoi che sia questo il nome del tuo personaggio \n \n",
+  addthisname:"Vuoi che sia questo il nome del tuo personaggio \n \n",
 
-  addthisdescription: "vuoi che sia questa la descrizioned del tuo personaggio: \n \n",
+  addthisdescription: "Vuoi che sia questa la descrizioned del tuo personaggio: \n \n",
 
   yes: "Si",
 
@@ -102,9 +92,9 @@ module.exports={
 
   conferma: "Conferma",
 
-  regcompl: "complimenti hai creato il tuo personaggio, da ora in poi potrai giocare",
+  regcompl: "Complimenti hai creato il tuo personaggio, da ora in poi potrai giocare",
 
-  insall: "inserisci tutti i punti a tua disposizione",
+  insall: "Inserisci tutti i punti a tua disposizione",
 
   msgsent: "Il tuo messaggio è stato inviato!",
 
