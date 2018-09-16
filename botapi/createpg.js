@@ -213,12 +213,19 @@ function createusrquery(query,data,next){
             { id: query.from.id , ready:false}
           );
           console.log("ready to display user info 2");
-          bot.reply(user.sessionid).html(txt.newchar+user.charactername+"\n\n"+user.characterdescription).then(function(){
+          if(user.join){
+            bot.reply(user.sessionid).html(txt.newchar+user.charactername+"\n\n"+user.characterdescription).then(function(){
+              setTimeout(function(){
+                reply.html(txt.regcompl);
+                support.deletecmd(query.message.id,reply);
+              },1000);
+            });
+          }else{
             setTimeout(function(){
               reply.html(txt.regcompl);
               support.deletecmd(query.message.id,reply);
             },1000);
-          });
+          }
         }
         else query.answer({ text:txt.insall, alert: true });
         break;

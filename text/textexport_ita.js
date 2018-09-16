@@ -16,8 +16,8 @@ module.exports={
   Se dovessi mai aver bisogno usa il comando /help (in privato) oppure contatta gli sviluppatori sull'apposito gruppo.
   Buon divertimento!!!`,
   bootnogroup:"Ciao Sono un bot per giocare ai gdr su dispositivi mobile,\
-  per potermi utilizzare inseriscimi prima in un gruppo e\
-  rendimi amministratore",
+  per potermi utilizzare inseriscimi prima in un supergruppo e\
+  rendimi amministratore se lo hai già fatto, assicurati che sia un supergruppo",
 
   justcreate:"Sessione già creata e in corso",
 

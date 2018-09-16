@@ -69,7 +69,7 @@ function calctime( time ){
 */
 
 function startbot(msg,reply){
-  if(msg.chat.type!="group"&&msg.chat.type!="supergroup"){
+  if(msg.chat.type!="supergroup"){
    reply.text(txt.bootnogroup);
   }
   else{
@@ -293,7 +293,7 @@ function deleteusr(msg,reply){
               }
             }
           });
-          support.replytousr(turnuser.id,txt.byebye);
+          support.replytousr(msg.member.id,txt.byebye);
         });
       }
     });
@@ -316,10 +316,10 @@ function reenterusr(msg,reply){
 function migratechat(msg,reply){
   db.readfilefromdb("Sessions",{id:msg.chat.id}).then(function(session){
     if(session){
-      db.modifyobj("Sessions",{id:msg.toId},{id:msg.chat.id});
+      //db.modifyobj("Sessions",{id:msg.toId},{id:msg.chat.id});
       db.readfilefromdb("Users",{sessionid:msg.chat.id}).then(function(users){
         users.forEach(function(user){
-          db.modifyobj("Users",{sessionid:msg.toId},{sessionid:msg.chat.id,id:user.id});
+          //db.modifyobj("Users",{sessionid:msg.toId},{sessionid:msg.chat.id,id:user.id});
         });
       });
     }
