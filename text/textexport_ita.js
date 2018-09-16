@@ -2,15 +2,16 @@ module.exports={
 
   pauseon:"Sessione in pausa. tutti i messaggi ora saranno bloccati!",
   pauseoff:"Sessione uscita dalla pausa!",
-  sessionnotstarted: "Questa sessione non è ancora stata avviata, usa il comando /startsession e segui le istruzioni",
+  sessionnotstarted: "Questa sessione non è ancora stata avviata, segui le istruzioni per iniziare a giocare",
   sessionnotcreated: "Questa sessione non è ancora stata creata, usa il comando /startbot e segui le istruzioni",
   start:". /n Io sono il Masterbot, per iniziare a giocare, inseriscimi in un\
-  supergruppo e controlla che io sia un amministratore. fatto cio segui questi semplici passi (salvo casi esplicitati tutti i comandi sono da immetere nel supergruppo): \
-  1. crea la sessione inserendo il comando /startbot. \
-  2. fai in modo che ogni giocatore mi avvii in privato \
-  3. fai in modo che ogni giocatore inserisca il comando /newusr seguito da pg o master. ricorda che ci può essere un solo master.\
-  4. avviate la sessione con /startsession. (è sufficiente lo faccia un giocatore solo) \
-  Ogniqualvolta toccherà a te giocare usa il comando /msg seguito da un testo che racconti le tue gesta. \
+  supergruppo e controlla che io sia un amministratore. fatto cio segui questi semplici passi:\n \
+  1. crea la sessione inserendo il comando /startbot nel supergruppo che utilizzerai\n \
+  2. fai in modo che ogni giocatore mi avvii in privato.\n \
+  3. fai in modo che ogni giocatore silenzi il supergruppo di gioco\n \
+  4. fai in modo che ogni giocatore si registri tramite il menu principale nel supergruppo. ricorda che ci può essere un solo master.\n\
+  5. avviate la sessione, scegliendo una durata massima per i turni, dal menù principale. \
+  Ogniqualvolta toccherà a te giocare scrivi un messaggio nel gruppo raccontando le tue gesta, dopo averlo inviato di verra chiesto di confermalo in privato. \
   se dovessi mai aver bisogno usa il comando /help (in privato) oppure contatta gli sviluppatori sull'apposito gruppo.  \
   Buon divertimento!!!",
   bootnogroup:"Ciao Sono un bot per giocare ai gdr su dispositivi mobile,\
@@ -25,8 +26,7 @@ module.exports={
                         di mandarvi le notifiche. ora oguno di voi digiti il comando /newusr seguito\
                         dal ruolo che svolgerà (master o pg). il resto delle istruzioni vi saranno date\
                         in privato. Buon divertimento!!! ",
-  justcreate:"Sessione già creata, inserisci giocatori con\
-                      /newusr o avvia la sessione con /startsession",
+  justcreate:"Sessione già creata, inserisci giocatori seguendo le istruzione nel menu di start",
 
   juststarted:"Sessione gia in corso",
 
@@ -38,17 +38,14 @@ module.exports={
 
   alreadycreating: "Per creare un nuovo personaggio occorre prima terminare tutti i pg in fase di creazione ",
 
-  afternewusr:"Dopo il comando /newusr inserisci solo pg o master\
-              per giocare nei panni di uno o dell'altro.",
-
   masterturn:"Sessione avviata Master è il tuo turno, inizia raccontando\
-              ai giocatori dove si trovano e cosa sta succedendo.",
+              ai giocatori dove si trovano e cosa sta succedendo.\
+              Ogni qualvolta invierete un messaggio vi verra chiesto di confermarlo nella chat privata.\
+              Prima di farlo potrete aggiungere altre funzioni al vostro messaggio.",
 
   turnof:"è il turno di ",
 
   nameis:"Il nome di questa campagna è ",
-
-  insertmaster:"Inserisci prima un master con /newusr master",
 
   isnotturn:"Non è il tuo turno",
 
@@ -62,7 +59,12 @@ module.exports={
 
   wanttosend:"Vuoi inviare questo messaggio?",
 
-  startregister:"Il master potrà avviare la sessione selezionando una durata dei turni, quando lui e i giocatori si saranno registrati",
+  startregister:"Il master potrà avviare la sessione selezionando la durate massima che desidera per i turni di gioco.\n \
+                ricorda sempre i seguenti consigli:\n \
+                1. fai in modo che ogni giocatore mi avvii in privato.\n \
+                2. fai in modo che ogni giocatore silenzi il supergruppo di gioco\n \
+                3. fai in modo che ogni giocatore si registri tramite il menu principale nel supergruppo. ricorda che ci può essere un solo master.\n\
+                4. avviate la sessione, scegliendo una durata massima per i turni, dal menù principale.",
 
   createpgcase0:"Complimenti per esserti registrato, per iniziare a creare il tuo personaggio scrivimi il nome che vuoi dargli",
 
@@ -74,9 +76,9 @@ module.exports={
 
   forz: "\nForza: ",
 
-  dex: "\nAgilità: ",
+  dex: "\nDestrezza: ",
 
-  inte: "\nIntelligenza: ",
+  inte: "\nIntelletto: ",
 
   cari: "\nCarisma: ",
 
@@ -90,9 +92,9 @@ module.exports={
 
   appr5:"\nappr5: ",
 
-  addthisname:"vuoi che sia questo il nome del tuo pg \n \n",
+  addthisname:"vuoi che sia questo il nome del tuo personaggio \n \n",
 
-  addthisdescription: "vuoi che sia questa la descrizioned del tuo pg: \n \n",
+  addthisdescription: "vuoi che sia questa la descrizioned del tuo personaggio: \n \n",
 
   yes: "Si",
 
@@ -100,7 +102,7 @@ module.exports={
 
   conferma: "Conferma",
 
-  regcompl: "complimenti hai creato il tuo personaggio, da ora potrai giocare",
+  regcompl: "complimenti hai creato il tuo personaggio, da ora in poi potrai giocare",
 
   insall: "inserisci tutti i punti a tua disposizione",
 
@@ -110,6 +112,10 @@ module.exports={
 
   description: "Descrizione: ",
 
-  pf:"Punti Ferita: "
+  pf:"Punti Ferita: ",
+
+  welcomeback:"Bentornato, mi fa piacere che tu sia tornato a giocare.",
+
+  byebye:"Mi dispiace tu abbia abbandonato il gioco. In caso tu voglia tornare a giocare ti basterà rientrare nel gruppo!",
 
 }

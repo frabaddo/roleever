@@ -137,11 +137,8 @@ function newusr(query,role){
                       sessionid:msg.chat.id,
                       name:query.from.name,
                       role:"master",
-                      gamedata:{
-
-                      },
                       ready:true,
-                      phase:0
+                      phase:4
                     },
                     {
                       id:query.from.id,
@@ -166,7 +163,6 @@ function newusr(query,role){
                       sessionid:msg.chat.id,
                       name:query.from.name,
                       role:"pg",
-                      gamedata:{},
                       ready:false,
                       phase:0
                     },
@@ -278,14 +274,49 @@ function start(msg,reply){
 }
 
 
-function deleteusr(msg,reply,nome){
-  if(msg.chat.type!="group"&&msg.chat.type!="supergroup"){
-   reply.text(txt.bootnogroup);
- }else{
-  db.deletefromdb("Users",{sessionid:msg.chat.id,id:msg.from.id});
- }
+function deleteusr(msg,reply){
+  if(msg.chat.type!="user"){
+    db.readfilefromdb("Users",{sessionid:msg.chat.id,id:msg.member.id,ready:true}).then(function(user){
+      if(user){
+        db.modifyobj("Users",{ready:false},{sessionid:msg.chat.id,id:msg.member.id}).then(function(){
+          db.readfilefromdb("Sessions", {id:msg.chat.id}).then(function(session){
+            if(session){
+              if(session.started===true){
+                db.readfilefromdb("Users", {id:session.actualturn,sessionid:msg.chat.id}).then(function(turnuser){
+                  if(turnuser.id==user.id){
+                    turn.callturn(msg.chat.id,turnuser.id);
+                  }
+                });
+              }
+            }
+          });
+          support.replytousr(turnuser.id,txt.byebye);
+        });
+      }
+    });
+  }
 }
 
+function reenterusr(msg,reply){
+  if(msg.chat.type!="user"){
+    msg.members.forEach(function(member){
+      db.readfilefromdb("Users",{sessionid:msg.chat.id,id:member.id,phase:4}).then(function(user){
+        if(user){
+          db.modifyobj("Users",{ready:true},{sessionid:msg.chat.id,id:member.id});
+          support.replytousr(member.id,txt.welcomeback);
+        }
+      });
+    });
+  }
+}
+
+function migratechat(msg,reply){
+  db.readfilefromdb("Sessions",{id:msg.chat.id}).then(function(session){
+    if(session){
+      db.modifyobj("Sessions",{id:msg.toId},{id:msg.chat.id});
+    }
+  });
+}
 
 
 bot.callback(function (query, next) {
@@ -316,13 +347,16 @@ bot.callback(function (query, next) {
 });
 
 
+bot.update("member", "leave", deleteusr);
+bot.update("member", "new", reenterusr);
+
+bot.update("chat", "migrateTo", migratechat);
 
 bot.command("start", start);
 bot.command("startbot", startbot);
 bot.command("menu", openmenu);
 bot.command("pauseoff", pause.reinitpausemsg);
 bot.command("help", help);
-bot.command("deleteusr", deleteusr);
 bot.text(msgapi.newmessage);
 bot.text(createpg.createusr);
 //bot.all(function (msg, reply) {support.deletecmd(msg,reply);});

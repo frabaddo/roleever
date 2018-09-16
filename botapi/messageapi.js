@@ -35,7 +35,7 @@ var masterplayerkeyboard= function(chatid,id,players){
 }
 
 function newmessage(msg,reply,next){
-  if(msg.chat.type!="supergroup"){
+  if(msg.chat.type!="group"&&msg.chat.type!="supergroup"){
     console.log("1");
    //reply.text(txt.bootnogroup);
    next();
