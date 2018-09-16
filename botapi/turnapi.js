@@ -52,7 +52,7 @@ function calcnewindex(users,currentid,i){
   var index=users.map(function(x) {return x.id; }).indexOf(currentid);
   console.log("il vecchio index è: "+index);
   index=(index+1)%users.length;
-  if(users[index].ready==true) return index;
+  if(users[index].ready==true&&users[index].join==true) return index;
   else{
     if(i<users.length) return calcnewindex(users,users[index].id,i+1);
     else return false;

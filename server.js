@@ -139,6 +139,7 @@ function newusr(query,role){
                       name:query.from.name,
                       role:"master",
                       ready:true,
+                      join:true,
                       phase:4
                     },
                     {
@@ -165,6 +166,7 @@ function newusr(query,role){
                       name:query.from.name,
                       role:"pg",
                       ready:false,
+                      join:true,
                       phase:0
                     },
                     {
@@ -277,9 +279,9 @@ function start(msg,reply){
 
 function deleteusr(msg,reply){
   if(msg.chat.type!="user"){
-    db.readfilefromdb("Users",{sessionid:msg.chat.id,id:msg.member.id,ready:true}).then(function(user){
+    db.readfilefromdb("Users",{sessionid:msg.chat.id,id:msg.member.id}).then(function(user){
       if(user){
-        db.modifyobj("Users",{ready:false},{sessionid:msg.chat.id,id:msg.member.id}).then(function(){
+        db.modifyobj("Users",{join:false},{sessionid:msg.chat.id,id:msg.member.id}).then(function(){
           db.readfilefromdb("Sessions", {id:msg.chat.id}).then(function(session){
             if(session){
               if(session.started===true){
@@ -301,9 +303,9 @@ function deleteusr(msg,reply){
 function reenterusr(msg,reply){
   if(msg.chat.type!="user"){
     msg.members.forEach(function(member){
-      db.readfilefromdb("Users",{sessionid:msg.chat.id,id:member.id,phase:4}).then(function(user){
+      db.readfilefromdb("Users",{sessionid:msg.chat.id,id:member.id}).then(function(user){
         if(user){
-          db.modifyobj("Users",{ready:true},{sessionid:msg.chat.id,id:member.id});
+          db.modifyobj("Users",{join:true},{sessionid:msg.chat.id,id:member.id});
           support.replytousr(member.id,txt.welcomeback);
         }
       });

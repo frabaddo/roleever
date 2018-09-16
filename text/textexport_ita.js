@@ -5,7 +5,7 @@ module.exports={
   sessionnotstarted: "Questa sessione non è ancora stata avviata, segui le istruzioni per iniziare a giocare",
   sessionnotcreated: "Questa sessione non è ancora stata creata, usa il comando /startbot e segui le istruzioni",
   start:` benvenuto in RoleEver. Io sono il Masterbot, se sei un giocatore attendi la creazione della sessione per registrarti, se invece sei il futuro master segui questi semplici passi:
-  1. Crea un gruppo e inseriscici tutti i giocatori e me (RoleEverMaster).
+  1. Crea un gruppo, trasformalo in supergruppo e inseriscici tutti i giocatori e me (RoleEverMaster).
   2. Rendi amministratore solo me e te stesso. (Da ora nessuno potrà piu inviare messaggi nel gruppo finche il gioco non sarà avviato e sarà il suo turno)
   3. Fai in modo che ogni giocatore mi avvii in privato come tu stesso hai fatto.
   4. Fai in modo che ogni giocatore, tu compreso, silenzi il gruppo di gioco.
