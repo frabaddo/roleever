@@ -76,13 +76,14 @@ function modifystat(query,data,next){
           else if(data.dir=="down"&&x[data.stat]>0){
             x[data.stat]=x[data.stat]-1;
           }
+          else sems[query.from.id].leave();
           db.modifyobj("Users",x,{ id: query.from.id , ready:false}).then(function(){
             db.readfilefromdb("Users", {id:query.from.id,ready:false}).then(function(userm){
               totdisp=tot-(userm.forz+userm.dex+userm.inte+userm.cari);
               reply.inlineKeyboard(statupdown).editHTML(query.message,txt.createpgcase2+totdisp+"\n"+txt.forz+userm.forz+"\n"+txt.dex+userm.dex+"\n"+txt.inte+userm.inte+"\n"+txt.cari+userm.cari).then(function(){setTimeout(sems[query.from.id].leave,1500)});
             });
           });
-          else sems[query.from.id].leave();
+
         }
         else{
           support.deletecmd(reply,query.message);
