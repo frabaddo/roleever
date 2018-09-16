@@ -4,15 +4,16 @@ module.exports={
   pauseoff:"Sessione uscita dalla pausa!",
   sessionnotstarted: "Questa sessione non è ancora stata avviata, segui le istruzioni per iniziare a giocare",
   sessionnotcreated: "Questa sessione non è ancora stata creata, usa il comando /startbot e segui le istruzioni",
-  start:` benvenuto in RoleEver. Io sono il Masterbot, per iniziare a giocare, inseriscimi in un
-  gruppo e Assicurati che io sia l'unico amministratore oltre al creatore del gruppo, devono essere inseriti in questo gruppo tutti colore che parteciperanno alla sessione. Fatto ciò segui questi semplici passi:\n
-  1. crea la sessione digitando "/startbot" (senza le virgolette) nel gruppo in cui mi hai inserito (solo una persona deve farlo).\n
-  2. fai in modo che ogni giocatore mi avvii in privato come tu stesso hai fatto.\n
-  3. fai in modo che ogni giocatore silenzi il gruppo di gioco. \n
-  4. fai in modo che ogni giocatore si registri tramite il menu principale nel gruppo. ricorda che ci può essere un solo master.\n
-  5. avviate la sessione, scegliendo una durata massima per i turni, dal menù principale.
+  start:` benvenuto in RoleEver. Io sono il Masterbot, se sei un giocatore attendi la creazione della sessione per registrarti, se invece sei il futuro master segui questi semplici passi:
+  1. Crea un gruppo e inseriscici tutti i giocatori e me (RoleEverMaster).
+  2. Rendi amministratore solo me e te stesso. (Da ora nessuno potrà piu inviare messaggi nel gruppo finche il gioco non sarà avviato e sarà il suo turno)
+  3. Fai in modo che ogni giocatore mi avvii in privato come tu stesso hai fatto.
+  4. Fai in modo che ogni giocatore silenzi il gruppo di gioco.
+  5. Crea la sessione digitando "/startbot" (senza le virgolette) nel gruppo in cui mi hai inserito (solo tu devi farlo).
+  6. Fai in modo che ogni giocatore si registri tramite il menu principale nel gruppo. ricorda che ci può essere un solo master.
+  7. Avviate la sessione, scegliendo una durata massima per i turni, dal menù principale.
   Ogniqualvolta sarà il tuo turno scrivi un messaggio nel gruppo raccontando le gesta del tuo personaggio, dopo averlo inviato ti verrà chiesto di confermalo in privato.
-  se dovessi mai aver bisogno usa il comando /help (in privato) oppure contatta gli sviluppatori sull'apposito gruppo.
+  Se dovessi mai aver bisogno usa il comando /help (in privato) oppure contatta gli sviluppatori sull'apposito gruppo.
   Buon divertimento!!!`,
   bootnogroup:"Ciao Sono un bot per giocare ai gdr su dispositivi mobile,\
                 per potermi utilizzare inseriscimi prima in un gruppo e\
