@@ -78,7 +78,7 @@ function startbot(msg,reply){
         db.createobj(
           "Sessions",
           {
-            id:msg.chat.id,
+            id:NumberLong(msg.chat.id),
             sessionname:msg.chat.title,
             hours:0,
             totalturn:1,
@@ -134,7 +134,7 @@ function newusr(query,role){
                     "Users",
                     {
                       id:query.from.id,
-                      sessionid:msg.chat.id,
+                      sessionid:NumberLong(msg.chat.id),
                       name:query.from.name,
                       role:"master",
                       ready:true,
@@ -160,7 +160,7 @@ function newusr(query,role){
                     "Users",
                     {
                       id:query.from.id,
-                      sessionid:msg.chat.id,
+                      sessionid:NumberLong(msg.chat.id),
                       name:query.from.name,
                       role:"pg",
                       ready:false,

@@ -8,7 +8,7 @@ module.exports={
   1. Crea un gruppo e inseriscici tutti i giocatori e me (RoleEverMaster).
   2. Rendi amministratore solo me e te stesso. (Da ora nessuno potrà piu inviare messaggi nel gruppo finche il gioco non sarà avviato e sarà il suo turno)
   3. Fai in modo che ogni giocatore mi avvii in privato come tu stesso hai fatto.
-  4. Fai in modo che ogni giocatore silenzi il gruppo di gioco.
+  4. Fai in modo che ogni giocatore, tu compreso, silenzi il gruppo di gioco.
   5. Crea la sessione digitando "/startbot" (senza le virgolette) nel gruppo in cui mi hai inserito (solo tu devi farlo).
   6. Fai in modo che ogni giocatore si registri tramite il menu principale nel gruppo. ricorda che ci può essere un solo master.
   7. Avviate la sessione, scegliendo una durata massima per i turni, dal menù principale.
