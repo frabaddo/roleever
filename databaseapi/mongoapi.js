@@ -91,7 +91,7 @@ var modifyobj = function (collectionname, params={},unicprop={}){
           {
             $set: params
           },
-          {
+          { 
           },
           function(err, object) {
               if (err){

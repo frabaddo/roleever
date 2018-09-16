@@ -129,7 +129,7 @@ function whomustplay(query){
          });
        }else{
          query.answer({ text:txt.sessionnotstarted, alert: true });
-       } 
+       }
      }
    });
  }
