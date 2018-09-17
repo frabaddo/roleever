@@ -254,7 +254,7 @@ function createusr(msg,reply,next){
       case 2:
         var tot=8;
         var totdisp=tot-(user.forz+user.dex+user.inte+user.cari);
-        replyto.inlineKeyboard(statupdown).html(query.message,txt.createpgcase2+totdisp+"\n"+txt.forz+user.forz+"\n"+txt.dex+user.dex+"\n"+txt.inte+user.inte+"\n"+txt.cari+user.cari);
+        replyto.inlineKeyboard(statupdown).html(txt.createpgcase2+totdisp+"\n"+txt.forz+user.forz+"\n"+txt.dex+user.dex+"\n"+txt.inte+user.inte+"\n"+txt.cari+user.cari);
         break;
       case 3:
         var tot=8;
