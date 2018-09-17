@@ -148,7 +148,7 @@ function newusr(query,role){
                     }
                   )
                   .then(function(){
-                    reply.text(query.from.name+txt.orae+role);
+                    reply.text(query.from.name+txt.orae+role+txt.creationphase);
                   });
                 }else{
                   query.answer({ text: txt.masterexist, alert: true });
