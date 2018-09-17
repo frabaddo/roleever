@@ -27,7 +27,7 @@ module.exports={
 
   orae:" ora è un ",
 
-  creationphase:". Se il giocatore è un personaggio potrà giocare solo dopo aver terminato la creazione del proprio personaggio nella chat privata con me."
+  creationphase:". Se il giocatore è un personaggio potrà giocare solo dopo aver terminato la creazione del proprio personaggio nella chat privata con me.",
 
   alreadyexist:" esiste gia in questa sessione",
 
