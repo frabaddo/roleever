@@ -53,6 +53,19 @@ if (!TELEGRAM_BOT_TOKEN) {
 
 app.get('/reboottimer', function(req, res) {
   res.send('done');
+  for(i = 0; i < 50; i++){
+    setTimeout(function(){
+      console.log("1a");
+      db.readfilefromdb("Sessions", {id:msg.chat.id}).then(function(session){
+        console.log("2a");
+      }
+      setTimeout(function(){ console.log("1b");
+      db.readfilefromdb("Sessions", {id:msg.chat.id}).then(function(session){
+        console.log("2b");
+      }
+     }, 3000);
+    }, 20000);
+  }
 });
 
 
