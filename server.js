@@ -206,7 +206,6 @@ function newusr(query,role){
   });
 }
 
-
 function startsession(query,turntime){
   var reply = bot.reply(query.message.chat);
   var msg=query.message;
@@ -375,9 +374,5 @@ bot.command("pauseoff", pause.reinitpausemsg);
 bot.command("help", help);
 bot.text(msgapi.newmessage);
 bot.text(createpg.createusr);
-<<<<<<< HEAD
-bot.all(support.deletecmd);
-=======
 bot.all(deleteoffturnmsg);
 //bot.all(function (msg, reply) {support.deletecmd(msg,reply);});
->>>>>>> cac6fc90e30e277b6d151eab7dbc43c8f8bfe5b2
