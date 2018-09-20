@@ -42,7 +42,7 @@ app.get("/", function (request, response) {
 });
 
 const listener = app.listen(process.env.PORT, () => {
-  console.log(`Your app is listening on port ${listener.address().port}`)
+  console.log(`Your app is listening on port ${listener.address().port}`);
 });
 
 if (!TELEGRAM_BOT_TOKEN) {
@@ -105,8 +105,8 @@ function startbot(msg,reply){
               support.deletecmd(msg,reply);
               setTimeout(function(){
                 support.deletecmd(result,reply);
-              },5000)}
-            );
+              },5000);
+            });
           }else{
             support.deletecmd(msg,reply);
             reply.inlineKeyboard(keyboardstart);
@@ -334,7 +334,7 @@ bot.callback(function (query, next) {
   } catch (e) {
     return next();
   }
-  if (data.action == "STARTSESSION") startsession(query,data.hours);;
+  if (data.action == "STARTSESSION") startsession(query,data.hours);
   if (data.action == "newusr") newusr(query,data.role);
   if (data.action == "sheet") createpg.retrievesheet(query);
   if (data.action == "turn") turn.whomustplay(query);
