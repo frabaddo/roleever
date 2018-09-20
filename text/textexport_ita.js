@@ -114,4 +114,4 @@ module.exports={
 
   newchar: "Nuovo personaggio creato: "
 
-}
+};

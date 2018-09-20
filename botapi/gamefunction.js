@@ -39,20 +39,20 @@ var addapprkey=function(i,id){
 var addroll = function(query,data){
   var reply = bot.reply(query.message.chat);
   var key=addstatkey(data.chatid);
-  setTimeout(function(){reply.inlineKeyboard(key).editHTML(query.message,query.message.text); }, 800);
+  setTimeout(function(){reply.inlineKeyboard(key).editMarkdown(query.message,query.message.text); }, 800);
 };
 
 
 var backfunc = function(query,data){
   var reply = bot.reply(query.message.chat);
   var key=pkey(data.chatid);
-  setTimeout(function(){reply.inlineKeyboard(key).editHTML(query.message,query.message.text); }, 800);
+  setTimeout(function(){reply.inlineKeyboard(key).editMarkdown(query.message,query.message.text); }, 800);
 };
 
 var addappr = function(query,data){
   var reply = bot.reply(query.message.chat);
   var key=addapprkey(data.s,data.chatid);
-  setTimeout(function(){reply.inlineKeyboard(key).editHTML(query.message,query.message.text); }, 800);
+  setTimeout(function(){reply.inlineKeyboard(key).editMarkdown(query.message,query.message.text); }, 800);
 };
 
 var confirmfunc = function(query,data){
@@ -65,7 +65,7 @@ var confirmfunc = function(query,data){
       var d10=Math.floor((Math.random() * 10) + 1);
       var roll=d10+user[stat[data.s-1]]+user[approc[data.a-1]];
       var texttosend=query.message.text+"\n\n"+"*1d10 + "+txt[stat[data.s-1]]+" + "+txt[approc[data.a-1]]+" = "+roll+"*";
-      setTimeout(function(){reply.inlineKeyboard(key).editHTML(query.message,texttosend); }, 800);
+      setTimeout(function(){reply.inlineKeyboard(key).editMarkdown(query.message,texttosend); }, 800);
     }
   });
 };
@@ -86,7 +86,7 @@ var makedamage=function(query,data){
         );
         var reply = bot.reply(query.message.chat);
         var key=msgapi.masterplayerkeyboard(data.chatid,query.from.id,users);
-        reply.inlineKeyboard(key).editHTML(query.message,query.message.text+"\n\n"+user.charactername+": -1pf");
+        reply.inlineKeyboard(key).editMarkdown(query.message,query.message.text+"\n\n"+user.charactername+": -1pf");
       }
     });
   });
@@ -108,7 +108,7 @@ var healdamage=function(query,data){
         );
         var reply = bot.reply(query.message.chat);
         var key=msgapi.masterplayerkeyboard(data.chatid,query.from.id,users);
-        reply.inlineKeyboard(key).editHTML(query.message,query.message.text+"\n\n"+user.charactername+": +1pf");
+        reply.inlineKeyboard(key).editMarkdown(query.message,query.message.text+"\n\n"+user.charactername+": +1pf");
       }
     });
   });

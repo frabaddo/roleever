@@ -80,7 +80,7 @@ function modifystat(query,data,next){
           db.modifyobj("Users",x,{ id: query.from.id , ready:false}).then(function(){
             db.readfilefromdb("Users", {id:query.from.id,ready:false}).then(function(userm){
               totdisp=tot-(userm.forz+userm.dex+userm.inte+userm.cari);
-              reply.inlineKeyboard(statupdown).editHTML(query.message,txt.createpgcase2+totdisp+"\n"+txt.forz+userm.forz+"\n"+txt.dex+userm.dex+"\n"+txt.inte+userm.inte+"\n"+txt.cari+userm.cari).then(function(){setTimeout(sems[query.from.id].leave,1500);});
+              reply.inlineKeyboard(statupdown).editMarkdown(query.message,txt.createpgcase2+totdisp+"\n"+txt.forz+userm.forz+"\n"+txt.dex+userm.dex+"\n"+txt.inte+userm.inte+"\n"+txt.cari+userm.cari).then(function(){setTimeout(sems[query.from.id].leave,1500);});
             });
           });
 
@@ -117,7 +117,7 @@ function modifyappr(query,data,next){
             db.modifyobj("Users",x,{ id: query.from.id , ready:false}).then(function(){
               db.readfilefromdb("Users", {id:query.from.id,ready:false}).then(function(userm){
                 totdisp=tot-(userm.appr1+userm.appr2+userm.appr3+userm.appr4+userm.appr5);
-                reply.inlineKeyboard(apprupdown).editHTML(query.message,txt.createpgcase3+totdisp+"\n"+txt.appr1+userm.appr1+"\n"+txt.appr2+userm.appr2+"\n"+txt.appr3+userm.appr3+"\n"+txt.appr4+userm.appr4+"\n"+txt.appr5+userm.appr5).then(function(){setTimeout(sems[query.from.id].leave,1500);});
+                reply.inlineKeyboard(apprupdown).editMarkdown(query.message,txt.createpgcase3+totdisp+"\n"+txt.appr1+userm.appr1+"\n"+txt.appr2+userm.appr2+"\n"+txt.appr3+userm.appr3+"\n"+txt.appr4+userm.appr4+"\n"+txt.appr5+userm.appr5).then(function(){setTimeout(sems[query.from.id].leave,1500);});
               });
             });
           }
@@ -126,7 +126,7 @@ function modifyappr(query,data,next){
             db.modifyobj("Users",x,{ id: query.from.id , ready:false}).then(function(){
               db.readfilefromdb("Users", {id:query.from.id,ready:false}).then(function(userm){
                 totdisp=tot-(userm.appr1+userm.appr2+userm.appr3+userm.appr4+userm.appr5);
-                reply.inlineKeyboard(apprupdown).editHTML(query.message,txt.createpgcase3+totdisp+"\n"+txt.appr1+userm.appr1+"\n"+txt.appr2+userm.appr2+"\n"+txt.appr3+userm.appr3+"\n"+txt.appr4+userm.appr4+"\n"+txt.appr5+userm.appr5).then(function(){setTimeout(sems[query.from.id].leave,1500);});
+                reply.inlineKeyboard(apprupdown).editMarkdown(query.message,txt.createpgcase3+totdisp+"\n"+txt.appr1+userm.appr1+"\n"+txt.appr2+userm.appr2+"\n"+txt.appr3+userm.appr3+"\n"+txt.appr4+userm.appr4+"\n"+txt.appr5+userm.appr5).then(function(){setTimeout(sems[query.from.id].leave,1500);});
               });
             });
           }
@@ -151,6 +151,8 @@ function createusrquery(query,data,next){
     if(!user){
       return next();
     }
+    var tot;
+    var totdisp;
     switch (user.phase) {
       case 0:
         if(data.ys){
@@ -181,8 +183,8 @@ function createusrquery(query,data,next){
         support.deletecmd(query.message.id,reply);
         break;
       case 2:
-        var tot=8;
-        var totdisp=tot-(user.forz+user.dex+user.inte+user.cari);
+        tot=8;
+        totdisp=tot-(user.forz+user.dex+user.inte+user.cari);
         if(data.confirm&&totdisp==0){
           db.modifyobj("Users",{
               phase:3
@@ -198,8 +200,8 @@ function createusrquery(query,data,next){
         break;
       case 3:
         console.log("ready to display user info 1");
-        var tot=8;
-        var totdisp=tot-(user.appr1+user.appr2+user.appr3+user.appr4+user.appr5);
+        tot=8;
+        totdisp=tot-(user.appr1+user.appr2+user.appr3+user.appr4+user.appr5);
         if(data.confirm&&totdisp==0){
           db.modifyobj("Users",{
               phase:4,
@@ -239,6 +241,8 @@ function createusr(msg,reply,next){
     if(!user){
       return next();
     }
+    var tot;
+    var totdisp;
     var replyto = bot.reply(msg.from.id);
     switch (user.phase) {
       case 0:
@@ -252,13 +256,13 @@ function createusr(msg,reply,next){
         ]).markdown(txt.addthisdescription+msg.text);
         break;
       case 2:
-        var tot=8;
-        var totdisp=tot-(user.forz+user.dex+user.inte+user.cari);
+        tot=8;
+        totdisp=tot-(user.forz+user.dex+user.inte+user.cari);
         replyto.inlineKeyboard(statupdown).markdown(txt.createpgcase2+totdisp+"\n"+txt.forz+user.forz+"\n"+txt.dex+user.dex+"\n"+txt.inte+user.inte+"\n"+txt.cari+user.cari);
         break;
       case 3:
-        var tot=8;
-        var totdisp=tot-(user.appr1+user.appr2+user.appr3+user.appr4+user.appr5);
+        tot=8;
+        totdisp=tot-(user.appr1+user.appr2+user.appr3+user.appr4+user.appr5);
         replyto.inlineKeyboard(apprupdown).markdown(txt.createpgcase3+totdisp+"\n"+txt.appr1+user.appr1+"\n"+txt.appr2+user.appr2+"\n"+txt.appr3+user.appr3+"\n"+txt.appr4+user.appr4+"\n"+txt.appr5+user.appr5);
         break;
       default:
