@@ -326,6 +326,14 @@ function migratechat(msg,reply){
   });
 }
 
+function deleteoffturnmsg(msg,reply){
+  if(msg.chat.type!="user"){
+    db.readfilefromdb("Users",{sessionid:msg.chat.id,id:msg.from.id}).then(function(user){
+      if(!user||user.role!="master")support.deletecmd(msg,reply);
+    }
+  }
+}
+
 
 bot.callback(function (query, next) {
   var data;
@@ -367,5 +375,5 @@ bot.command("pauseoff", pause.reinitpausemsg);
 bot.command("help", help);
 bot.text(msgapi.newmessage);
 bot.text(createpg.createusr);
-bot.all(support.deletecmd);
+bot.all(deleteoffturnmsg);
 //bot.all(function (msg, reply) {support.deletecmd(msg,reply);});
