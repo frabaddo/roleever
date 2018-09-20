@@ -80,7 +80,7 @@ function modifystat(query,data,next){
           db.modifyobj("Users",x,{ id: query.from.id , ready:false}).then(function(){
             db.readfilefromdb("Users", {id:query.from.id,ready:false}).then(function(userm){
               totdisp=tot-(userm.forz+userm.dex+userm.inte+userm.cari);
-              reply.inlineKeyboard(statupdown).editHTML(query.message,txt.createpgcase2+totdisp+"\n"+txt.forz+userm.forz+"\n"+txt.dex+userm.dex+"\n"+txt.inte+userm.inte+"\n"+txt.cari+userm.cari).then(function(){setTimeout(sems[query.from.id].leave,1500)});
+              reply.inlineKeyboard(statupdown).editHTML(query.message,txt.createpgcase2+totdisp+"\n"+txt.forz+userm.forz+"\n"+txt.dex+userm.dex+"\n"+txt.inte+userm.inte+"\n"+txt.cari+userm.cari).then(function(){setTimeout(sems[query.from.id].leave,1500);});
             });
           });
 
@@ -117,7 +117,7 @@ function modifyappr(query,data,next){
             db.modifyobj("Users",x,{ id: query.from.id , ready:false}).then(function(){
               db.readfilefromdb("Users", {id:query.from.id,ready:false}).then(function(userm){
                 totdisp=tot-(userm.appr1+userm.appr2+userm.appr3+userm.appr4+userm.appr5);
-                reply.inlineKeyboard(apprupdown).editHTML(query.message,txt.createpgcase3+totdisp+"\n"+txt.appr1+userm.appr1+"\n"+txt.appr2+userm.appr2+"\n"+txt.appr3+userm.appr3+"\n"+txt.appr4+userm.appr4+"\n"+txt.appr5+userm.appr5).then(function(){setTimeout(sems[query.from.id].leave,1500)});
+                reply.inlineKeyboard(apprupdown).editHTML(query.message,txt.createpgcase3+totdisp+"\n"+txt.appr1+userm.appr1+"\n"+txt.appr2+userm.appr2+"\n"+txt.appr3+userm.appr3+"\n"+txt.appr4+userm.appr4+"\n"+txt.appr5+userm.appr5).then(function(){setTimeout(sems[query.from.id].leave,1500);});
               });
             });
           }
@@ -126,7 +126,7 @@ function modifyappr(query,data,next){
             db.modifyobj("Users",x,{ id: query.from.id , ready:false}).then(function(){
               db.readfilefromdb("Users", {id:query.from.id,ready:false}).then(function(userm){
                 totdisp=tot-(userm.appr1+userm.appr2+userm.appr3+userm.appr4+userm.appr5);
-                reply.inlineKeyboard(apprupdown).editHTML(query.message,txt.createpgcase3+totdisp+"\n"+txt.appr1+userm.appr1+"\n"+txt.appr2+userm.appr2+"\n"+txt.appr3+userm.appr3+"\n"+txt.appr4+userm.appr4+"\n"+txt.appr5+userm.appr5).then(function(){setTimeout(sems[query.from.id].leave,1500)});
+                reply.inlineKeyboard(apprupdown).editHTML(query.message,txt.createpgcase3+totdisp+"\n"+txt.appr1+userm.appr1+"\n"+txt.appr2+userm.appr2+"\n"+txt.appr3+userm.appr3+"\n"+txt.appr4+userm.appr4+"\n"+txt.appr5+userm.appr5).then(function(){setTimeout(sems[query.from.id].leave,1500);});
               });
             });
           }
@@ -280,7 +280,7 @@ var retrievesheet=function(query){
       reply.markdown(sheettext);
     }
   });
-}
+};
 
 module.exports={
   modifystat,
@@ -288,4 +288,4 @@ module.exports={
   createusr,
   modifyappr,
   retrievesheet
-}
+};

@@ -1,5 +1,4 @@
 module.exports={
-
   pauseon:"Sessione in pausa. tutti i messaggi ora saranno bloccati!",
   pauseoff:"Sessione uscita dalla pausa!",
   sessionnotstarted: "Questa sessione non è ancora stata avviata, segui le istruzioni per iniziare a giocare",

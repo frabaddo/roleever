@@ -29,7 +29,7 @@ var callturn=function (chatid , currentid){
           ).then(function(){console.log(chatdata.totalturn);
             var interval=chatdata.hours/4;
             console.log(totalindex);
-            waittoturn(chatid,totalindex,users[newindex].id,interval,interval,interval,interval)
+            waittoturn(chatid,totalindex,users[newindex].id,interval,interval,interval,interval);
           });
         }
         else{
@@ -46,7 +46,7 @@ var callturn=function (chatid , currentid){
         }
       });
     });
-}
+};
 
 function calcnewindex(users,currentid,i){
   var index=users.map(function(x) {return x.id; }).indexOf(currentid);
@@ -78,7 +78,7 @@ var waittoturn=function (chatid,totalindex,usrid,timea,timeb,timec,timed){
       }
      }
   });
-}
+};
 
 async function reinitwait(chatid,totalindex,usrid,timea,timeb,timec,timed,pause){
   db.readfilefromdb("Sessions", {id:chatid}).then(function(chatdata2){
@@ -113,7 +113,7 @@ var inittimers=function(){
       });
     });
   });
-}
+};
 
 function whomustplay(query){
   var reply = bot.reply(query.message.chat);
@@ -139,4 +139,4 @@ module.exports={
   callturn,
   inittimers,
   whomustplay
-}
+};

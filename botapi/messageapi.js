@@ -32,7 +32,7 @@ var masterplayerkeyboard= function(chatid,id,players){
     });
     if (player.role=="master") return mkey;
     else return pkey;
-}
+};
 
 function newmessage(msg,reply,next){
   if(msg.chat.type!="group"&&msg.chat.type!="supergroup"){
@@ -78,7 +78,7 @@ function newmessage(msg,reply,next){
             support.replytousr(msg.from.id,txt.pauseon).then(support.deletecmd(msg,reply));
           }
         }else{
-          support.deletecmd(msg,reply)
+          support.deletecmd(msg,reply);
           //reply.text(txt.sessionnotstarted).then(support.deletecmd(msg,reply));
         }
       }
@@ -121,7 +121,7 @@ function  sendmessage(query,chatid){
                 },
                 {
                   usr : query.from.id, sessionid : chatid , time : timetoset
-                },
+                }
               );
 
               var damage=session.playersdamage;
@@ -164,4 +164,4 @@ module.exports={
   sendmessage,
   deletesentmessage,
   masterplayerkeyboard
-}
+};

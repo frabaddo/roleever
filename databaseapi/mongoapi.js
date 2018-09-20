@@ -1,7 +1,7 @@
 //require('dotenv').config();
 const MongoClient = require('mongodb').MongoClient;
 
-const uri ="mongodb://User1:"+process.env.PASSWORD+"@cluster0-shard-00-00-okonn.mongodb.net:27017,cluster0-shard-00-01-okonn.mongodb.net:27017,cluster0-shard-00-02-okonn.mongodb.net:27017/test?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin&retryWrites=true"
+const uri ="mongodb://User1:"+process.env.PASSWORD+"@cluster0-shard-00-00-okonn.mongodb.net:27017,cluster0-shard-00-01-okonn.mongodb.net:27017,cluster0-shard-00-02-okonn.mongodb.net:27017/test?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin&retryWrites=true";
 const db = "database";
 
 
@@ -39,7 +39,7 @@ var createobj=function (collectionname, params,unicprop) {
 
       });
     });
-}
+};
 
 /*var addmodobjs=function (collectionname, paramsarr,unicprop) {
     return new Promise((resolve,reject) => {
@@ -91,7 +91,7 @@ var modifyobj = function (collectionname, params={},unicprop={}){
           {
             $set: params
           },
-          { 
+          {
           },
           function(err, object) {
               if (err){
@@ -104,7 +104,7 @@ var modifyobj = function (collectionname, params={},unicprop={}){
           });
       });
     });
-}
+};
 
 
 
@@ -128,7 +128,7 @@ var existindb=function (collectionpar, params) {
          });
       });
     });
-}
+};
 
 
 
@@ -170,7 +170,7 @@ var readfilefromdb=function (collectionpar, params={}, all=false) {
 
       });
     });
-}
+};
 
 var countindb=function (collectionpar, params={}) {
     return new Promise((resolve,reject) => {
@@ -187,7 +187,7 @@ var countindb=function (collectionpar, params={}) {
 
       });
     });
-}
+};
 
 var deletefromdb=function (collectionpar, params={}) {
     return new Promise((resolve,reject) => {
@@ -206,7 +206,7 @@ var deletefromdb=function (collectionpar, params={}) {
          });
       });
     });
-}
+};
 
 module.exports={
 readfilefromdb,
@@ -215,4 +215,4 @@ createobj,
 existindb,
 countindb,
 deletefromdb,
-}
+};
