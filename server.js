@@ -367,4 +367,5 @@ bot.command("pauseoff", pause.reinitpausemsg);
 bot.command("help", help);
 bot.text(msgapi.newmessage);
 bot.text(createpg.createusr);
+bot.all(support.deletecmd);
 //bot.all(function (msg, reply) {support.deletecmd(msg,reply);});
