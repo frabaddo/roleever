@@ -51,6 +51,10 @@ module.exports={
 
   onlymaster:"Solo il master può avviare la sessione!",
 
+  onlymasterpauseon:"Solo il master può mettere il gioco in pausa!",
+
+  onlymasterpauseoff:"Solo il master può far uscire il gioco dalla pausa!",
+
   wanttosend:"Vuoi inviare questo messaggio?",
 
   startregister:"Il master potrà avviare la sessione selezionando la durate massima che desidera per i turni di gioco.\n \
