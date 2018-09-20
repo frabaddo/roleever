@@ -330,7 +330,7 @@ function deleteoffturnmsg(msg,reply){
   if(msg.chat.type!="user"){
     db.readfilefromdb("Users",{sessionid:msg.chat.id,id:msg.from.id}).then(function(user){
       if(!user||user.role!="master")support.deletecmd(msg,reply);
-    }
+    });
   }
 }
 
