@@ -148,7 +148,7 @@ function newusr(query,role){
                     }
                   )
                   .then(function(){
-                    reply.text(query.from.name+txt.orae+role+txt.creationphase);
+                    reply.text(query.from.name+txt.orae+role);
                   });
                 }else{
                   query.answer({ text: txt.masterexist, alert: true });
@@ -184,7 +184,7 @@ function newusr(query,role){
                       },
                       {id:msg.chat.id}
                     ).then(function(){
-                      reply.text(query.from.name+txt.orae+role);
+                      reply.text(query.from.name+txt.orae+role+txt.creationphase);
                       support.replytousr(query.from.id,txt.createpgcase0);
                     });
                   });
