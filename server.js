@@ -341,7 +341,7 @@ function changesessionname(msg,reply){
   });
 }
 
-function messagetousr(msg,reply){
+function msgusr(msg,reply){
   console.log("cose");
   var arg=msg.args(2);
   console.log(arg[0]);
@@ -385,6 +385,7 @@ bot.update("title", "new", changesessionname);
 
 bot.update("chat", "migrateTo", migratechat);
 
+bot.command("msgusr", msgusr);
 bot.command("start", start);
 bot.command("startbot", startbot);
 bot.command("menu", openmenu);
