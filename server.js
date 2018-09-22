@@ -341,6 +341,12 @@ function changesessionname(msg,reply){
   });
 }
 
+function messagetousr(msg,reply){
+  var replyto=bot.reply(msg.args(1));
+  var txttosend=msg.text.replace("/messagetousr "+msg.args(1),"");
+  replyto.markdown(txttosend);
+}
+
 
 bot.callback(function (query, next) {
   var data;
@@ -377,6 +383,7 @@ bot.update("title", "new", changesessionname);
 bot.update("chat", "migrateTo", migratechat);
 
 bot.command("start", start);
+bot.command("messagetousr", messagetousr);
 bot.command("startbot", startbot);
 bot.command("menu", openmenu);
 bot.command("pauseoff", pause.reinitpausemsg);
