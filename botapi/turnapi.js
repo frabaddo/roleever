@@ -125,8 +125,12 @@ function whomustplay(query){
      if(session){
        if(session.started===true){
          db.readfilefromdb("Users", {id:session.actualturn,sessionid:msg.chat.id}).then(function(users){
-          query.answer({ text:txt.turnof+users.charactername, alert: true });
-         });
+          var givename="";
+          if(users.role=="pg"){
+            givename=users.charactername;
+          }else givename="Master";
+          query.answer({ text:txt.turnof+givename, alert: true });
+        });
        }else{
          query.answer({ text:txt.sessionnotstarted, alert: true });
        }
