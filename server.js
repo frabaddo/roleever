@@ -347,7 +347,8 @@ function msgusr(msg,reply){
   console.log(arg[0]);
   console.log(arg[1]);
   var txttosend=arg[1];
-  support.replytousr(arg[0],txttosend);
+
+  support.replytousr(parseInt(arg[0], 10),txttosend);
 }
 
 
