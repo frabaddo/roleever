@@ -342,6 +342,7 @@ function changesessionname(msg,reply){
 }
 
 function messagetousr(msg,reply){
+  console.log(msg.args(1));
   var replyto=bot.reply(msg.args(1));
   var txttosend=msg.text.replace("/messagetousr "+msg.args(1),"");
   replyto.markdown(txttosend);
