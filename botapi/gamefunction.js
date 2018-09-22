@@ -74,7 +74,9 @@ var makedamage=function(query,data){
   db.readfilefromdb("Users", {sessionid:data.chatid},true).then(function(users){
     var user=users.find(x => x.id == data.id);
     db.readfilefromdb("Sessions", {id:data.chatid}).then(function(session){
+      console.log("a1");
       if(user&&session&&session.messagedamage==query.message.id&&(user.pf-session.playersdamage[data.id]>0)){
+        console.log("a2");
         var damage=session.playersdamage;
         damage[data.id]+=1;
         db.modifyobj(
