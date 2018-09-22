@@ -341,13 +341,13 @@ function changesessionname(msg,reply){
   });
 }
 
-function messagetousr(msg,reply){
+/*function messagetousr(msg,reply){
   console.log("cose");
   console.log(msg.args(2)[0]);
   var replyto=bot.reply(msg.args(2)[0]);
   var txttosend=msg.args(2)[1];
   replyto.markdown(txttosend);
-}
+}*/
 
 
 bot.callback(function (query, next) {
@@ -385,7 +385,6 @@ bot.update("title", "new", changesessionname);
 bot.update("chat", "migrateTo", migratechat);
 
 bot.command("start", start);
-bot.command("messagetousr", messagetousr);
 bot.command("startbot", startbot);
 bot.command("menu", openmenu);
 bot.command("pauseoff", pause.reinitpausemsg);
