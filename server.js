@@ -333,6 +333,14 @@ function deleteoffturnmsg(msg,reply){
   }
 }
 
+function changesessionname(msg,reply){
+  db.readfilefromdb("Sessions",{id:msg.chat.id}).then(function(session){
+    if(session){
+      db.modifyobj("Sessions",{sessionname:msg.title},{id:msg.chat.id});
+    }
+  });
+}
+
 
 bot.callback(function (query, next) {
   var data;
@@ -364,6 +372,7 @@ bot.callback(function (query, next) {
 
 bot.update("member", "leave", deleteusr);
 bot.update("member", "new", reenterusr);
+bot.update("title", "new", changesessionname);
 
 bot.update("chat", "migrateTo", migratechat);
 
