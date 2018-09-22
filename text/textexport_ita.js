@@ -39,11 +39,11 @@ module.exports={
   Se cancellare per sbaglio il menù è sufficiente digitare "/menu" in chat (senza le virgolette).
   Per ultimo si ricorda in caso di necessità il comando "/help" (in privato)`,
 
-  turnof:"è il turno di ",
+  turnof:"È il turno di ",
 
   isnotturn:"Non è il tuo turno",
 
-  yourturn:"è il tuo turno! Hai ancora ",
+  yourturn:"È il tuo turno! Hai ancora ",
 
   hourstoresp:" ore per rispondere in ",
 
