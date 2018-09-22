@@ -125,7 +125,7 @@ function whomustplay(query){
      if(session){
        if(session.started===true){
          db.readfilefromdb("Users", {id:session.actualturn,sessionid:msg.chat.id}).then(function(users){
-          query.answer({ text:txt.turnof+users.name, alert: true });
+          query.answer({ text:txt.turnof+users.charactername, alert: true });
          });
        }else{
          query.answer({ text:txt.sessionnotstarted, alert: true });
