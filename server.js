@@ -341,13 +341,14 @@ function changesessionname(msg,reply){
   });
 }
 
-/*function messagetousr(msg,reply){
+function messagetousr(msg,reply){
   console.log("cose");
-  console.log(msg.args(2)[0]);
-  var replyto=bot.reply(msg.args(2)[0]);
-  var txttosend=msg.args(2)[1];
-  replyto.markdown(txttosend);
-}*/
+  var arg=msg.args(2);
+  console.log(arg[0]);
+  console.log(arg[1]);
+  var txttosend=arg[1];
+  support.replytousr(arg[0],txttosend);
+}
 
 
 bot.callback(function (query, next) {
