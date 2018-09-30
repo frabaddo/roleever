@@ -23,7 +23,7 @@ var pauseon=function (msg){
   else{
 
   }
-}
+};
 
 
 
@@ -49,7 +49,7 @@ var pauseoff=function (msg){
   }
   else{
   }
-}
+};
 
 
 var switchpauseon=function(query){
@@ -57,33 +57,46 @@ var switchpauseon=function(query){
   if (timers[msg.chat.id] != null&&timers[msg.chat.id] != "1"){
     var reply = bot.reply(msg.chat);
     if(timers[msg.chat.id].timer.isPaused()!=true){
-      pauseon(msg);
-      var reply = bot.reply(query.message.chat);
-      reply.inlineKeyboard([
-        [{text:"Termina pausa", callback_data: JSON.stringify({ action: "pauseoff"})}],
-      ]).text(txt.pauseon);
+      db.readfilefromdb("Users",{sessionid:msg.chat.id,id:query.from.id,role:"master"}).then(function(user){
+        if(user){
+          pauseon(msg);
+          reply.inlineKeyboard([
+            [{text:"Termina pausa", callback_data: JSON.stringify({ action: "pauseoff"})}],
+          ]).text(txt.pauseon);
+        }
+        else{
+          query.answer({ text: txt.onlymasterpauseon, alert: true });
+        }
+      });
     }else{
 
     }
   }else{
     console.log("errore timer");
   }
-}
+};
 
 var switchpauseoff=function(query){
   var msg=query.message;
   if (timers[msg.chat.id] != null&&timers[msg.chat.id] != "1"){
     var reply = bot.reply(msg.chat);
     if(timers[msg.chat.id].timer.isPaused()==true){
-      pauseoff(msg);
-      support.deletecmd(msg,reply);
+      db.readfilefromdb("Users",{sessionid:msg.chat.id,id:query.from.id,role:"master"}).then(function(user){
+        if(user){
+          pauseoff(msg);
+          support.deletecmd(msg,reply);
+        }
+        else{
+          query.answer({ text: txt.onlymasterpauseoff, alert: true });
+        }
+      });
     }else{
       support.deletecmd(msg,reply);
     }
   }else{
     console.log("errore timer");
   }
-}
+};
 
 var reinitpausemsg=function(msg,reply){
   if(timers[msg.chat.id].timer.isPaused()==true){
@@ -94,7 +107,7 @@ var reinitpausemsg=function(msg,reply){
   }else{
     support.deletecmd(msg,reply);
   }
-}
+};
 
 module.exports={
   pauseoff,
@@ -102,4 +115,4 @@ module.exports={
   switchpauseon,
   switchpauseoff,
   reinitpausemsg
-}
+};

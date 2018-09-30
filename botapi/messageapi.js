@@ -32,7 +32,7 @@ var masterplayerkeyboard= function(chatid,id,players){
     });
     if (player.role=="master") return mkey;
     else return pkey;
-}
+};
 
 function newmessage(msg,reply,next){
   if(msg.chat.type!="group"&&msg.chat.type!="supergroup"){
@@ -53,9 +53,9 @@ function newmessage(msg,reply,next){
                 var keyboard= masterplayerkeyboard(msg.chat.id,msg.from.id,users);
                 replytousr.inlineKeyboard(keyboard);
 
-                var txttosend= "<strong>"+txt.wanttosend+"</strong>"+"\n \n"+msg.text;
+                var txttosend= "*"+txt.wanttosend+"*"+"\n \n"+msg.text;
 
-                replytousr.html(txttosend).then(function(err,result){
+                replytousr.markdown(txttosend).then(function(err,result){
                   support.deletecmd(msg,reply);
                   var damage=session.playersdamage;
                   Object.keys(damage).forEach(v => damage[v] = 0);
@@ -78,7 +78,7 @@ function newmessage(msg,reply,next){
             support.replytousr(msg.from.id,txt.pauseon).then(support.deletecmd(msg,reply));
           }
         }else{
-          support.deletecmd(msg,reply)
+          support.deletecmd(msg,reply);
           //reply.text(txt.sessionnotstarted).then(support.deletecmd(msg,reply));
         }
       }
@@ -109,10 +109,10 @@ function  sendmessage(query,chatid){
               if(charnamefrom.role=="pg") charnamefrom=charnamefrom.charactername;
               else charnamefrom="Master";
 
-              var txttosend=query.message.text.replace(txt.wanttosend,"<strong>"+charnamefrom+":"+"</strong>");
+              var txttosend=query.message.text.replace(txt.wanttosend,"*"+charnamefrom+":"+"*");
               support.deletecmd(query.message.id,reply);
-              replytochat.html(txttosend);
-              reply.html(txt.msgsent);
+              replytochat.markdown(txttosend);
+              reply.markdown(txt.msgsent);
               var timetoset=Date.now();
               db.createobj(
                 "Messages",
@@ -121,7 +121,7 @@ function  sendmessage(query,chatid){
                 },
                 {
                   usr : query.from.id, sessionid : chatid , time : timetoset
-                },
+                }
               );
 
               var damage=session.playersdamage;
@@ -164,4 +164,4 @@ module.exports={
   sendmessage,
   deletesentmessage,
   masterplayerkeyboard
-}
+};

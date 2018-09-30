@@ -148,7 +148,7 @@ function newusr(query,role){
                     }
                   )
                   .then(function(){
-                    reply.text(query.from.name+txt.orae+role+txt.creationphase);
+                    reply.text(query.from.name+txt.orae+role);
                   });
                 }else{
                   query.answer({ text: txt.masterexist, alert: true });
@@ -184,7 +184,7 @@ function newusr(query,role){
                       },
                       {id:msg.chat.id}
                     ).then(function(){
-                      reply.text(query.from.name+txt.orae+role);
+                      reply.text(query.from.name+txt.orae+role+txt.creationphase);
                       support.replytousr(query.from.id,txt.createpgcase0);
                     });
                   });
@@ -333,6 +333,24 @@ function deleteoffturnmsg(msg,reply){
   }
 }
 
+function changesessionname(msg,reply){
+  db.readfilefromdb("Sessions",{id:msg.chat.id}).then(function(session){
+    if(session){
+      db.modifyobj("Sessions",{sessionname:msg.title},{id:msg.chat.id});
+    }
+  });
+}
+
+function msgusr(msg,reply){
+  console.log("cose");
+  var arg=msg.args(2);
+  console.log(arg[0]);
+  console.log(arg[1]);
+  var txttosend=arg[1];
+
+  support.replytousr(parseInt(arg[0], 10),txttosend);
+}
+
 
 bot.callback(function (query, next) {
   var data;
@@ -364,9 +382,11 @@ bot.callback(function (query, next) {
 
 bot.update("member", "leave", deleteusr);
 bot.update("member", "new", reenterusr);
+bot.update("title", "new", changesessionname);
 
 bot.update("chat", "migrateTo", migratechat);
 
+bot.command("msgusr", msgusr);
 bot.command("start", start);
 bot.command("startbot", startbot);
 bot.command("menu", openmenu);

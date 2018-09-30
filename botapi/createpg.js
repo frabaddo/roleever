@@ -80,7 +80,7 @@ function modifystat(query,data,next){
           db.modifyobj("Users",x,{ id: query.from.id , ready:false}).then(function(){
             db.readfilefromdb("Users", {id:query.from.id,ready:false}).then(function(userm){
               totdisp=tot-(userm.forz+userm.dex+userm.inte+userm.cari);
-              reply.inlineKeyboard(statupdown).editHTML(query.message,txt.createpgcase2+totdisp+"\n"+txt.forz+userm.forz+"\n"+txt.dex+userm.dex+"\n"+txt.inte+userm.inte+"\n"+txt.cari+userm.cari).then(function(){setTimeout(sems[query.from.id].leave,1500)});
+              reply.inlineKeyboard(statupdown).editMarkdown(query.message,txt.createpgcase2+totdisp+"\n"+txt.forz+userm.forz+"\n"+txt.dex+userm.dex+"\n"+txt.inte+userm.inte+"\n"+txt.cari+userm.cari).then(function(){setTimeout(sems[query.from.id].leave,1500);});
             });
           });
 
@@ -117,7 +117,7 @@ function modifyappr(query,data,next){
             db.modifyobj("Users",x,{ id: query.from.id , ready:false}).then(function(){
               db.readfilefromdb("Users", {id:query.from.id,ready:false}).then(function(userm){
                 totdisp=tot-(userm.appr1+userm.appr2+userm.appr3+userm.appr4+userm.appr5);
-                reply.inlineKeyboard(apprupdown).editHTML(query.message,txt.createpgcase3+totdisp+"\n"+txt.appr1+userm.appr1+"\n"+txt.appr2+userm.appr2+"\n"+txt.appr3+userm.appr3+"\n"+txt.appr4+userm.appr4+"\n"+txt.appr5+userm.appr5).then(function(){setTimeout(sems[query.from.id].leave,1500)});
+                reply.inlineKeyboard(apprupdown).editMarkdown(query.message,txt.createpgcase3+totdisp+"\n"+txt.appr1+userm.appr1+"\n"+txt.appr2+userm.appr2+"\n"+txt.appr3+userm.appr3+"\n"+txt.appr4+userm.appr4+"\n"+txt.appr5+userm.appr5).then(function(){setTimeout(sems[query.from.id].leave,1500);});
               });
             });
           }
@@ -126,7 +126,7 @@ function modifyappr(query,data,next){
             db.modifyobj("Users",x,{ id: query.from.id , ready:false}).then(function(){
               db.readfilefromdb("Users", {id:query.from.id,ready:false}).then(function(userm){
                 totdisp=tot-(userm.appr1+userm.appr2+userm.appr3+userm.appr4+userm.appr5);
-                reply.inlineKeyboard(apprupdown).editHTML(query.message,txt.createpgcase3+totdisp+"\n"+txt.appr1+userm.appr1+"\n"+txt.appr2+userm.appr2+"\n"+txt.appr3+userm.appr3+"\n"+txt.appr4+userm.appr4+"\n"+txt.appr5+userm.appr5).then(function(){setTimeout(sems[query.from.id].leave,1500)});
+                reply.inlineKeyboard(apprupdown).editMarkdown(query.message,txt.createpgcase3+totdisp+"\n"+txt.appr1+userm.appr1+"\n"+txt.appr2+userm.appr2+"\n"+txt.appr3+userm.appr3+"\n"+txt.appr4+userm.appr4+"\n"+txt.appr5+userm.appr5).then(function(){setTimeout(sems[query.from.id].leave,1500);});
               });
             });
           }
@@ -151,6 +151,8 @@ function createusrquery(query,data,next){
     if(!user){
       return next();
     }
+    var tot;
+    var totdisp;
     switch (user.phase) {
       case 0:
         if(data.ys){
@@ -174,15 +176,15 @@ function createusrquery(query,data,next){
           },
           { id: query.from.id , sessionid: data.sid}
         );
-          reply.inlineKeyboard(statupdown).html(txt.createpgcase2+"8"+"\n"+txt.forz+"0"+"\n"+txt.dex+"0"+"\n"+txt.inte+"0"+"\n"+txt.cari+"0");
+          reply.inlineKeyboard(statupdown).markdown(txt.createpgcase2+"8"+"\n"+txt.forz+"0"+"\n"+txt.dex+"0"+"\n"+txt.inte+"0"+"\n"+txt.cari+"0");
         }else{
           reply.text(txt.createpgcase1);
         }
         support.deletecmd(query.message.id,reply);
         break;
       case 2:
-        var tot=8;
-        var totdisp=tot-(user.forz+user.dex+user.inte+user.cari);
+        tot=8;
+        totdisp=tot-(user.forz+user.dex+user.inte+user.cari);
         if(data.confirm&&totdisp==0){
           db.modifyobj("Users",{
               phase:3
@@ -191,15 +193,15 @@ function createusrquery(query,data,next){
           );
           setTimeout(function(){
             support.deletecmd(query.message.id,reply);
-            reply.inlineKeyboard(apprupdown).html(txt.createpgcase3+"\n"+txt.appr1+"0"+"\n"+txt.appr2+"0"+"\n"+txt.appr3+"0"+"\n"+txt.appr4+"0"+"\n"+txt.appr5+"0");
+            reply.inlineKeyboard(apprupdown).markdown(txt.createpgcase3+"\n"+txt.appr1+"0"+"\n"+txt.appr2+"0"+"\n"+txt.appr3+"0"+"\n"+txt.appr4+"0"+"\n"+txt.appr5+"0");
           },1000);
         }
         else query.answer({ text:txt.insall, alert: true });
         break;
       case 3:
         console.log("ready to display user info 1");
-        var tot=8;
-        var totdisp=tot-(user.appr1+user.appr2+user.appr3+user.appr4+user.appr5);
+        tot=8;
+        totdisp=tot-(user.appr1+user.appr2+user.appr3+user.appr4+user.appr5);
         if(data.confirm&&totdisp==0){
           db.modifyobj("Users",{
               phase:4,
@@ -209,15 +211,15 @@ function createusrquery(query,data,next){
           );
           console.log("ready to display user info 2");
           if(user.join){
-            bot.reply(user.sessionid).html(txt.newchar+user.charactername+"\n\n"+user.characterdescription).then(function(){
+            bot.reply(user.sessionid).markdown(txt.newchar+user.charactername+"\n\n"+user.characterdescription).then(function(){
               setTimeout(function(){
-                reply.html(txt.regcompl);
+                reply.markdown(txt.regcompl);
                 support.deletecmd(query.message.id,reply);
               },1000);
             });
           }else{
             setTimeout(function(){
-              reply.html(txt.regcompl);
+              reply.markdown(txt.regcompl);
               support.deletecmd(query.message.id,reply);
             },1000);
           }
@@ -239,27 +241,29 @@ function createusr(msg,reply,next){
     if(!user){
       return next();
     }
+    var tot;
+    var totdisp;
     var replyto = bot.reply(msg.from.id);
     switch (user.phase) {
       case 0:
         replyto.inlineKeyboard([
           [{text:txt.yes, callback_data: JSON.stringify({action:"createusr", sid:user.sessionid, ys: true })},{text:txt.no, callback_data: JSON.stringify({action:"createusr", sid:user.sessionid, ys: false })}]
-        ]).html(txt.addthisname+msg.text);
+        ]).markdown(txt.addthisname+msg.text);
         break;
       case 1:
         replyto.inlineKeyboard([
           [{text:txt.yes, callback_data: JSON.stringify({action:"createusr", sid:user.sessionid, ys: true })},{text:txt.no, callback_data: JSON.stringify({action:"createusr", sid:user.sessionid, ys: false })}]
-        ]).html(txt.addthisdescription+msg.text);
+        ]).markdown(txt.addthisdescription+msg.text);
         break;
       case 2:
-        var tot=8;
-        var totdisp=tot-(user.forz+user.dex+user.inte+user.cari);
-        replyto.inlineKeyboard(statupdown).html(txt.createpgcase2+totdisp+"\n"+txt.forz+user.forz+"\n"+txt.dex+user.dex+"\n"+txt.inte+user.inte+"\n"+txt.cari+user.cari);
+        tot=8;
+        totdisp=tot-(user.forz+user.dex+user.inte+user.cari);
+        replyto.inlineKeyboard(statupdown).markdown(txt.createpgcase2+totdisp+"\n"+txt.forz+user.forz+"\n"+txt.dex+user.dex+"\n"+txt.inte+user.inte+"\n"+txt.cari+user.cari);
         break;
       case 3:
-        var tot=8;
-        var totdisp=tot-(user.appr1+user.appr2+user.appr3+user.appr4+user.appr5);
-        replyto.inlineKeyboard(apprupdown).html(txt.createpgcase3+totdisp+"\n"+txt.appr1+user.appr1+"\n"+txt.appr2+user.appr2+"\n"+txt.appr3+user.appr3+"\n"+txt.appr4+user.appr4+"\n"+txt.appr5+user.appr5);
+        tot=8;
+        totdisp=tot-(user.appr1+user.appr2+user.appr3+user.appr4+user.appr5);
+        replyto.inlineKeyboard(apprupdown).markdown(txt.createpgcase3+totdisp+"\n"+txt.appr1+user.appr1+"\n"+txt.appr2+user.appr2+"\n"+txt.appr3+user.appr3+"\n"+txt.appr4+user.appr4+"\n"+txt.appr5+user.appr5);
         break;
       default:
         break;
@@ -271,16 +275,16 @@ var retrievesheet=function(query){
   var reply=bot.reply(query.from.id);
   db.readfilefromdb("Users", {id:query.from.id,sessionid:query.message.chat.id,role:"pg",ready:true}).then(function(user){
     if(user){
-      var sheettext="<strong>"+txt.name+"</strong>"+user.charactername+"\n\n<strong>"+txt.description+"</strong>"+user.characterdescription+"\n\n<strong>"+txt.pf+"</strong>"+user.pf+"\n\n";
+      var sheettext="*"+txt.name+"*"+user.charactername+"\n\n*"+txt.description+"*"+user.characterdescription+"\n\n*"+txt.pf+"*"+user.pf+"\n\n";
       sheettext=sheettext+"-----------------";
-      sheettext=sheettext+"<strong>"+"\n"+txt.forz+":</strong> "+user.forz+"\n"+"<strong>"+"\n"+txt.dex+":</strong> "+user.dex+"\n"+"<strong>"+"\n"+txt.inte+":</strong> "+user.inte+"\n"+"<strong>"+"\n"+txt.cari+":</strong> "+user.cari+"\n\n";
+      sheettext=sheettext+"*"+"\n"+txt.forz+":* "+user.forz+"\n"+"*"+"\n"+txt.dex+":* "+user.dex+"\n"+"*"+"\n"+txt.inte+":* "+user.inte+"\n"+"*"+"\n"+txt.cari+":* "+user.cari+"\n\n";
       sheettext=sheettext+"-----------------";
-      sheettext=sheettext+"<strong>"+"\n"+txt.appr1+":</strong> "+user.appr1+"\n"+"<strong>"+"\n"+txt.appr2+":</strong> "+user.appr2+"\n"+"<strong>"+"\n"+txt.appr3+":</strong> "+user.appr3+"\n";
-      sheettext=sheettext+"<strong>"+"\n"+txt.appr4+":</strong> "+user.appr4+"\n"+"<strong>"+"\n"+txt.appr5+":</strong> "+user.appr5+"\n\n";
-      reply.html(sheettext);
+      sheettext=sheettext+"*"+"\n"+txt.appr1+":* "+user.appr1+"\n"+"*"+"\n"+txt.appr2+":* "+user.appr2+"\n"+"*"+"\n"+txt.appr3+":* "+user.appr3+"\n";
+      sheettext=sheettext+"*"+"\n"+txt.appr4+":* "+user.appr4+"\n"+"*"+"\n"+txt.appr5+":* "+user.appr5+"\n\n";
+      reply.markdown(sheettext);
     }
   });
-}
+};
 
 module.exports={
   modifystat,
@@ -288,4 +292,4 @@ module.exports={
   createusr,
   modifyappr,
   retrievesheet
-}
+};

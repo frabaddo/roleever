@@ -1,5 +1,4 @@
 module.exports={
-
   pauseon:"Sessione in pausa. tutti i messaggi ora saranno bloccati!",
   pauseoff:"Sessione uscita dalla pausa!",
   sessionnotstarted: "Questa sessione non è ancora stata avviata, segui le istruzioni per iniziare a giocare",
@@ -27,7 +26,7 @@ module.exports={
 
   orae:" ora è un ",
 
-  creationphase:". Se il giocatore è un personaggio potrà giocare solo dopo aver terminato la creazione del proprio personaggio nella chat privata con me.",
+  creationphase:". Dopo aver terminato la creazione del tuo personaggio nella chat privata con me, potrai iniziare a giocare.",
 
   alreadyexist:" esiste gia in questa sessione",
 
@@ -40,17 +39,21 @@ module.exports={
   Se cancellare per sbaglio il menù è sufficiente digitare "/menu" in chat (senza le virgolette).
   Per ultimo si ricorda in caso di necessità il comando "/help" (in privato)`,
 
-  turnof:"è il turno di ",
+  turnof:"È il turno di ",
 
   isnotturn:"Non è il tuo turno",
 
-  yourturn:"è il tuo turno! Hai ancora ",
+  yourturn:"È il tuo turno! Hai ancora ",
 
   hourstoresp:" ore per rispondere in ",
 
   loseturn:"Hai perso il turno",
 
   onlymaster:"Solo il master può avviare la sessione!",
+
+  onlymasterpauseon:"Solo il master può mettere il gioco in pausa!",
+
+  onlymasterpauseoff:"Solo il master può far uscire il gioco dalla pausa!",
 
   wanttosend:"Vuoi inviare questo messaggio?",
 
@@ -115,4 +118,4 @@ module.exports={
 
   newchar: "Nuovo personaggio creato: "
 
-}
+};
