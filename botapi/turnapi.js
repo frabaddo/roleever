@@ -163,5 +163,6 @@ function whomustplay(query){
 module.exports={
   callturn,
   inittimers,
-  whomustplay
+  whomustplay,
+  skipturn
 };
