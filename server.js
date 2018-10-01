@@ -352,6 +352,26 @@ function msgusr(msg,reply){
   support.replytousr(parseInt(arg[0], 10),txttosend);
 }
 
+function changeduration(msg,reply){
+  if(msg.chat.type!="group"&&msg.chat.type!="supergroup"){
+    reply.text(txt.bootnogroup);
+  }else{
+   db.readfilefromdb("Sessions", {id:msg.chat.id}).then(function(session){
+     if(session){
+       if(session.started===true){
+         var arg=msg.args(1)[0];
+         var time=parseInt(arg, 10);
+         var newtime=time*3600000;
+         db.modifyobj("Sessions",{hours:newtime},{sessionid:msg.chat.id});
+         var timechanged=moment.duration(newtime);
+         var y = timechanged.hours() + ":" + timechanged.minutes();
+         reply.text(txt.newtime+y);
+       }
+     }
+   });
+  }
+}
+
 
 bot.callback(function (query, next) {
   var data;

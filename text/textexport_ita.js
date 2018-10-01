@@ -120,6 +120,8 @@ module.exports={
 
   turnskip:" Turno passato",
 
-  onlyactual:"Solo il giocatore di turno può passare!"
+  onlyactual:"Solo il giocatore di turno può passare!",
+
+  newtime:"Durata dei turni cambiata in: "
 
 };
