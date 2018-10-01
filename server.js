@@ -365,11 +365,11 @@ function changeduration(msg,reply){
            if(Number.isInteger(time)&&arg>0){
              var newtime=time*3600000;
              console.log(newtime);
-             db.modifyobj("Sessions",{hours:newtime},{sessionid:msg.chat.id});
+             db.modifyobj("Sessions",{hours:newtime},{id:msg.chat.id});
              var timechanged=moment.duration(newtime);
              var y = timechanged.hours() + ":" + timechanged.minutes();
              reply.text(txt.newtime+y);
-           } 
+           }
          }
        }
      }
