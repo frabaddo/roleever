@@ -360,13 +360,17 @@ function changeduration(msg,reply){
      if(session){
        if(session.started===true){
          var arg=msg.args(1)[0];
-         var time=parseFloat(arg);
-         var newtime=time*3600000;
-         console.log(newtime);
-         db.modifyobj("Sessions",{hours:newtime},{sessionid:msg.chat.id});
-         var timechanged=moment.duration(newtime);
-         var y = timechanged.hours() + ":" + timechanged.minutes();
-         reply.text(txt.newtime+y);
+         if(arg){
+           var time=parseFloat(arg);
+           if(Number.isInteger(time)&&arg>0){
+             var newtime=time*3600000;
+             console.log(newtime);
+             db.modifyobj("Sessions",{hours:newtime},{sessionid:msg.chat.id});
+             var timechanged=moment.duration(newtime);
+             var y = timechanged.hours() + ":" + timechanged.minutes();
+             reply.text(txt.newtime+y);
+           } 
+         }
        }
      }
    });
