@@ -48,6 +48,27 @@ var callturn=function (chatid , currentid){
     });
 };
 
+var skipturn=function(query){
+  var chatid=query.message.chat.id;
+  if(msg.chat.type!="group"&&msg.chat.type!="supergroup"){
+   reply.text(txt.bootnogroup);
+   }else{
+     db.readfilefromdb("Sessions", {id:msg.chat.id}).then(function(session){
+       if(session){
+         if(session.started===true){
+           if(session.actualturn==query.from.id){
+             support.replytousr(query.from.id,txt.loseturn);
+             query.answer({ text: txt.turnskip, alert: true });
+             callturn(chatid , session.actualturn);
+           }else{
+            query.answer({ text: txt.onlyactual, alert: true });
+           }
+         }
+       }
+     });
+   }
+};
+
 function calcnewindex(users,currentid,i){
   var index=users.map(function(x) {return x.id; }).indexOf(currentid);
   console.log("il vecchio index è: "+index);
