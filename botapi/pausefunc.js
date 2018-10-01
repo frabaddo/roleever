@@ -69,7 +69,7 @@ var switchpauseon=function(query){
         }
       });
     }else{
-
+      query.answer({ text: txt.onlymasterpauseon, alert: true });
     }
   }else{
     console.log("errore timer");
