@@ -408,6 +408,7 @@ bot.update("title", "new", changesessionname);
 
 bot.update("chat", "migrateTo", migratechat);
 
+bot.command("changeduration", changeduration);
 bot.command("msgusr", msgusr);
 bot.command("start", start);
 bot.command("startbot", startbot);
