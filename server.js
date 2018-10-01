@@ -360,7 +360,7 @@ function changeduration(msg,reply){
      if(session){
        if(session.started===true){
          var arg=msg.args(1)[0];
-         var time=parseInt(arg, 10);
+         var time=parseFloat(arg, 10);
          var newtime=time*3600000;
          console.log(newtime);
          db.modifyobj("Sessions",{hours:newtime},{sessionid:msg.chat.id});
