@@ -50,6 +50,7 @@ var callturn=function (chatid , currentid){
 
 var skipturn=function(query){
   var chatid=query.message.chat.id;
+  var msg=query.message;
   if(msg.chat.type!="group"&&msg.chat.type!="supergroup"){
    reply.text(txt.bootnogroup);
    }else{
