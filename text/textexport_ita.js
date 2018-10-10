@@ -12,7 +12,7 @@ module.exports={
   6. Assicurati che ogni giocatore si registri tramite il menu principale nel gruppo. ricorda che ci può essere un solo master.
   7. Avviate la sessione, scegliendo una durata massima per i turni, dal menù principale( quando l'avrai avviata chiunque abbia terminato la creazione del proprio personaggio e il master potranno giocare).
   Ogniqualvolta sarà il tuo turno scrivi un messaggio nel gruppo raccontando le gesta del tuo personaggio, dopo averlo inviato ti verrà chiesto di confermalo in privato.
-  Se dovessi mai aver bisogno usa il comando /help (in privato) oppure contatta gli sviluppatori sull'apposito gruppo.
+  Se dovessi mai aver bisogno usa il comando /help (in privato) oppure contatta gli sviluppatori sull'apposito gruppo (https://t.me/joinchat/CkQUkFKv9CZ9Tob471YUEA).
   Buon divertimento!!!`,
   bootnogroup:"Ciao Sono un bot per giocare ai gdr su dispositivi mobile,\
   per potermi utilizzare inseriscimi prima in un supergruppo e\
