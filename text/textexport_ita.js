@@ -122,6 +122,7 @@ module.exports={
 
   onlyactual:"Solo il giocatore di turno può passare!",
 
-  newtime:"Durata dei turni cambiata in: "
+  newtime:"Durata dei turni cambiata in: ",
 
+  pauseactive:"Rimuovere prima la pausa"
 };
