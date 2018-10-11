@@ -419,7 +419,7 @@ bot.command("start", start);
 bot.command("startbot", startbot);
 bot.command("menu", openmenu);
 bot.command("pauseoff", pause.reinitpausemsg);
-bot.command("help", help);
+//bot.command("help", help);
 bot.text(msgapi.newmessage);
 bot.text(createpg.createusr);
 
