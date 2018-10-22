@@ -4,3 +4,7 @@ inserire:
 
 
 max 3 max 5
+
+
+
+quando passa il turno al master timer[chatid] diventa uguale a 1 mentre il timer sul server non viene modificato. la inittimers verifica se sta al master e nel caso salta al prossimo timer senza reinizializzarlo 
