@@ -7,4 +7,5 @@ max 3 max 5
 
 
 
-in reinitwai o waittoturn invece che chiamare la pauseableplus, setta timers[msg.chat.id]="1" e nel caso della waittoturn avverte il amster del suo turno
+in reinitwai o waittoturn invece che chiamare la pauseableplus, setta timers[msg.chat.id]="1" e nel caso della waittoturn avverte il master del suo turno
+settare anche l'if (timea!=0) a (timea!=0||timers[chatid]=="1") 
