@@ -57,14 +57,18 @@ var skipturn=function(query){
      db.readfilefromdb("Sessions", {id:msg.chat.id}).then(function(session){
        if(session){
          if(session.started===true){
-          if(timers[msg.chat.id]&&timers[msg.chat.id].timer.isPaused()!=true){
-           if(session.actualturn==query.from.id){
-             support.replytousr(query.from.id,txt.loseturn);
-             query.answer({ text: txt.turnskip, alert: true });
-             callturn(chatid , session.actualturn);
-           }else{
-            query.answer({ text: txt.onlyactual, alert: true });
-           }
+          if(timers[msg.chat.id]){
+              if(timers[msg.chat.id]=="1"||timers[msg.chat.id].timer.isPaused()!=true){
+                 if(session.actualturn==query.from.id){
+                   support.replytousr(query.from.id,txt.loseturn);
+                   query.answer({ text: txt.turnskip, alert: true });
+                   callturn(chatid , session.actualturn);
+                 }else{
+                  query.answer({ text: txt.onlyactual, alert: true });
+                 }
+             }else{
+               query.answer({ text: txt.pauseactive, alert: true });
+             }
          }else{
            query.answer({ text: txt.pauseactive, alert: true });
          }
