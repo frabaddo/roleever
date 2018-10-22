@@ -7,4 +7,4 @@ max 3 max 5
 
 
 
-quando passa il turno al master timer[chatid] diventa uguale a 1 mentre il timer sul server non viene modificato. la inittimers verifica se sta al master e nel caso salta al prossimo timer senza reinizializzarlo 
+in reinitwai o waittoturn invece che chiamare la pauseableplus, setta timers[msg.chat.id]="1" e nel caso della waittoturn avverte il amster del suo turno
