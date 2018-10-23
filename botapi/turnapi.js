@@ -138,7 +138,7 @@ function reinitwait(chatid,totalindex,usrid,timea,timeb,timec,timed,pause){
           else{
             pauseable.setTimeout(chatid,function(){
               waittoturn(chatid,totalindex,usrid,timeb,timec,timed,0);
-            },[timea,timeb,timec,timed]);
+            },[timea,timeb,timec,timed],pause);
           }
         });
       }else{
@@ -153,7 +153,7 @@ var inittimers=function(){
   db.readfilefromdb("Timers",{},true).then(function(arr){
     arr.forEach(function(timer){
       db.readfilefromdb("Sessions", {id:timer.id}).then(function(chatdata){
-        var localtimeinpause=timer.timeinpause;
+        /*var localtimeinpause=timer.timeinpause;
         if(timer.pausestart!=0){
           localtimeinpause=timer.timeinpause+Date.now()-timer.pausestart;
         }
@@ -161,12 +161,12 @@ var inittimers=function(){
         var timea=Date.now()-timer.timestart;
         var timeb=timea-localtimeinpause;
         var timec=timer.timetodo[0]-timeb;
-        console.log("max: "+timec+" , 0 = "+Math.max(timec,0));
-        /*var totalturn=chatdata.totalturn;
+        console.log("max: "+timec+" , 0 = "+Math.max(timec,0));*/
+        var totalturn=chatdata.totalturn;
         var timerend=timer.pausestart||Date.now();
         var timetodo=timer.timetodo[0]-timerend+timer.timestart+timer.timeinpause;
-        console.log(timer.id+" => tmetodo:"+timetodo);*/
-        reinitwait(timer.id,totalturn,chatdata.actualturn,Math.max(timec,0),timer.timetodo[1],timer.timetodo[2],timer.timetodo[3],timer.pausestart!=0);
+        console.log(timer.id+" => tmetodo:"+timetodo);
+        reinitwait(timer.id,totalturn,chatdata.actualturn,Math.max(timetodo,1),timer.timetodo[1],timer.timetodo[2],timer.timetodo[3],timer.pausestart!=0);
       });
     });
   });
