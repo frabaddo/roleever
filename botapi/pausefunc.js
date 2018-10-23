@@ -72,7 +72,9 @@ var switchpauseon=function(query){
       query.answer({ text: txt.onlymasterpauseon, alert: true });
     }
   }else{
-    console.log("errore timer");
+    if (timers[msg.chat.id] == "1"){
+      query.answer({ text: "Durante il turno del master il gioco non può essere messo in pausa. il suo turno durerà fino a quando non passerà!", alert: true });
+    }
   }
 };
 

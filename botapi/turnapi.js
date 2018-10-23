@@ -60,7 +60,12 @@ var skipturn=function(query){
           if(timers[msg.chat.id]){
               if(timers[msg.chat.id]=="1"||timers[msg.chat.id].timer.isPaused()!=true){
                  if(session.actualturn==query.from.id){
-                   support.replytousr(query.from.id,txt.loseturn);
+                   if(timers[msg.chat.id]=="1"){
+                     support.replytousr(query.from.id,"Hai passato il turno, è ora il turno dei giocatori!");
+                   }
+                   else{
+                     support.replytousr(query.from.id,txt.turnskip);
+                   }
                    query.answer({ text: txt.turnskip, alert: true });
                    callturn(chatid , session.actualturn);
                  }else{
@@ -70,7 +75,7 @@ var skipturn=function(query){
                query.answer({ text: txt.pauseactive, alert: true });
              }
          }else{
-           query.answer({ text: txt.pauseactive, alert: true });
+           query.answer({ text: "Sessione non ancora avviata!", alert: true });
          }
         }
        }
@@ -98,10 +103,18 @@ var waittoturn=function (chatid,totalindex,usrid,timea,timeb,timec,timed){
       var tempTime = moment.duration(tim);
       var y = tempTime.hours() + ":" + tempTime.minutes();
       if(timea!=0){
-        support.replytousr(usrid,txt.yourturn+ y +txt.hourstoresp+chatdata2.sessionname);
-        pauseable.setTimeout(chatid,function(){
-          waittoturn(chatid,totalindex,usrid,timeb,timec,timed,0);
-        },[timea,timeb,timec,timed]);
+        db.readfilefromdb("Users", {id:usrid,sessionid:chatid}).then(function(user){
+          if(user.role=="master"){
+            timers[chatid]="1";
+            support.replytousr(usrid,"Master, è il tuo turno, ora potrai inviare tutti i messaggi che vuoi. Quando avrai finito ricordati di passare il turno dal menu della sessione!");
+          }
+          else{
+            support.replytousr(usrid,txt.yourturn+ y +txt.hourstoresp+chatdata2.sessionname);
+            pauseable.setTimeout(chatid,function(){
+              waittoturn(chatid,totalindex,usrid,timeb,timec,timed,0);
+            },[timea,timeb,timec,timed]);
+          }
+        });
       }else{
         support.replytousr(usrid,txt.loseturn);
         callturn(chatid ,usrid);
@@ -110,17 +123,26 @@ var waittoturn=function (chatid,totalindex,usrid,timea,timeb,timec,timed){
   });
 };
 
-async function reinitwait(chatid,totalindex,usrid,timea,timeb,timec,timed,pause){
+function reinitwait(chatid,totalindex,usrid,timea,timeb,timec,timed,pause){
   db.readfilefromdb("Sessions", {id:chatid}).then(function(chatdata2){
     console.log(chatdata2.totalturn);
     console.log(totalindex);
      if(chatdata2.totalturn==totalindex){
       var tim=(timea+timeb+timec+timed)/60000;
       if(timea!=0){
-        pauseable.setTimeout(chatid,function(){
-          waittoturn(chatid,totalindex,usrid,timeb,timec,timed,0);
-        },[timea,timeb,timec,timed],pause);
+        db.readfilefromdb("Users", {id:usrid,sessionid:chatid}).then(function(user){
+          if(user.role=="master"){
+            timers[chatid]="1";
+            console.log(user.role);
+          }
+          else{
+            pauseable.setTimeout(chatid,function(){
+              waittoturn(chatid,totalindex,usrid,timeb,timec,timed,0);
+            },[timea,timeb,timec,timed]);
+          }
+        });
       }else{
+        console.log("qui");
         callturn(chatid ,usrid);
       }
      }
@@ -139,6 +161,7 @@ var inittimers=function(){
         var timea=Date.now()-timer.timestart;
         var timeb=timea-localtimeinpause;
         var timec=timer.timetodo[0]-timeb;
+        console.log("max: "+timec+" , 0 = "+Math.max(timec,0));
         reinitwait(timer.id,totalturn,chatdata.actualturn,Math.max(timec,0),timer.timetodo[1],timer.timetodo[2],timer.timetodo[3],timer.pausestart!=0);
       });
     });

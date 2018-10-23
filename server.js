@@ -14,8 +14,13 @@ const Long = require('mongodb').Long;
 const moment = require('moment');
 const MomentRange = require('moment-range');
 const Moment = MomentRange.extendMoment(moment);
+
 const { TELEGRAM_BOT_TOKEN } = process.env;
 global.bot = new Botgram(TELEGRAM_BOT_TOKEN);
+
+//const { TELEGRAM_BOT_TOKEN2 } = process.env;
+//global.bot = new Botgram(TELEGRAM_BOT_TOKEN2);
+
 global.timers=[];
 turn.inittimers();
 moment().format();
@@ -24,7 +29,7 @@ moment().format();
 var keyboardmenu=[
   [{text:"Nuovo giocatore", callback_data: JSON.stringify({ action: "newusr", role: "pg" })},{text:"Scheda Pg", callback_data: JSON.stringify({ action: "sheet"})}],
   [{text:"Pausa", callback_data: JSON.stringify({ action: "pauseon"})},{text:"Turno", callback_data: JSON.stringify({ action: "turn"})}],
-  [{text:"Passa Turno", callback_data: JSON.stringify({ action: "skipturn"})}],
+  [{text:"Passa Turno", callback_data: JSON.stringify({ action: "skipturn"})},{text:"Schede Gruppo", callback_data: JSON.stringify({ action: "allsheet"})}],
 ];
 
 var keyboardstart= [
@@ -46,6 +51,7 @@ const listener = app.listen(process.env.PORT, () => {
   console.log(`Your app is listening on port ${listener.address().port}`);
 });
 
+//if (!TELEGRAM_BOT_TOKEN2) {
 if (!TELEGRAM_BOT_TOKEN) {
   console.error('Seems like you forgot to pass Telegram Bot Token. I can not proceed...');
   process.exit(1);
@@ -388,6 +394,7 @@ bot.callback(function (query, next) {
   if (data.action == "STARTSESSION") startsession(query,data.hours);
   if (data.action == "newusr") newusr(query,data.role);
   if (data.action == "sheet") createpg.retrievesheet(query);
+  if (data.action == "allsheet") createpg.retrieveallsheet(query);
   if (data.action == "turn") turn.whomustplay(query);
   if (data.action == "skipturn") turn.skipturn(query);
   if (data.action == "pauseon") pause.switchpauseon(query);
