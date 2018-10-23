@@ -46,7 +46,7 @@ const listener = app.listen(process.env.PORT, () => {
   console.log(`Your app is listening on port ${listener.address().port}`);
 });
 
-if (!TELEGRAM_BOT_TOKEN) {
+if (!TELEGRAM_BOT_TOKEN2) {
   console.error('Seems like you forgot to pass Telegram Bot Token. I can not proceed...');
   process.exit(1);
 }
