@@ -1,8 +1,8 @@
 //require('dotenv').config();
 const MongoClient = require('mongodb').MongoClient;
 
-//const uri ="mongodb://User1:"+process.env.PASSWORD+"@cluster0-shard-00-00-okonn.mongodb.net:27017,cluster0-shard-00-01-okonn.mongodb.net:27017,cluster0-shard-00-02-okonn.mongodb.net:27017/test?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin&retryWrites=true";
-const uri ="mongodb://User1:"+process.env.PASSWORD+"@cluster0-shard-00-00-u7l0h.mongodb.net:27017,cluster0-shard-00-01-u7l0h.mongodb.net:27017,cluster0-shard-00-02-u7l0h.mongodb.net:27017/test?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin&retryWrites=true";
+const uri ="mongodb://User1:"+process.env.PASSWORD+"@cluster0-shard-00-00-okonn.mongodb.net:27017,cluster0-shard-00-01-okonn.mongodb.net:27017,cluster0-shard-00-02-okonn.mongodb.net:27017/test?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin&retryWrites=true";
+//const uri ="mongodb://User1:"+process.env.PASSWORD+"@cluster0-shard-00-00-u7l0h.mongodb.net:27017,cluster0-shard-00-01-u7l0h.mongodb.net:27017,cluster0-shard-00-02-u7l0h.mongodb.net:27017/test?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin&retryWrites=true";
 const db = "database";
 
 
