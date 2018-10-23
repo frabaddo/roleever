@@ -25,6 +25,7 @@ var keyboardmenu=[
   [{text:"Nuovo giocatore", callback_data: JSON.stringify({ action: "newusr", role: "pg" })},{text:"Scheda Pg", callback_data: JSON.stringify({ action: "sheet"})}],
   [{text:"Pausa", callback_data: JSON.stringify({ action: "pauseon"})},{text:"Turno", callback_data: JSON.stringify({ action: "turn"})}],
   [{text:"Passa Turno", callback_data: JSON.stringify({ action: "skipturn"})}],
+  [{text:"Schede Gruppo", callback_data: JSON.stringify({ action: "allsheet"})}],
 ];
 
 var keyboardstart= [
@@ -388,6 +389,7 @@ bot.callback(function (query, next) {
   if (data.action == "STARTSESSION") startsession(query,data.hours);
   if (data.action == "newusr") newusr(query,data.role);
   if (data.action == "sheet") createpg.retrievesheet(query);
+  if (data.action == "allsheet") createpg.retrieveallsheet(query);
   if (data.action == "turn") turn.whomustplay(query);
   if (data.action == "skipturn") turn.skipturn(query);
   if (data.action == "pauseon") pause.switchpauseon(query);

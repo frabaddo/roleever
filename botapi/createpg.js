@@ -286,10 +286,36 @@ var retrievesheet=function(query){
   });
 };
 
+var retrieveallsheet=function(query){
+  db.readfilefromdb("Users", {sessionid:query.message.chat.id,ready:true},true).then(function(users){
+    if(users){
+      if(users.find(u => u.role=='master').id==query.from.id){
+        var sheettext="Lista Giocatori: \n\n";
+        users.forEach(function(user) {
+          if(user.role=="pg"){
+            sheettext=sheettext+"*"+txt.name+"*"+user.charactername+"\n\n*"+txt.description+"*"+user.characterdescription+"\n\n*"+txt.pf+"*"+user.pf+"\n\n";
+            sheettext=sheettext+"-----------------";
+            sheettext=sheettext+"*"+"\n"+txt.forz+":* "+user.forz+"\n"+"*"+"\n"+txt.dex+":* "+user.dex+"\n"+"*"+"\n"+txt.inte+":* "+user.inte+"\n"+"*"+"\n"+txt.cari+":* "+user.cari+"\n\n";
+            sheettext=sheettext+"-----------------";
+            sheettext=sheettext+"*"+"\n"+txt.appr1+":* "+user.appr1+"\n"+"*"+"\n"+txt.appr2+":* "+user.appr2+"\n"+"*"+"\n"+txt.appr3+":* "+user.appr3+"\n";
+            sheettext=sheettext+"*"+"\n"+txt.appr4+":* "+user.appr4+"\n"+"*"+"\n"+txt.appr5+":* "+user.appr5+"\n\n";
+            sheettext=sheettext+"-+-+-+-+-+-+-+-+ \n\n";
+          }
+        });
+        reply.markdown(sheettext);
+      }
+      else{
+        query.answer({ text: "Solo il master può vedere le schede di tutti i giocatori", alert: true });
+      }
+    }
+  });
+};
+
 module.exports={
   modifystat,
   createusrquery,
   createusr,
   modifyappr,
-  retrievesheet
+  retrievesheet,
+  retrieveallsheet
 };
