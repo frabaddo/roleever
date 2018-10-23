@@ -129,7 +129,7 @@ function reinitwait(chatid,totalindex,usrid,timea,timeb,timec,timed,pause){
     console.log(totalindex);
      if(chatdata2.totalturn==totalindex){
       var tim=(timea+timeb+timec+timed)/60000;
-      if(timea!=0){
+      if(timea!=0 && usrid!=0){
         db.readfilefromdb("Users", {id:usrid,sessionid:chatid}).then(function(user){
           if(user.role=="master"){
             timers[chatid]="1";
