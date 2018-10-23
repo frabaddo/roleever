@@ -24,8 +24,7 @@ moment().format();
 var keyboardmenu=[
   [{text:"Nuovo giocatore", callback_data: JSON.stringify({ action: "newusr", role: "pg" })},{text:"Scheda Pg", callback_data: JSON.stringify({ action: "sheet"})}],
   [{text:"Pausa", callback_data: JSON.stringify({ action: "pauseon"})},{text:"Turno", callback_data: JSON.stringify({ action: "turn"})}],
-  [{text:"Passa Turno", callback_data: JSON.stringify({ action: "skipturn"})}],
-  [{text:"Schede Gruppo", callback_data: JSON.stringify({ action: "allsheet"})}],
+  [{text:"Passa Turno", callback_data: JSON.stringify({ action: "skipturn"})},{text:"Schede Gruppo", callback_data: JSON.stringify({ action: "allsheet"})}],
 ];
 
 var keyboardstart= [
