@@ -98,7 +98,7 @@ var waittoturn=function (chatid,totalindex,usrid,timea,timeb,timec,timed){
       var tempTime = moment.duration(tim);
       var y = tempTime.hours() + ":" + tempTime.minutes();
       if(timea!=0){
-        db.readfilefromdb("Users", {id:userid,sessionid:chatid}).then(function(user){
+        db.readfilefromdb("Users", {id:usrid,sessionid:chatid}).then(function(user){
           if(user.role=="master"){
             timers[chatid]="1";
             support.replytousr(usrid,txt.yourturn+ "infinite" +txt.hourstoresp+chatdata2.sessionname);
@@ -125,7 +125,7 @@ async function reinitwait(chatid,totalindex,usrid,timea,timeb,timec,timed,pause)
      if(chatdata2.totalturn==totalindex){
       var tim=(timea+timeb+timec+timed)/60000;
       if(timea!=0){
-        db.readfilefromdb("Users", {id:userid,sessionid:chatid}).then(function(user){
+        db.readfilefromdb("Users", {id:usrid,sessionid:chatid}).then(function(user){
           if(user.role=="master"){
             timers[chatid]="1";
           }
