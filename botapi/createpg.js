@@ -287,6 +287,7 @@ var retrievesheet=function(query){
 };
 
 var retrieveallsheet=function(query){
+  var reply=bot.reply(query.from.id);
   db.readfilefromdb("Users", {sessionid:query.message.chat.id,ready:true},true).then(function(users){
     if(users){
       if(users.find(u => u.role=='master').id==query.from.id){
