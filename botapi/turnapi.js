@@ -98,10 +98,18 @@ var waittoturn=function (chatid,totalindex,usrid,timea,timeb,timec,timed){
       var tempTime = moment.duration(tim);
       var y = tempTime.hours() + ":" + tempTime.minutes();
       if(timea!=0){
-        support.replytousr(usrid,txt.yourturn+ y +txt.hourstoresp+chatdata2.sessionname);
-        pauseable.setTimeout(chatid,function(){
-          waittoturn(chatid,totalindex,usrid,timeb,timec,timed,0);
-        },[timea,timeb,timec,timed]);
+        db.readfilefromdb("Users", {id:userid,sessionid:chatid}).then(function(user){
+          if(user.role=="master"){
+            timers[chatid]="1";
+            support.replytousr(usrid,txt.yourturn+ "infinite" +txt.hourstoresp+chatdata2.sessionname);
+          }
+          else{
+            support.replytousr(usrid,txt.yourturn+ y +txt.hourstoresp+chatdata2.sessionname);
+            pauseable.setTimeout(chatid,function(){
+              waittoturn(chatid,totalindex,usrid,timeb,timec,timed,0);
+            },[timea,timeb,timec,timed]);
+          }
+        });
       }else{
         support.replytousr(usrid,txt.loseturn);
         callturn(chatid ,usrid);
@@ -117,9 +125,16 @@ async function reinitwait(chatid,totalindex,usrid,timea,timeb,timec,timed,pause)
      if(chatdata2.totalturn==totalindex){
       var tim=(timea+timeb+timec+timed)/60000;
       if(timea!=0){
-        pauseable.setTimeout(chatid,function(){
-          waittoturn(chatid,totalindex,usrid,timeb,timec,timed,0);
-        },[timea,timeb,timec,timed],pause);
+        db.readfilefromdb("Users", {id:userid,sessionid:chatid}).then(function(user){
+          if(user.role=="master"){
+            timers[chatid]="1";
+          }
+          else{
+              pauseable.setTimeout(chatid,function(){
+              waittoturn(chatid,totalindex,usrid,timeb,timec,timed,0);
+            },[timea,timeb,timec,timed]);
+          }
+        });
       }else{
         callturn(chatid ,usrid);
       }
