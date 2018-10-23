@@ -162,6 +162,7 @@ var inittimers=function(){
         var timeb=timea-localtimeinpause;
         var timec=timer.timetodo[0]-timeb;
         console.log("max: "+timec+" , 0 = "+Math.max(timec,0));*/
+        var totalturn=chatdata.totalturn;
         var timerend=timer.pausestart||Date.now();
         var timetodo=timer.timetodo[0]-timerend+timer.timestart+timer.timeinpause;
         console.log(timer.id+" => tmetodo:"+timetodo);
