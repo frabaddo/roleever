@@ -118,7 +118,7 @@ var waittoturn=function (chatid,totalindex,usrid,timea,timeb,timec,timed){
   });
 };
 
-async function reinitwait(chatid,totalindex,usrid,timea,timeb,timec,timed,pause){
+function reinitwait(chatid,totalindex,usrid,timea,timeb,timec,timed,pause){
   db.readfilefromdb("Sessions", {id:chatid}).then(function(chatdata2){
     console.log(chatdata2.totalturn);
     console.log(totalindex);
@@ -128,9 +128,10 @@ async function reinitwait(chatid,totalindex,usrid,timea,timeb,timec,timed,pause)
         db.readfilefromdb("Users", {id:usrid,sessionid:chatid}).then(function(user){
           if(user.role=="master"){
             timers[chatid]="1";
+            console.log(user.role);
           }
           else{
-              pauseable.setTimeout(chatid,function(){
+            pauseable.setTimeout(chatid,function(){
               waittoturn(chatid,totalindex,usrid,timeb,timec,timed,0);
             },[timea,timeb,timec,timed]);
           }
