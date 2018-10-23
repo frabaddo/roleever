@@ -137,6 +137,7 @@ function reinitwait(chatid,totalindex,usrid,timea,timeb,timec,timed,pause){
           }
         });
       }else{
+        console.log("qui");
         callturn(chatid ,usrid);
       }
      }
