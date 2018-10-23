@@ -166,7 +166,7 @@ var inittimers=function(){
         var timerend=timer.pausestart||Date.now();
         var timetodo=timer.timetodo[0]-timerend+timer.timestart+timer.timeinpause;
         console.log(timer.id+" => tmetodo:"+timetodo);*/
-        reinitwait(timer.id,totalturn,chatdata.actualturn,timetodo,timer.timetodo[1],timer.timetodo[2],timer.timetodo[3],timer.pausestart!=0);
+        reinitwait(timer.id,totalturn,chatdata.actualturn,Math.max(timec,0),timer.timetodo[1],timer.timetodo[2],timer.timetodo[3],timer.pausestart!=0);
       });
     });
   });
