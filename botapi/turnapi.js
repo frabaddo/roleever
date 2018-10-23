@@ -153,7 +153,7 @@ var inittimers=function(){
   db.readfilefromdb("Timers",{},true).then(function(arr){
     arr.forEach(function(timer){
       db.readfilefromdb("Sessions", {id:timer.id}).then(function(chatdata){
-        /*var localtimeinpause=timer.timeinpause;
+        var localtimeinpause=timer.timeinpause;
         if(timer.pausestart!=0){
           localtimeinpause=timer.timeinpause+Date.now()-timer.pausestart;
         }
@@ -161,11 +161,11 @@ var inittimers=function(){
         var timea=Date.now()-timer.timestart;
         var timeb=timea-localtimeinpause;
         var timec=timer.timetodo[0]-timeb;
-        console.log("max: "+timec+" , 0 = "+Math.max(timec,0));*/
-        var totalturn=chatdata.totalturn;
+        console.log("max: "+timec+" , 0 = "+Math.max(timec,0));
+        /*var totalturn=chatdata.totalturn;
         var timerend=timer.pausestart||Date.now();
         var timetodo=timer.timetodo[0]-timerend+timer.timestart+timer.timeinpause;
-        console.log(timer.id+" => tmetodo:"+timetodo);
+        console.log(timer.id+" => tmetodo:"+timetodo);*/
         reinitwait(timer.id,totalturn,chatdata.actualturn,timetodo,timer.timetodo[1],timer.timetodo[2],timer.timetodo[3],timer.pausestart!=0);
       });
     });
