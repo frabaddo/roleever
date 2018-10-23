@@ -60,7 +60,12 @@ var skipturn=function(query){
           if(timers[msg.chat.id]){
               if(timers[msg.chat.id]=="1"||timers[msg.chat.id].timer.isPaused()!=true){
                  if(session.actualturn==query.from.id){
-                   support.replytousr(query.from.id,txt.loseturn);
+                   if(timers[msg.chat.id]=="1"){
+                     support.replytousr(query.from.id,"Hai passato il turno, è ora il turno dei giocatori!");
+                   }
+                   else{
+                     support.replytousr(query.from.id,txt.loseturn);
+                   }
                    query.answer({ text: txt.turnskip, alert: true });
                    callturn(chatid , session.actualturn);
                  }else{
@@ -70,7 +75,7 @@ var skipturn=function(query){
                query.answer({ text: txt.pauseactive, alert: true });
              }
          }else{
-           query.answer({ text: txt.pauseactive, alert: true });
+           query.answer({ text: "Sessione non ancora avviata!", alert: true });
          }
         }
        }
@@ -101,7 +106,7 @@ var waittoturn=function (chatid,totalindex,usrid,timea,timeb,timec,timed){
         db.readfilefromdb("Users", {id:usrid,sessionid:chatid}).then(function(user){
           if(user.role=="master"){
             timers[chatid]="1";
-            support.replytousr(usrid,txt.yourturn+ "infinite" +txt.hourstoresp+chatdata2.sessionname);
+            support.replytousr(usrid,"Master, è il tuo turno, ora potrai inviare tutti i messaggi che vuoi. Quando avrai finito ricordati di passare il turno dal menu della sessione!");
           }
           else{
             support.replytousr(usrid,txt.yourturn+ y +txt.hourstoresp+chatdata2.sessionname);
