@@ -138,7 +138,12 @@ function  sendmessage(query,chatid){
 
                 }
               }
-              turn.callturn(chatid , query.from.id);
+
+              db.readfilefromdb("Users", {id:query.from.id,sessionid:chatid}).then(function(user){
+                if(user.role!="master"){
+                    turn.callturn(chatid , query.from.id);
+                }
+              });
             }
             else{  // CASO 2 RESPONSE
               support.replytousr(query.from.id,txt.isnotturn);
