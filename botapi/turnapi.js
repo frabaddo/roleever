@@ -156,7 +156,7 @@ var inittimers=function(){
         var timea=Date.now()-timer.timestart;
         var timeb=timea-localtimeinpause;
         var timec=timer.timetodo[0]-timeb;
-        console.log("max: "+Math.max(timec,0));
+        console.log("max: "+timec+" , 0 = "+Math.max(timec,0));
         reinitwait(timer.id,totalturn,chatdata.actualturn,Math.max(timec,0),timer.timetodo[1],timer.timetodo[2],timer.timetodo[3],timer.pausestart!=0);
       });
     });
