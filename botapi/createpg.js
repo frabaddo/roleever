@@ -291,6 +291,7 @@ var retrieveallsheet=function(query){
   db.readfilefromdb("Users", {sessionid:query.message.chat.id,ready:true},true).then(function(users){
     if(users){
       if(users.find(u => u.role=='master').id==query.from.id){
+        query.answer({ text:"ti sto inviando le schede in privato. a breve arriveranno tutte!", alert: true });
         reply.markdown("Lista Giocatori:");
         users.forEach(function(user) {
           if(user.role=="pg"){
