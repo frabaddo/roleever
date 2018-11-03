@@ -173,6 +173,7 @@ var inittimers=function(){
   db.readfilefromdb("Sessions", {started:true,totalturn:1},true).then(function(sessionready){
     sessionready.forEach(function(session){
       timers[session.id]=1;
+      console.log(session.sessionname);
     });
   });
 };
