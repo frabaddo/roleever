@@ -65,6 +65,7 @@ var skipturn=function(query){
                    }
                    else{
                      support.replytousr(query.from.id,txt.turnskip);
+                     support.replytousr(chatid,"Un giocatore ha passato il turno!");
                    }
                    query.answer({ text: txt.turnskip, alert: true });
                    callturn(chatid , session.actualturn);
