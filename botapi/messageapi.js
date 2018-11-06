@@ -52,10 +52,10 @@ function newmessage(msg,reply,next){
               db.readfilefromdb("Users", {sessionid:msg.chat.id},true).then(function(users){
                 var keyboard= masterplayerkeyboard(msg.chat.id,msg.from.id,users);
                 replytousr.inlineKeyboard(keyboard);
-                var textcorrected=msg.text.replace("_", "\\_")
-                .replace("*", "\\*")
-                .replace("[", "\\[")
-                .replace("`", "\\`");
+                var textcorrected=msg.text.replace(/\_/g, "\\_")
+                .replace(/\*/g, "\\*")
+                .replace(/\[/g, "\\[")
+                .replace(/\`/g, "\\`");
                 var txttosend= "*"+txt.wanttosend+"*"+"\n \n"+textcorrected;
 
                 replytousr.markdown(txttosend).then(function(err,result){
@@ -112,11 +112,11 @@ function  sendmessage(query,chatid){
               if(charnamefrom.role=="pg") charnamefrom=charnamefrom.charactername;
               else charnamefrom="Master";
 
-              var txttosend=query.message.text.replace("_", "\\_")
-              .replace("*", "\\*")
-              .replace("[", "\\[")
-              .replace("`", "\\`").replace(txt.wanttosend,"*"+charnamefrom+":"+"*");
-              
+              var txttosend=query.message.text.replace(/\_/g, "\\_")
+              .replace(/\*/g, "\\*")
+              .replace(/\[/g, "\\[")
+              .replace(/\`/g, "\\`").replace(txt.wanttosend,"*"+charnamefrom+":"+"*");
+
               support.deletecmd(query.message.id,reply);
               replytochat.markdown(txttosend);
               reply.markdown(txt.msgsent);
