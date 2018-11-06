@@ -52,8 +52,11 @@ function newmessage(msg,reply,next){
               db.readfilefromdb("Users", {sessionid:msg.chat.id},true).then(function(users){
                 var keyboard= masterplayerkeyboard(msg.chat.id,msg.from.id,users);
                 replytousr.inlineKeyboard(keyboard);
-
-                var txttosend= "*"+txt.wanttosend+"*"+"\n \n"+msg.text;
+                var textcorrected=msg.text.replace("_", "\\_")
+                .replace("*", "\\*")
+                .replace("[", "\\[")
+                .replace("`", "\\`");
+                var txttosend= "*"+txt.wanttosend+"*"+"\n \n"+textcorrected;
 
                 replytousr.markdown(txttosend).then(function(err,result){
                   support.deletecmd(msg,reply);

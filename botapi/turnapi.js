@@ -6,46 +6,46 @@ const pauseable = require('./pauseableplus/pauseableplus');
 var mapValues = require('object.map');
 
 var callturn=function (chatid , currentid){
-    db.readfilefromdb("Sessions",{id : chatid}).then(function(chatdata){
-      var totalindex=chatdata.totalturn+1;
-      console.log(chatdata.totalturn);
-      console.log(totalindex);
-      var newindex=0;
-      db.readfilefromdb("Users", {sessionid:chatid},true).then(function(users){
+  db.readfilefromdb("Sessions",{id : chatid}).then(function(chatdata){
+    var totalindex=chatdata.totalturn+1;
+    console.log(chatdata.totalturn);
+    console.log(totalindex);
+    var newindex=0;
+    db.readfilefromdb("Users", {sessionid:chatid},true).then(function(users){
 
-        newindex=calcnewindex(users,currentid,1);
+      newindex=calcnewindex(users,currentid,1);
 
-        console.log("il nuovo index accettabile è: "+newindex);
-        if(newindex!==false){
-          db.modifyobj(
-            "Sessions",
-            {
-              totalturn:totalindex,
-              actualturn:users[newindex].id
-            },
-            {
-              id: chatid
-            }
-          ).then(function(){console.log(chatdata.totalturn);
-            var interval=chatdata.hours/4;
-            console.log(totalindex);
-            waittoturn(chatid,totalindex,users[newindex].id,interval,interval,interval,interval);
-          });
-        }
-        else{
-          db.modifyobj(
-            "Sessions",
-            {
-              totalturn:totalindex,
-              actualturn:0
-            },
-            {
-              id: chatid
-            }
-          );
-        }
-      });
+      console.log("il nuovo index accettabile è: "+newindex);
+      if(newindex!==false){
+        db.modifyobj(
+          "Sessions",
+          {
+            totalturn:totalindex,
+            actualturn:users[newindex].id
+          },
+          {
+            id: chatid
+          }
+        ).then(function(){console.log(chatdata.totalturn);
+          var interval=chatdata.hours/4;
+          console.log(totalindex);
+          waittoturn(chatid,totalindex,users[newindex].id,interval,interval,interval,interval);
+        });
+      }
+      else{
+        db.modifyobj(
+          "Sessions",
+          {
+            totalturn:totalindex,
+            actualturn:0
+          },
+          {
+            id: chatid
+          }
+        );
+      }
     });
+  });
 };
 
 var skipturn=function(query){
