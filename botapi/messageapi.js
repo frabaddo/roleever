@@ -112,7 +112,11 @@ function  sendmessage(query,chatid){
               if(charnamefrom.role=="pg") charnamefrom=charnamefrom.charactername;
               else charnamefrom="Master";
 
-              var txttosend=query.message.text.replace(txt.wanttosend,"*"+charnamefrom+":"+"*");
+              var txttosend=query.message.text.replace("_", "\\_")
+              .replace("*", "\\*")
+              .replace("[", "\\[")
+              .replace("`", "\\`").replace(txt.wanttosend,"*"+charnamefrom+":"+"*");
+              
               support.deletecmd(query.message.id,reply);
               replytochat.markdown(txttosend);
               reply.markdown(txt.msgsent);
