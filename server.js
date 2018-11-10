@@ -64,7 +64,10 @@ app.get('/reboottimer', function(req, res) {
 
 
 process.on('uncaughtException', function(err) {
+
   console.log('Caught exception: ' + err);
+  global.bot = new Botgram(TELEGRAM_BOT_TOKEN);
+  
 });
 /*
 function calctime( time ){
