@@ -248,7 +248,12 @@ function createusr(msg,reply,next){
       case 0:
         replyto.inlineKeyboard([
           [{text:txt.yes, callback_data: JSON.stringify({action:"createusr", sid:user.sessionid, ys: true })},{text:txt.no, callback_data: JSON.stringify({action:"createusr", sid:user.sessionid, ys: false })}]
-        ]).markdown(txt.addthisname+msg.text);
+        ]).markdown(txt.addthisname+msg.text).then((err, result) => {
+            if (err)
+              console.error("Sending message failed!");
+            else
+              console.log("Sent message:", result);
+          });;
         break;
       case 1:
         replyto.inlineKeyboard([
