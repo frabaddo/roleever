@@ -252,7 +252,7 @@ function createusr(msg,reply,next){
             if (err)
               console.error("Sending message failed!");
             else
-              console.log("Sent message:", result);
+              console.log("Sent message");
           });;
         break;
       case 1:
