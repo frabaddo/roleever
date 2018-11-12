@@ -3,7 +3,7 @@ module.exports={
   pauseoff:"Sessione uscita dalla pausa!",
   sessionnotstarted: "Questa sessione non è ancora stata avviata, segui le istruzioni per iniziare a giocare",
   sessionnotcreated: "Questa sessione non è ancora stata creata, usa il comando /startbot e segui le istruzioni",
-  start:`Benvenuto in RoleEver! Io sono il Masterbot! Per capire come utilizzarmi ti consigliamo di seguire i tutorial sul canale YouTube: “http://bit.ly/RoleEver”. Troverai tre video che spiegano come avviare una sessione o registrarti ad una esistente. Se hai domande o feedback potrai parlare direttamente con i miei sviluppatori sul seguente gruppo telegram: (https://t.me/joinchat/CkQUkFKv9CZ9Tob471YUEA).`,
+  start:` Benvenuto in RoleEver! Io sono il Masterbot! Per capire come utilizzarmi ti consigliamo di seguire i tutorial sul canale YouTube: “http://bit.ly/RoleEver”. Troverai tre video che spiegano come avviare una sessione o registrarti ad una esistente. Se hai domande o feedback potrai parlare direttamente con i miei sviluppatori sul seguente gruppo telegram: (https://t.me/joinchat/CkQUkFKv9CZ9Tob471YUEA).`,
   bootnogroup:`Ciao Sono un bot per giocare ai gdr su dispositivi mobile, per potermi utilizzare segui le guide sul canale Youtube: “http://bit.ly/RoleEver” `,
 
   justcreate:"Sessione già creata e in corso",
