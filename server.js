@@ -386,6 +386,21 @@ function changeduration(msg,reply){
 }
 
 
+function msgtoall(msg,reply){
+  db.readfilefromdb("Users", {}).then(function(users){
+    var find=[];
+    var unique = users.filter((v, i, a) =>{
+    	if (find.includes(v.id)) return false;
+    	else {
+        find.push(v.id);
+        return true;
+      }
+    });
+    unique.forEach((v)=>console.log(v.name));
+  });
+}
+
+
 bot.callback(function (query, next) {
   var data;
   try {
@@ -428,6 +443,7 @@ bot.command("start", start);
 bot.command("startbot", startbot);
 bot.command("menu", openmenu);
 bot.command("pauseoff", pause.reinitpausemsg);
+bot.command("msgtoall",msgtoall);
 //bot.command("help", help);
 bot.text(msgapi.newmessage);
 bot.text(createpg.createusr);
