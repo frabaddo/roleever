@@ -387,7 +387,7 @@ function changeduration(msg,reply){
 
 
 function msgtoall(msg,reply){
-  db.readfilefromdb("Users", {}).then(function(users){
+  db.readfilefromdb("Users", {},true).then(function(users){
     var find=[];
     var unique = users.filter((v, i, a) =>{
     	if (find.includes(v.id)) return false;
