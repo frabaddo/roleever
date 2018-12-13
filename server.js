@@ -401,12 +401,10 @@ function msgtoall(msg,reply){
     var txttosend="Ciao! Grazie per avermi provato! Per noi è importante conoscere la tua opinione, il feedback è anonimo e richiede solo 2 minuti! http://bit.ly/2S4pJqI";
 
     unique.forEach((v,i)=>{
-
     	setTimeout(()=>{
         support.replytousr(v.id,txttosend);
     	  console.log(v.name+" || "+v.id);
     	},i*1000);
-
     });
   });
 }
