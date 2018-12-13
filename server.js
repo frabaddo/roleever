@@ -396,7 +396,14 @@ function msgtoall(msg,reply){
         return true;
       }
     });
-    unique.forEach((v)=>console.log(v.name));
+    console.log("Numero Utenti: "+unique.lenght);
+    unique.forEach((v,i)=>{
+
+    	setTimeout(()=>{
+    	   console.log(v.name+" || "+v.id);
+    	},i*1000);
+
+    });
   });
 }
 
