@@ -78,7 +78,7 @@ function calctime( time ){
 */
 
 function startbot(msg,reply){
-  if(msg.chat.type!="supergroup"){
+  if(msg.chat.type!="group"){
    reply.text(txt.bootnogroup);
   }
   else{
